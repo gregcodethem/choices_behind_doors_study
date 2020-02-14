@@ -36,6 +36,29 @@ class NewVisitorTest(unittest.TestCase):
         game_title = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Welcome to the door game', game_title)
 
+        # user can see a door
+        door = self.browser.find_element_by_id('door1')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=10
+            )
+
+        # user can chose a door
+
+        # their door choice is saved
+
+        # user logs out
+
+        # second user comes to the site
+
+        # they chose a door
+
+        # their choice is saved
+
+        # the choice of user 1 is not saved
+
+
 
 if __name__ == '__main__':
     unittest.main()
