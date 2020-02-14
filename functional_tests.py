@@ -1,5 +1,7 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
+import time
 import unittest
 
 
@@ -13,13 +15,27 @@ class NewVisitorTest(unittest.TestCase):
 
     def test_can_see_login_page(self):
         self.browser.get('http://localhost:8000/accounts/login')
-        self.assertIn('Login', self.browser.title)
+        
+        # Login screen appears
+        login_title = self.browser.find_element_by_tag_name(
+        	'h2').text
+        self.assertIn('Login', login_title)
 
         # Enter username and password
-
+        username_input_box = self.browser.find_element_by_id(
+        	'id_username')
+        username_input_box.send_keys('greg')
+        password_input_box = self.browser.find_element_by_id(
+        	'id_password')
+        password_input_box.send_keys('Spain')
         # click Login
-
+        password_input_box.send_keys(Keys.ENTER)
+        time.sleep(1)
+       
         # see text welcome page
+        game_title = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('Welcome to the door game', game_title)
+
 
 if __name__ == '__main__':
     unittest.main()
