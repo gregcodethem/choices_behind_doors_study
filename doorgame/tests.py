@@ -15,7 +15,7 @@ class HomePageTest(TestCase):
         response = home_page(request)  
         html = response.content.decode('utf8')  
         #self.assertTrue(html.startswith('<html>'))  
-        #self.assertIn('<title>Login</title>', html)  
+        self.assertIn('<h2>Welcome to the door game</h2>', html)  
         #self.assertTrue(html.endswith('</html>'))
 
 class DoorResultPageTest(TestCase):
