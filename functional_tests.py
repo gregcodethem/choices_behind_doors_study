@@ -64,7 +64,7 @@ class NewVisitorTest(unittest.TestCase):
         # User sees message that they've chosen door1
         chosen_message = self.browser.find_element_by_id(
             'chosen_message').text
-        self.assertIn('You have chosen door 1', chosen_message)
+        self.assertIn('You chose door1', chosen_message)
 
         # their door choice is saved
 
