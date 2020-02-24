@@ -25,4 +25,7 @@ class DoorResultPageTest(TestCase):
         self.assertEqual(found.func, door_result_page)
 
     def test_door_result_page_returns_correct_html(self):
-        pass
+        request = HttpRequest()
+        response = door_result_page(request)
+        html = response.content.decode('utf8')
+        self.assertIn('The result of your door choice', html)
