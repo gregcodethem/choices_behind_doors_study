@@ -37,11 +37,23 @@ class NewVisitorTest(unittest.TestCase):
         self.assertIn('Welcome to the door game', game_title)
 
         # user can see a door
-        door = self.browser.find_element_by_id('door1')
+        door1 = self.browser.find_element_by_id('door1')
         self.assertAlmostEqual(
-            inputbox.location['x'] + inputbox.size['width'] / 2,
-            512,
+            door1.location['x'] + door1.size['width'] / 2,
+            100,
             delta=10
+            )
+        door2 = self.browser.find_element_by_id('door2')
+        self.assertAlmostEqual(
+            door2.location['x'] + door2.size['width'] / 2,
+            300,
+            delta=20
+            )
+        door3 = self.browser.find_element_by_id('door3')
+        self.assertAlmostEqual(
+            door3.location['x'] + door3.size['width'] / 2,
+            480,
+            delta=20
             )
 
         # user can chose a door
