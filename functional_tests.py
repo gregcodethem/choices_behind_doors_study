@@ -43,6 +43,7 @@ class NewVisitorTest(unittest.TestCase):
             100,
             delta=10
         )
+        '''
         door2 = self.browser.find_element_by_id('door2')
         self.assertAlmostEqual(
             door2.location['x'] + door2.size['width'] / 2,
@@ -55,7 +56,8 @@ class NewVisitorTest(unittest.TestCase):
             480,
             delta=20
         )
-
+        '''
+        
         # user can chose a door
         # user clicks on door1
         door1.click()
