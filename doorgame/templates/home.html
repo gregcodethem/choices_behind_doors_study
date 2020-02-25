@@ -12,7 +12,12 @@
 	<p>Hi {{ user.username }}!</p>
 
 {% load static %}
-<img method="POST" src="{% static 'doorgame/door.jpg' %}" id="door1" alt="door1">
+<form id="form-id" action="/" method="POST">
+	<a href="#" onclick="document.forms['form-id'].submit();">
+		<img src="{% static 'doorgame/door.jpg' %}" id="door1" alt="door1">
+	</a>
+	{% csrf_token %}
+</form>
 <img src="{% static 'doorgame/door.jpg' %}" id="door2" alt="door2">
 <img src="{% static 'doorgame/door.jpg' %}" id="door3" alt="door3">
 
