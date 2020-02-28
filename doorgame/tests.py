@@ -22,8 +22,13 @@ class HomePageTest(TestCase):
     def test_can_save_a_post_request(self):
         response = self.client.post(
             '/',
-            data={'door_chosen': 'door1'}
+            data={'door_chosen': 1}
         )
+
+        self.assertEqual(Choice.objects.count(), 1)
+        new_choice = Choice.objects.first()
+        self.assertEqual(new_choice.door_number, 1)
+
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], '/door-result')
 
@@ -40,13 +45,17 @@ class DoorResultPageTest(TestCase):
         self.assertIn('The result of your door choice', html)
 
     def test_can_display_a_POST_request(self):
-        response = self.client.post(
-            '/door-result',
-            data={'door_chosen': 'door1'}
+        response_home = self.client.post(
+            '/',
+            data={'door_chosen': 1}
         )
-        self.assertIn("You chose door1", response.content.decode())
-        self.assertTemplateUsed(response, 'door_result.html')
+        request = HttpRequest()
+        response_door_result = door_result_page(request)
+        html_door_result = response_door_result.content.decode('utf8')
+        self.assertIn("You chose door1", html_door_result)
+        
         # add for door 2
+
 
 class ChoiceModelTest(TestCase):
 
