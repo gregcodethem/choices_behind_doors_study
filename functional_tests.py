@@ -14,8 +14,6 @@ class NewVisitorTest(unittest.TestCase):
         self.browser.quit()
 
     def login(self):
-
-
         # Enter username and password
         username_input_box = self.browser.find_element_by_id(
             'id_username')
@@ -32,7 +30,28 @@ class NewVisitorTest(unittest.TestCase):
         logout_link.click()
         time.sleep(2)
 
-    def test_can_see_login_page(self):
+    def user_chooses_a_door(self, door_number):
+        # door_number must be string
+
+        # see text welcome page
+        game_title = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('Welcome to the door game', game_title)
+
+        time.sleep(2)
+        
+        # user can chose a door
+        door1 = self.browser.find_element_by_id(door_number)
+        # user clicks on door1
+        door1.click()
+        time.sleep(1)
+
+        # User sees message that they've chosen door1
+        chosen_message = self.browser.find_element_by_id(
+            'chosen_message').text
+        self.assertIn('You chose '+ door_number, chosen_message)
+
+
+    def test_layout(self):
         self.browser.get('http://localhost:8000/accounts/login')
         # Login screen appears
         login_title = self.browser.find_element_by_tag_name(
@@ -67,19 +86,19 @@ class NewVisitorTest(unittest.TestCase):
             delta=20
         )
         '''
+
+    def test_can_see_login_page(self):
+        self.browser.get('http://localhost:8000/accounts/login')
+        # Login screen appears
+        login_title = self.browser.find_element_by_tag_name(
+            'h2').text
+        self.assertIn('Login', login_title)
+
         
-        # user can chose a door
-        # user clicks on door1
-        door1.click()
-        time.sleep(1)
+        self.login()
 
-        # User sees message that they've chosen door1
-        chosen_message = self.browser.find_element_by_id(
-            'chosen_message').text
-        self.assertIn('You chose door1', chosen_message)
-
+        self.user_chooses_a_door("door1")
         # their door choice is saved
-
         # user logs out
         self.logout()
 
@@ -91,21 +110,7 @@ class NewVisitorTest(unittest.TestCase):
         time.sleep(2)
 
         self.login()
-        
-        # see text welcome page
-        game_title = self.browser.find_element_by_tag_name('h2').text
-        self.assertIn('Welcome to the door game', game_title)
-        # User choses another door
-        door2 = self.browser.find_element_by_id('door2')
-        # see text welcome page
-        # user clicks on door2
-        door2.click()
-        time.sleep(1)
-
-        # User sees message that they've chosen door2
-        chosen_message = self.browser.find_element_by_id(
-            'chosen_message').text
-        self.assertIn('You chose door2', chosen_message)
+        self.user_chooses_a_door("door2")
 
         # user logs out
         self.logout()
@@ -118,21 +123,7 @@ class NewVisitorTest(unittest.TestCase):
 
         self.login()
         
-        # see text welcome page
-        game_title = self.browser.find_element_by_tag_name('h2').text
-        self.assertIn('Welcome to the door game', game_title)
-        # User choses another door
-        door_three = self.browser.find_element_by_id('door3')
-        # see text welcome page
-        # user clicks on door3
-        door_three.click()
-        time.sleep(1)
-
-        # User sees message that they've chosen door3
-        chosen_message = self.browser.find_element_by_id(
-            'chosen_message').text
-        self.assertIn('You chose door3', chosen_message)
-
+        self.user_chooses_a_door("door3")
         # user logs out
         self.logout()
 
