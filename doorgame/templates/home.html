@@ -13,6 +13,7 @@
 
 {% load static %}
 <form id="form-id" action="/" method="POST">
+	<input type="hidden" value="1" name="door_chosen">
 	<a href="#" onclick="document.forms['form-id'].submit();">
 		<img src="{% static 'doorgame/door.jpg' %}" id="door1" alt="door1">
 	</a>

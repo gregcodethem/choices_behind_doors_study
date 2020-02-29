@@ -16,7 +16,7 @@ def home_page(request):
 
 
 def door_result_page(request):
-    choice = Choice.objects.first()
+    choice = Choice.objects.last()
     if choice:
         return render(request, 'door_result.html', {
             'door_chosen_text': 'door' + str(choice.door_number)
