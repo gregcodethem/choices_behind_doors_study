@@ -5,6 +5,7 @@ from django.http import HttpRequest
 from doorgame.views import home_page, door_result_page
 from doorgame.models import Choice
 
+
 class HomePageTest(TestCase):
 
     def test_root_url_resolves_to_home_page_view(self):
@@ -21,7 +22,7 @@ class HomePageTest(TestCase):
 
     def test_can_save_a_post_request(self):
         response = self.client.post(
-            '/door1'
+            '/', {'door_chosen': 1}
         )
 
         self.assertEqual(Choice.objects.count(), 1)
@@ -30,6 +31,7 @@ class HomePageTest(TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], '/door-result')
+
 
 class DoorResultPageTest(TestCase):
 
@@ -45,13 +47,13 @@ class DoorResultPageTest(TestCase):
 
     def test_can_display_a_POST_request(self):
         response_home = self.client.post(
-            '/door1'
+            '/', {'door_chosen': 1}
         )
         request = HttpRequest()
         response_door_result = door_result_page(request)
         html_door_result = response_door_result.content.decode('utf8')
         self.assertIn("You chose door1", html_door_result)
-    
+
     def test_can_display_a_POST_request_for_door_two(self):
         # add for door 2
         response_home = self.client.post(
@@ -73,8 +75,6 @@ class DoorResultPageTest(TestCase):
         response_door_result = door_result_page(request)
         html_door_result = response_door_result.content.decode('utf8')
         self.assertIn("You chose door3", html_door_result)
-
-
 
 
 class ChoiceModelTest(TestCase):

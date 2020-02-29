@@ -14,17 +14,20 @@
 {% load static %}
 
 <form id="form-id" action="/" method="POST">
+
 	<input type="hidden" value="1" name="door_chosen">
+
 
 	<a href="#" onclick="document.forms['form-id'].submit();">
 		<img src="{% static 'doorgame/door.jpg' %}" id="door1" alt="door1">
 	</a>
+	{% csrf_token %}
 </form>
 
 <form id="form-id" action="/door2" method="POST">
-
-	<input type="hidden" name="door_chosen">
 	{% csrf_token %}
+	<input type="hidden" name="door_chosen">
+	
 	<a href="#" onclick="document.forms['form-id'].submit();">
 		<img src="{% static 'doorgame/door.jpg' %}" id="door2" alt="door2">
 	</a>
