@@ -12,15 +12,32 @@
 	<p>Hi {{ user.username }}!</p>
 
 {% load static %}
+
 <form id="form-id" action="/" method="POST">
 	<input type="hidden" value="1" name="door_chosen">
+
 	<a href="#" onclick="document.forms['form-id'].submit();">
 		<img src="{% static 'doorgame/door.jpg' %}" id="door1" alt="door1">
 	</a>
-	{% csrf_token %}
 </form>
-<img src="{% static 'doorgame/door.jpg' %}" id="door2" alt="door2">
-<img src="{% static 'doorgame/door.jpg' %}" id="door3" alt="door3">
+
+<form id="form-id" action="/door2" method="POST">
+
+	<input type="hidden" name="door_chosen">
+	{% csrf_token %}
+	<a href="#" onclick="document.forms['form-id'].submit();">
+		<img src="{% static 'doorgame/door.jpg' %}" id="door2" alt="door2">
+	</a>
+</form>
+
+<form id="form-id" action="/door3" method="POST">
+
+	<input type="hidden" name="door_chosen">
+	{% csrf_token %}
+	<a href="#" onclick="document.forms['form-id'].submit();">
+		<img src="{% static 'doorgame/door.jpg' %}" id="door3" alt="door3">
+	</a>
+</form>
 
 
   <p><a href="{% url 'logout' %}">logout</a></p>
