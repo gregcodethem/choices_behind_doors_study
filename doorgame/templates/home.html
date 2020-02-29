@@ -13,31 +13,31 @@
 
 {% load static %}
 
-<form id="form-id" action="/" method="POST">
+<form id="form-id-door1" action="/" method="POST">
 
 	<input type="hidden" value="1" name="door_chosen">
 
 
-	<a href="#" onclick="document.forms['form-id'].submit();">
+	<a href="#" onclick="document.forms['form-id-door1'].submit();">
 		<img src="{% static 'doorgame/door.jpg' %}" id="door1" alt="door1">
 	</a>
 	{% csrf_token %}
 </form>
 
-<form id="form-id" action="/door2" method="POST">
+<form id="form-id-door2" action="/" method="POST">
 	{% csrf_token %}
-	<input type="hidden" name="door_chosen">
+	<input type="hidden" value="2" name="door_chosen">
 	
-	<a href="#" onclick="document.forms['form-id'].submit();">
+	<a href="#" onclick="document.forms['form-id-door2'].submit();">
 		<img src="{% static 'doorgame/door.jpg' %}" id="door2" alt="door2">
 	</a>
 </form>
 
-<form id="form-id" action="/door3" method="POST">
+<form id="form-id-door3" action="/" method="POST">
 
-	<input type="hidden" name="door_chosen">
+	<input type="hidden" value="3" name="door_chosen">
 	{% csrf_token %}
-	<a href="#" onclick="document.forms['form-id'].submit();">
+	<a href="#" onclick="document.forms['form-id-door3'].submit();">
 		<img src="{% static 'doorgame/door.jpg' %}" id="door3" alt="door3">
 	</a>
 </form>
@@ -46,6 +46,6 @@
   <p><a href="{% url 'logout' %}" id="logout_link_anchor">logout</a></p>
 {% else %}
   <p>You are not logged in</p>
-  <a href="{% url 'login' %}">login</a>
+  <a href="{% url 'login' %}" id="login_link_anchor">login</a>
 {% endif %}
 {% endblock %}

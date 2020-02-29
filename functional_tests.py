@@ -45,6 +45,7 @@ class NewVisitorTest(unittest.TestCase):
         game_title = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Welcome to the door game', game_title)
 
+        time.sleep(2)
         # user can see a door
         door1 = self.browser.find_element_by_id('door1')
         self.assertAlmostEqual(
@@ -82,13 +83,21 @@ class NewVisitorTest(unittest.TestCase):
         # user logs out
         self.logout()
 
+
+        # ------- Door 2-------
+        # User logs in
+        login_link = self.browser.find_element_by_id('login_link_anchor')
+        login_link.click()
+        time.sleep(2)
+
+        self.login()
+        
+        # see text welcome page
+        game_title = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('Welcome to the door game', game_title)
         # User choses another door
         door2 = self.browser.find_element_by_id('door2')
         # see text welcome page
-        game_title = self.browser.find_element_by_tag_name('h2').text
-        #self.assertIn('Welcome to the door game', game_title)
-        logged_out_message = self.browser.find_element_by_tag_name('p').text
-        self.assertIn('You are not logged in', logged_out_message)
         # user clicks on door2
         door2.click()
         time.sleep(1)
@@ -97,6 +106,32 @@ class NewVisitorTest(unittest.TestCase):
         chosen_message = self.browser.find_element_by_id(
             'chosen_message').text
         self.assertIn('You chose door2', chosen_message)
+
+        # user logs out
+        self.logout()
+
+        # ------- Door 3 ------
+        # User logs in
+        login_link = self.browser.find_element_by_id('login_link_anchor')
+        login_link.click()
+        time.sleep(2)
+
+        self.login()
+        
+        # see text welcome page
+        game_title = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('Welcome to the door game', game_title)
+        # User choses another door
+        door_three = self.browser.find_element_by_id('door3')
+        # see text welcome page
+        # user clicks on door3
+        door_three.click()
+        time.sleep(1)
+
+        # User sees message that they've chosen door3
+        chosen_message = self.browser.find_element_by_id(
+            'chosen_message').text
+        self.assertIn('You chose door3', chosen_message)
 
         # user logs out
         self.logout()
