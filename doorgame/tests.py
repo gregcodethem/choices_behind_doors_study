@@ -29,8 +29,17 @@ class HomePageTest(TestCase):
         new_choice = Choice.objects.first()
         self.assertEqual(new_choice.door_number, 1)
 
+    def test_redirects_after_POST(self):
+        response = self.client.post(
+            '/', {'door_chosen': 1}
+        )
+        
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], '/door-result')
+
+    def test_only_saves_door_choices_when_necessary(self):
+        self.client.get('/')
+        self.assertEqual(Choice.objects.count(), 0)
 
 
 class DoorResultPageTest(TestCase):
@@ -75,6 +84,8 @@ class DoorResultPageTest(TestCase):
         response_door_result = door_result_page(request)
         html_door_result = response_door_result.content.decode('utf8')
         self.assertIn("You chose door3", html_door_result)
+
+
 
 
 class ChoiceModelTest(TestCase):
