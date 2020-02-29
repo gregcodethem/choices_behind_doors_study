@@ -4,6 +4,7 @@ from django.http import HttpRequest
 
 from doorgame.views import home_page, door_result_page
 from doorgame.models import Choice
+from django.contrib.auth.models import User
 
 
 class HomePageTest(TestCase):
@@ -33,13 +34,32 @@ class HomePageTest(TestCase):
         response = self.client.post(
             '/', {'door_chosen': 1}
         )
-        
+
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], '/door-result')
 
     def test_only_saves_door_choices_when_necessary(self):
         self.client.get('/')
         self.assertEqual(Choice.objects.count(), 0)
+
+
+class LoginScreenTest(TestCase):
+
+    def test_login_screen_redirects_to_account_url(self):
+        user = User.objects.create_user(
+            'george',
+            '',
+            'somethingpassword')
+        user.save()
+        response = self.client.post(
+            '/accounts/login',
+            {"username": 'george',
+             "password": "somethingpassword"
+             }
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/users/the_only_user')
 
 
 class DoorResultPageTest(TestCase):
@@ -84,8 +104,6 @@ class DoorResultPageTest(TestCase):
         response_door_result = door_result_page(request)
         html_door_result = response_door_result.content.decode('utf8')
         self.assertIn("You chose door3", html_door_result)
-
-
 
 
 class ChoiceModelTest(TestCase):
