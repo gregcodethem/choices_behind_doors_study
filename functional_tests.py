@@ -13,13 +13,8 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
-    def test_can_see_login_page(self):
-        self.browser.get('http://localhost:8000/accounts/login')
+    def login(self):
 
-        # Login screen appears
-        login_title = self.browser.find_element_by_tag_name(
-            'h2').text
-        self.assertIn('Login', login_title)
 
         # Enter username and password
         username_input_box = self.browser.find_element_by_id(
@@ -31,6 +26,24 @@ class NewVisitorTest(unittest.TestCase):
         # click Login
         password_input_box.send_keys(Keys.ENTER)
         time.sleep(1)
+
+    def logout(self):
+        print('loggingout')
+        logout_link = self.browser.find_element_by_id('logout_link_anchor')
+        print(logout_link.text)
+        logout_link.click()
+        print('logout_link_clicked')
+        print('sleeping for 2 seconds')
+        time.sleep(2)
+
+    def test_can_see_login_page(self):
+        self.browser.get('http://localhost:8000/accounts/login')
+        # Login screen appears
+        login_title = self.browser.find_element_by_tag_name(
+            'h2').text
+        self.assertIn('Login', login_title)
+
+        self.login()
 
         # see text welcome page
         game_title = self.browser.find_element_by_tag_name('h2').text
@@ -71,6 +84,12 @@ class NewVisitorTest(unittest.TestCase):
         # their door choice is saved
 
         # user logs out
+        self.logout()
+        # see text welcome page
+        game_title = self.browser.find_element_by_tag_name('h2').text
+        #self.assertIn('Welcome to the door game', game_title)
+        logged_out_message = self.browser.find_element_by_tag_name('p').text
+        self.assertIn('You are not logged in', logged_out_message)
 
         # second user comes to the site
 
