@@ -28,12 +28,8 @@ class NewVisitorTest(unittest.TestCase):
         time.sleep(1)
 
     def logout(self):
-        print('loggingout')
         logout_link = self.browser.find_element_by_id('logout_link_anchor')
-        print(logout_link.text)
         logout_link.click()
-        print('logout_link_clicked')
-        print('sleeping for 2 seconds')
         time.sleep(2)
 
     def test_can_see_login_page(self):
@@ -85,11 +81,25 @@ class NewVisitorTest(unittest.TestCase):
 
         # user logs out
         self.logout()
+
+        # User choses another door
+        door2 = self.browser.find_element_by_id('door2')
         # see text welcome page
         game_title = self.browser.find_element_by_tag_name('h2').text
         #self.assertIn('Welcome to the door game', game_title)
         logged_out_message = self.browser.find_element_by_tag_name('p').text
         self.assertIn('You are not logged in', logged_out_message)
+        # user clicks on door2
+        door2.click()
+        time.sleep(1)
+
+        # User sees message that they've chosen door2
+        chosen_message = self.browser.find_element_by_id(
+            'chosen_message').text
+        self.assertIn('You chose door2', chosen_message)
+
+        # user logs out
+        self.logout()
 
         # second user comes to the site
 
