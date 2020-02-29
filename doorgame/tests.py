@@ -21,8 +21,7 @@ class HomePageTest(TestCase):
 
     def test_can_save_a_post_request(self):
         response = self.client.post(
-            '/',
-            data={'door_chosen': 1}
+            '/door1'
         )
 
         self.assertEqual(Choice.objects.count(), 1)
@@ -46,24 +45,30 @@ class DoorResultPageTest(TestCase):
 
     def test_can_display_a_POST_request(self):
         response_home = self.client.post(
-            '/',
-            data={'door_chosen': 1}
+            '/door1'
         )
         request = HttpRequest()
         response_door_result = door_result_page(request)
         html_door_result = response_door_result.content.decode('utf8')
         self.assertIn("You chose door1", html_door_result)
     
-    def test_can_display_a_POST_request_for_different_choice(self):
-        # add for door 2
+    def test_can_display_a_POST_request_for_door_two(self):
         response_home_2 = self.client.post(
-            '/',
-            data={'door_chosen': 2}
+            '/door2'
         )
         request2 = HttpRequest()
         response_door_result2 = door_result_page(request2)
         html_door_result2 = response_door_result2.content.decode('utf8')
         self.assertIn("You chose door2", html_door_result2)
+
+    def test_can_display_a_POST_request_for_door_three(self):
+        response_home = self.client.post(
+            '/door3'
+        )
+        request = HttpRequest()
+        response_door_result = door_result_page(request)
+        html_door_result = response_door_result.content.decode('utf8')
+        self.assertIn("You chose door3", html_door_result)
 
 
 class ChoiceModelTest(TestCase):
