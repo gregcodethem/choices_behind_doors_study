@@ -6,7 +6,7 @@ import time
 
 test_login_data = {
     "Greg": {"username": "greg", "password": "Spain"},
-    "Ozen": {"username": "ozen", "password": "Russia"}
+    "Ozen": {"username": "ozen", "password": "Russia432"}
 }
 
 class NewVisitorTest(LiveServerTestCase):
@@ -143,7 +143,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         # He notices that her account has a unique URL
         greg_game_url = self.browser.current_url
-        self.assertRegex(greg_game_url, '/users/.+')
+        self.assertRegex(greg_game_url, '/user/.+')
 
         self.user_chooses_a_door("door1")
         # their door choice is saved
@@ -159,7 +159,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.login("Ozen")
         # Ozen gets her own unique URL
         ozen_game_url = self.browser.current_url
-        self.assertRegex(ozen_game_url, '/users/.+')
+        self.assertRegex(ozen_game_url, '/user/.+')
         self.assertNotEqual(ozen_game_url, greg_game_url)
 
         self.user_chooses_a_door("door2")

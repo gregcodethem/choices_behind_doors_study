@@ -25,6 +25,10 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', views.home_page, name='home'),
     path('door-result', views.door_result_page, name='door_result_page'),
+    path('user', views.home_page_user, name='home-user'),
+    path('user/<username>/',
+         views.home_page_user_unique,
+         name='home-user-unique'
+         )
     #path('', TemplateView.as_view(template_name='home.html'), name='home'),
 ]
-
