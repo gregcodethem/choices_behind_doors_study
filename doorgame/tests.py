@@ -38,6 +38,9 @@ class SimpleTest(TestCase):
 
 
 class HomePageTest(TestCase):
+    def setUp(self):
+        User = get_user_model()
+        user = User.objects.create_user('temporary', 'temporary@gmail.com', 'temporary')
 
     def test_root_url_resolves_to_home_page_view(self):
         found = resolve('/')
@@ -83,6 +86,22 @@ class HomePageTest(TestCase):
         new_choice = Choice.objects.first()
         self.assertEqual(new_choice.door_number, 1)
 
+
+    def test_saves_user_in_post_request(self):
+        User = get_user_model()
+        user = User.objects.get(username='temporary')
+        self.client.login(username='temporary', password='temporary')
+        response = self.client.post(
+            '/user/temporary/', 
+            {
+            'door_chosen': 2,
+            })
+        
+        self.assertEqual(Choice.objects.count(), 1)
+        new_choice = Choice.objects.last()
+        self.assertEqual(new_choice.door_number, 2)
+        self.assertEqual(new_choice.user, user)
+
     def test_redirects_after_POST(self):
         response = self.client.post(
             '/', {'door_chosen': 1}
@@ -116,14 +135,26 @@ class LoginScreenTest(TestCase):
 
 
 class DoorResultPageTest(TestCase):
+    
+    def setUp(self):
+        User = get_user_model()
+        user = User.objects.create_user('temporary', 'temporary@gmail.com', 'temporary')
+
+    def login(self):
+        User = get_user_model()
+        self.client.login(username='temporary', password='temporary')
 
     def test_door_result_url_resolves_to_door_page_view(self):
-        found = resolve('/door-result')
+        found = resolve('/user/temporary/door-result')
         self.assertEqual(found.func, door_result_page)
 
     def test_door_result_page_returns_correct_html(self):
+        User = get_user_model()
+        self.client.login(username='temporary', password='temporary')
+        user = User.objects.get(username='temporary')
+        #response = self.client.get('/user/temporary/door-result', follow=True)
         request = HttpRequest()
-        response = door_result_page(request)
+        response = door_result_page(request, user.username)
         html = response.content.decode('utf8')
         self.assertIn('The result of your door choice', html)
 
@@ -132,7 +163,10 @@ class DoorResultPageTest(TestCase):
             '/', {'door_chosen': 1}
         )
         request = HttpRequest()
-        response_door_result = door_result_page(request)
+        User = get_user_model()
+        self.client.login(username='temporary', password='temporary')
+        user = User.objects.get(username='temporary')
+        response_door_result = door_result_page(request, user.username)
         html_door_result = response_door_result.content.decode('utf8')
         self.assertIn("You chose door1", html_door_result)
 
@@ -144,7 +178,10 @@ class DoorResultPageTest(TestCase):
 
         )
         request = HttpRequest()
-        response_door_result = door_result_page(request)
+        User = get_user_model()
+        self.client.login(username='temporary', password='temporary')
+        user = User.objects.get(username='temporary')
+        response_door_result = door_result_page(request, user.username)
         html_door_result = response_door_result.content.decode('utf8')
         self.assertIn("You chose door2", html_door_result)
 
@@ -154,7 +191,10 @@ class DoorResultPageTest(TestCase):
             data={'door_chosen': 3}
         )
         request = HttpRequest()
-        response_door_result = door_result_page(request)
+        User = get_user_model()
+        self.client.login(username='temporary', password='temporary')
+        user = User.objects.get(username='temporary')
+        response_door_result = door_result_page(request, user.username)
         html_door_result = response_door_result.content.decode('utf8')
         self.assertIn("You chose door3", html_door_result)
 

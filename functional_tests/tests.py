@@ -59,6 +59,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn('You chose '+ door_number, chosen_message)
 
 
+
     def test_layout(self):
         self.browser.get('http://localhost:8000/accounts/login')
         # Login screen appears
@@ -163,6 +164,10 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotEqual(ozen_game_url, greg_game_url)
 
         self.user_chooses_a_door("door2")
+        # this url is also has user as a prefix
+        ozen_result_url = self.browser.current_url
+        self.assertRegex(ozen_result_url, '/user/.+')
+
         # their door choice is saved
         # user logs out
         self.logout()

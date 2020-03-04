@@ -28,9 +28,18 @@ def home_page_user(request):
 @login_required(login_url='accounts/login')
 def home_page_user_unique(request, username):
     username_logged_in = request.user.username
+    user_logged_in = request.user
+    if request.method == 'POST':
+        choice = Choice()
+        choice.door_number = request.POST.get('door_chosen', 0)
+        choice.user = user_logged_in
+        choice.save()
+
+        return redirect('/door-result')
     return render(request, 'home.html', {"username": username_logged_in})
 
-def door_result_page(request):
+
+def door_result_page(request, username):
     choice = Choice.objects.last()
     if choice:
         return render(request, 'door_result.html', {
