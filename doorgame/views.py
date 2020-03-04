@@ -8,6 +8,8 @@ from django.contrib.auth import get_user_model
 
 
 def home_page(request, user=None):
+    return redirect('/user')
+    '''
     if request.method == 'POST':
         choice = Choice()
         choice.door_number = request.POST.get('door_chosen', 0)
@@ -15,6 +17,7 @@ def home_page(request, user=None):
 
         return redirect('/door-result')
     return render(request, 'home.html')
+    '''
 
 @login_required(login_url='accounts/login')
 def home_page_user(request):
@@ -26,6 +29,19 @@ def home_page_user(request):
         return render(request, 'home.html')
 
 @login_required(login_url='accounts/login')
+def choose_door(request):
+    username_logged_in = request.user.username
+    if request.method == 'POST':
+        user_logged_in = request.user
+        choice = Choice()
+        choice.door_number = request.POST.get('door_chosen', 0)
+        choice.user = user_logged_in
+        choice.save()
+        return redirect('/user/' + username_logged_in + '/door-result')
+    else:
+        pass
+
+@login_required(login_url='accounts/login')
 def home_page_user_unique(request, username):
     username_logged_in = request.user.username
     user_logged_in = request.user
@@ -35,7 +51,7 @@ def home_page_user_unique(request, username):
         choice.user = user_logged_in
         choice.save()
 
-        return redirect('/door-result')
+        return redirect('/user/' + username_logged_in + '/door-result')
     return render(request, 'home.html', {"username": username_logged_in})
 
 

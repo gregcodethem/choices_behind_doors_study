@@ -13,7 +13,7 @@
 
 {% load static %}
 
-<form id="form-id-door1" action="/" method="POST">
+<form id="form-id-door1" action="/choose_door" method="POST">
 
 	<input type="hidden" value="1" name="door_chosen">
 
@@ -24,7 +24,7 @@
 	{% csrf_token %}
 </form>
 
-<form id="form-id-door2" action="/" method="POST">
+<form id="form-id-door2" action="/choose_door" method="POST">
 	{% csrf_token %}
 	<input type="hidden" value="2" name="door_chosen">
 	
@@ -33,7 +33,7 @@
 	</a>
 </form>
 
-<form id="form-id-door3" action="/" method="POST">
+<form id="form-id-door3" action="/choose_door" method="POST">
 
 	<input type="hidden" value="3" name="door_chosen">
 	{% csrf_token %}

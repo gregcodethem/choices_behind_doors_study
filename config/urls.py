@@ -23,13 +23,14 @@ from doorgame import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', views.home_page, name='home'),
+    path('', views.home_page_user, name='home'),
     #path('door-result', views.door_result_page, name='door_result_page'),
+    path('choose_door', views.choose_door, name='choose-door'),
     path('user/<username>/door-result', views.door_result_page, name='door_result_page'),
     path('user', views.home_page_user, name='home-user'),
     path('user/<username>/',
          views.home_page_user_unique,
-         name='home-user-unique'
+         name='home_user_unique'
          )
     #path('', TemplateView.as_view(template_name='home.html'), name='home'),
 ]

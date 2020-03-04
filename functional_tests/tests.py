@@ -114,9 +114,12 @@ class NewVisitorTest(LiveServerTestCase):
 
         # ------- Door 2-------
         # User logs in
+        '''
+        time.sleep(1)
         login_link = self.browser.find_element_by_id('login_link_anchor')
         login_link.click()
         time.sleep(2)
+        '''
 
         self.login()
         self.user_chooses_a_door("door2")
@@ -126,10 +129,12 @@ class NewVisitorTest(LiveServerTestCase):
 
         # ------- Door 3 ------
         # User logs in
+        '''
+        time.sleep(1)
         login_link = self.browser.find_element_by_id('login_link_anchor')
         login_link.click()
         time.sleep(2)
-
+'''
         self.login()
         
         self.user_chooses_a_door("door3")
