@@ -9,15 +9,7 @@ from django.contrib.auth import get_user_model
 
 def home_page(request, user=None):
     return redirect('/user')
-    '''
-    if request.method == 'POST':
-        choice = Choice()
-        choice.door_number = request.POST.get('door_chosen', 0)
-        choice.save()
 
-        return redirect('/door-result')
-    return render(request, 'home.html')
-    '''
 
 @login_required(login_url='accounts/login')
 def home_page_user(request):
