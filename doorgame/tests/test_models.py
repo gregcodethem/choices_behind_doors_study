@@ -2,7 +2,12 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from unittest import skip
 
-from doorgame.models import Choice, Trial, Result
+from doorgame.models import (
+    Choice,
+    Trial,
+    Result,
+    MemoryGame
+    )
 
 class ResultModelTest(TestCase):
 
@@ -45,6 +50,24 @@ class TrialModelTest(TestCase):
         self.assertEqual(saved_trials.count(), 1)
         first_saved_trial = saved_trials[0]
         first_saved_user = first_saved_trial.user
+        self.assertEqual(first_saved_user, user_test)
+
+class MemoryGameModelTest(TestCase):
+
+    def test_saving_and_retrieving_memory_games(self):
+        user_test = User.objects.create_user(
+            'george',
+            '',
+            'somethingpassword')
+        user_test.save()
+        first_memory_game = MemoryGame()
+        first_memory_game.user = user_test
+        first_memory_game.save()
+
+        saved_memory_games = MemoryGame.objects.all()
+        self.assertEqual(saved_memory_games.count(), 1)
+        first_saved_memory_game = saved_memory_games[0]
+        first_saved_user = first_saved_memory_game.user
         self.assertEqual(first_saved_user, user_test)
 
 
