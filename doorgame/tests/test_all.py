@@ -127,7 +127,6 @@ class LoginScreenTest(TestCase):
 
 
 class DoorResultPageTest(BaseTest):
-    
 
     def test_door_result_url_resolves_to_door_page_view(self):
         found = resolve('/user/temporary/door-result')
