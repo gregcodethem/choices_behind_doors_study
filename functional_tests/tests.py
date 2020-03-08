@@ -58,6 +58,21 @@ class NewVisitorTest(LiveServerTestCase):
             'chosen_message').text
         self.assertIn('You chose '+ door_number, chosen_message)
 
+        # User sees message that they can change door
+        new_choice_message = self.browser.find_element_by_id(
+            'new_choice_message').text
+        self.assertIn("It's not door", new_choice_message)
+        self.assertIn("You can change your choice", new_choice_message)
+
+        # User choses to keep their door choice
+        keep_door_link = self.browser.find_element_by_id('keep_door_link')
+        keep_door_link.click()
+        time.sleep(2)
+
+        
+
+
+
 
 
     def test_layout(self):
@@ -114,12 +129,6 @@ class NewVisitorTest(LiveServerTestCase):
 
         # ------- Door 2-------
         # User logs in
-        '''
-        time.sleep(1)
-        login_link = self.browser.find_element_by_id('login_link_anchor')
-        login_link.click()
-        time.sleep(2)
-        '''
 
         self.login()
         self.user_chooses_a_door("door2")
@@ -129,12 +138,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         # ------- Door 3 ------
         # User logs in
-        '''
-        time.sleep(1)
-        login_link = self.browser.find_element_by_id('login_link_anchor')
-        login_link.click()
-        time.sleep(2)
-'''
+
         self.login()
         
         self.user_chooses_a_door("door3")
