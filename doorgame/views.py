@@ -43,14 +43,10 @@ def home_page_user_unique(request, username):
     user_logged_in = request.user
     
     if request.method == 'POST':
-        trial = Trial()
-        trial.user = request.user
-        trial.save()
-        choice = Choice()
-        choice.door_number = request.POST.get('door_chosen', 0)
-        choice.trial = trial
-        choice.save()
-        return redirect('/user/' + username_logged_in + '/door-result')
+        choose_door(request)
+        return redirect('/user/' + username_logged_in + '/door-result')4
+
+    
     return render(request, 'home.html', {"username": username_logged_in})
 
 
