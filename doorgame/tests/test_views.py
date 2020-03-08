@@ -9,7 +9,7 @@ from doorgame.views import (
     door_result_page,
 )
 
-from doorgame.models import Choice
+from doorgame.models import Choice, Trial
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
@@ -90,7 +90,9 @@ class HomePageTest(BaseTest):
         self.assertEqual(Choice.objects.count(), 1)
         new_choice = Choice.objects.last()
         self.assertEqual(new_choice.door_number, 2)
-        self.assertEqual(new_choice.user, user)
+        trial = new_choice.trial
+        self.assertEqual(trial.user, user)
+
 
     def test_redirects_after_POST(self):
         self.login_temp()
@@ -101,6 +103,7 @@ class HomePageTest(BaseTest):
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], '/user/temporary/door-result')
+
 
     def test_only_saves_door_choices_when_necessary(self):
         self.client.get('/')

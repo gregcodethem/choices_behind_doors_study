@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from doorgame.models import Choice
+from doorgame.models import Choice, Trial
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
@@ -25,9 +25,12 @@ def choose_door(request):
     username_logged_in = request.user.username
     if request.method == 'POST':
         user_logged_in = request.user
+        trial = Trial()
+        trial.user = request.user
+        trial.save()
         choice = Choice()
         choice.door_number = request.POST.get('door_chosen', 0)
-        choice.user = user_logged_in
+        choice.trial = trial
         choice.save()
         return redirect('/user/' + username_logged_in + '/door-result')
     else:
@@ -38,11 +41,13 @@ def home_page_user_unique(request, username):
     username_logged_in = request.user.username
     user_logged_in = request.user
     if request.method == 'POST':
+        trial = Trial()
+        trial.user = request.user
+        trial.save()
         choice = Choice()
         choice.door_number = request.POST.get('door_chosen', 0)
-        choice.user = user_logged_in
+        choice.trial = trial
         choice.save()
-
         return redirect('/user/' + username_logged_in + '/door-result')
     return render(request, 'home.html', {"username": username_logged_in})
 

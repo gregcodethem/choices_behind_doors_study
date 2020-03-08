@@ -12,12 +12,6 @@ class Trial(models.Model):
 
 class Choice(models.Model):
     door_number = models.IntegerField(default=0)
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        default=None,
-        null=True
-    )
     trial = models.ForeignKey(
     	Trial,
     	on_delete=models.CASCADE,
