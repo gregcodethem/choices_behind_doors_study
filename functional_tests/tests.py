@@ -58,20 +58,6 @@ class NewVisitorTest(LiveServerTestCase):
             'chosen_message').text
         self.assertIn('You chose '+ door_number, chosen_message)
 
-        # User sees message that they can change door
-        new_choice_message = self.browser.find_element_by_id(
-            'new_choice_message').text
-        self.assertIn("It's not door", new_choice_message)
-        self.assertIn("You can change your choice", new_choice_message)
-
-        # User choses to keep their door choice
-        keep_door_link = self.browser.find_element_by_id('keep_door_link')
-        keep_door_link.click()
-        time.sleep(2)
-
-        
-
-
 
 
 
@@ -145,6 +131,27 @@ class NewVisitorTest(LiveServerTestCase):
         # user logs out
         self.logout()
 
+
+    def test_user_can_change_door_choice(self):
+        self.browser.get('http://localhost:8000/accounts/login')
+        # Login screen appears
+        login_title = self.browser.find_element_by_tag_name(
+            'h2').text
+        self.assertIn('Login', login_title)
+
+        self.login()
+
+        self.user_chooses_a_door("door1")
+        # User sees message that they can change door
+        new_choice_message = self.browser.find_element_by_id(
+            'new_choice_message').text
+        self.assertIn("It's not door", new_choice_message)
+        self.assertIn("You can change your choice", new_choice_message)
+
+        # User choses to keep their door choice
+        keep_door_link = self.browser.find_element_by_id('keep_door_link')
+        keep_door_link.click()
+        time.sleep(2)
 
     def test_multiple_users_can_have_turns(self):
         # first user comes to site
