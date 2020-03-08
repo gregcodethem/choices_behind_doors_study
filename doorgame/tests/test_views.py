@@ -9,7 +9,7 @@ from doorgame.views import (
     door_result_page,
 )
 
-from doorgame.models import Choice, Trial
+from doorgame.models import Choice, Trial, Result
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
@@ -40,6 +40,20 @@ class SimpleTest(BaseTest):
         self.assertIn('<h2>Welcome to the door game</h2>', html)
         self.assertIn('temporary', html)
 
+
+class ResultTest(BaseTest):
+
+    def test_result_recorded_when_choice_made(self):
+        self.login_temp()
+        user = User.objects.get(username='temporary')
+        response = self.client.post(
+            '/user/temporary/', 
+            {
+            'door_chosen': 2,
+            })
+        self.assertEqual(Result.objects.count(), 1)
+        result = Result.objects.first()
+        self.assertIn(result.door_number, [1,2,3])
 
 class HomePageTest(BaseTest):
 

@@ -1,6 +1,8 @@
+from random import randint
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from doorgame.models import Choice, Trial
+from doorgame.models import Choice, Trial, Result
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
@@ -32,6 +34,11 @@ def choose_door(request):
         choice.door_number = request.POST.get('door_chosen', 0)
         choice.trial = trial
         choice.save()
+
+        result = Result()
+        result.door_number = randint(1,3)
+        result.save()
+
         return redirect('/user/' + username_logged_in + '/door-result')
     else:
         pass
@@ -44,7 +51,7 @@ def home_page_user_unique(request, username):
     
     if request.method == 'POST':
         choose_door(request)
-        return redirect('/user/' + username_logged_in + '/door-result')4
+        return redirect('/user/' + username_logged_in + '/door-result')
 
     
     return render(request, 'home.html', {"username": username_logged_in})
