@@ -1,7 +1,27 @@
 from django.test import TestCase
-
-from doorgame.models import Choice
 from django.contrib.auth.models import User
+from unittest import skip
+
+from doorgame.models import Choice, Trial
+
+
+class TrialModelTest(TestCase):
+
+    def test_saving_and_retrieving_trials(self):
+        user_test = User.objects.create_user(
+            'george',
+            '',
+            'somethingpassword')
+        user_test.save()
+        first_trial = Trial()
+        first_trial.user = user_test
+        first_trial.save()
+
+        saved_trials = Trial.objects.all()
+        self.assertEqual(saved_trials.count(), 1)
+        first_saved_trial = saved_trials[0]
+        first_saved_user = first_saved_trial.user
+        self.assertEqual(first_saved_user, user_test)
 
 
 class ChoiceModelTest(TestCase):
@@ -60,3 +80,24 @@ class ChoiceModelTest(TestCase):
         second_saved_user = second_saved_choice.user
         self.assertEqual(first_saved_user, user_test_one)
         self.assertEqual(second_saved_user, user_test_two)
+
+
+    def test_choice_saves_trial(self):
+        user_test = User.objects.create_user(
+            'george',
+            '',
+            'somethingpassword')
+        user_test.save()
+        first_trial = Trial()
+        first_trial.user = user_test
+        first_trial.save()
+
+        first_choice = Choice()
+        first_choice.trial = first_trial
+        first_choice.save()
+
+        saved_choices = Choice.objects.all()
+        self.assertEqual(saved_choices.count(), 1)
+        first_saved_choice = saved_choices[0]
+        first_saved_trial = first_saved_choice.trial
+        self.assertEqual(first_saved_trial, first_trial)
