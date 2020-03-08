@@ -2,7 +2,31 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from unittest import skip
 
-from doorgame.models import Choice, Trial
+from doorgame.models import Choice, Trial, Result
+
+class ResultModelTest(TestCase):
+
+    def test_saving_and_retrieving_results(self):
+        user_test = User.objects.create_user(
+            'george',
+            '',
+            'somethingpassword')
+        user_test.save()
+        first_result = Result()
+        first_result.door_number = 3
+        first_result.save()
+
+        second_result= Result()
+        second_result.door_number = 2
+        second_result.save()
+
+        saved_results = Result.objects.all()
+        self.assertEqual(saved_results.count(), 2)
+
+        first_saved_result = saved_results[0]
+        second_saved_result = saved_results[1]
+        self.assertEqual(first_saved_result.door_number, 3)
+        self.assertEqual(second_saved_result.door_number, 2)
 
 
 class TrialModelTest(TestCase):

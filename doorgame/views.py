@@ -36,10 +36,12 @@ def choose_door(request):
     else:
         pass
 
+
 @login_required(login_url='accounts/login')
 def home_page_user_unique(request, username):
     username_logged_in = request.user.username
     user_logged_in = request.user
+    
     if request.method == 'POST':
         trial = Trial()
         trial.user = request.user

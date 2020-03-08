@@ -19,3 +19,5 @@ class Choice(models.Model):
         null=True
     )
 
+class Result(models.Model):
+	door_number = models.IntegerField(default=0)
