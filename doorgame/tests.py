@@ -13,24 +13,27 @@ from doorgame.models import Choice
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
-
-class SimpleTest(TestCase):
+class BaseTest(TestCase):
     def setUp(self):
         User = get_user_model()
         user = User.objects.create_user('temporary', 'temporary@gmail.com', 'temporary')
 
-    def test_user_page(self):
+    def login_temp(self):
         User = get_user_model()
         self.client.login(username='temporary', password='temporary')
+
+
+class SimpleTest(BaseTest):
+    
+    def test_user_page(self):
+        self.login_temp()
         response = self.client.get('/user', follow=True)
         user = User.objects.get(username='temporary')
         #print(response.content)
         self.assertEqual(response.context['username'], 'temporary')
 
     def test_home_page_user_recognises_user(self):
-        User = get_user_model()
-
-        self.client.login(username='temporary', password='temporary')
+        self.login_temp()
         response = self.client.get('/user', follow=True)
 
         html = response.content.decode('utf8')
@@ -38,11 +41,7 @@ class SimpleTest(TestCase):
         self.assertIn('temporary', html)
 
 
-class HomePageTest(TestCase):
-    def setUp(self):
-        User = get_user_model()
-        user = User.objects.create_user('temporary', 'temporary@gmail.com', 'temporary')
-
+class HomePageTest(BaseTest):
 
     def test_can_login(self):
         user_test = User.objects.create_user(
@@ -57,9 +56,7 @@ class HomePageTest(TestCase):
         self.assertTrue(logged_in)
 
     def test_home_page_returns_correct_html(self):
-        User = get_user_model()
-
-        self.client.login(username='temporary', password='temporary')
+        self.login_temp()
         user = User.objects.get(username='temporary')
 
         response = self.client.get('/user/'+user.username+'/')
@@ -70,8 +67,7 @@ class HomePageTest(TestCase):
 
 
     def test_can_save_a_post_request(self):
-        User = get_user_model()
-        self.client.login(username='temporary', password='temporary')
+        self.login_temp()
         user = User.objects.get(username='temporary')
         response = self.client.post(
             '/user/temporary/', {'door_chosen': 1}
@@ -83,9 +79,8 @@ class HomePageTest(TestCase):
 
 
     def test_saves_user_in_post_request(self):
-        User = get_user_model()
+        self.login_temp()
         user = User.objects.get(username='temporary')
-        self.client.login(username='temporary', password='temporary')
         response = self.client.post(
             '/user/temporary/', 
             {
@@ -98,9 +93,8 @@ class HomePageTest(TestCase):
         self.assertEqual(new_choice.user, user)
 
     def test_redirects_after_POST(self):
-        User = get_user_model()
+        self.login_temp()
         user = User.objects.get(username='temporary')
-        self.client.login(username='temporary', password='temporary')
         response = self.client.post(
             '/user/temporary/', {'door_chosen': 1}
         )
@@ -132,23 +126,15 @@ class LoginScreenTest(TestCase):
         #self.assertEqual(response['location'], '/user/george')
 
 
-class DoorResultPageTest(TestCase):
+class DoorResultPageTest(BaseTest):
     
-    def setUp(self):
-        User = get_user_model()
-        user = User.objects.create_user('temporary', 'temporary@gmail.com', 'temporary')
-
-    def login(self):
-        User = get_user_model()
-        self.client.login(username='temporary', password='temporary')
 
     def test_door_result_url_resolves_to_door_page_view(self):
         found = resolve('/user/temporary/door-result')
         self.assertEqual(found.func, door_result_page)
 
     def test_door_result_page_returns_correct_html(self):
-        User = get_user_model()
-        self.client.login(username='temporary', password='temporary')
+        self.login_temp()
         user = User.objects.get(username='temporary')
         #response = self.client.get('/user/temporary/door-result', follow=True)
         request = HttpRequest()
@@ -157,8 +143,7 @@ class DoorResultPageTest(TestCase):
         self.assertIn('The result of your door choice', html)
 
     def test_can_display_a_POST_request(self):
-        User = get_user_model()
-        self.client.login(username='temporary', password='temporary')
+        self.login_temp()
         response_home = self.client.post(
             '/user/temporary/', {'door_chosen': 1}
         )
@@ -169,8 +154,7 @@ class DoorResultPageTest(TestCase):
         self.assertIn("You chose door1", html_door_result)
 
     def test_can_display_a_POST_request_for_door_two(self):
-        User = get_user_model()
-        self.client.login(username='temporary', password='temporary')
+        self.login_temp()
         user = User.objects.get(username='temporary')
         # add for door 2
         response_home = self.client.post(
@@ -184,8 +168,7 @@ class DoorResultPageTest(TestCase):
         self.assertIn("You chose door2", html_door_result)
 
     def test_can_display_a_POST_request_for_door_three(self):
-        User = get_user_model()
-        self.client.login(username='temporary', password='temporary')
+        self.login_temp()
         user = User.objects.get(username='temporary')
 
         response_home = self.client.post(
@@ -193,9 +176,6 @@ class DoorResultPageTest(TestCase):
             data={'door_chosen': 3}
         )
         request = HttpRequest()
-        User = get_user_model()
-        self.client.login(username='temporary', password='temporary')
-        user = User.objects.get(username='temporary')
         response_door_result = door_result_page(request, user.username)
         html_door_result = response_door_result.content.decode('utf8')
         self.assertIn("You chose door3", html_door_result)
