@@ -1,0 +1,20 @@
+<!-- templates/registration/login.html -->
+{% extends 'base.html' %}
+
+{% block title %}Door Game Result{% endblock %}
+
+{% block content %}
+
+<h2>The result of your final door choice</h2>
+
+
+{% if user.is_authenticated %}
+
+<!-- Add content here - May have to deal with logged in/ not logged in problem -->
+<p><a href="{% url 'logout' %}" id="logout_link_anchor">logout</a></p>
+
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}" id="login_link_anchor">login</a>
+{% endif %}
+{% endblock %}

@@ -16,6 +16,16 @@ class FinalDoorResultPageTest(BaseTest):
         found = resolve('/user/temporary/final-door-result')
         self.assertEqual(found.func, final_door_result_page)
 
+    def test_final_door_result_page_returns_correct_html(self):
+        self.login_temp()
+        user = User.objects.get(username='temporary')
+        #response = self.client.get('/user/temporary/door-result', follow=True)
+        request = HttpRequest()
+        response = final_door_result_page(request, user.username)
+        html = response.content.decode('utf8')
+        self.assertIn('The result of your final door choice', html)
+
+
 class DoorResultPageTest(BaseTest):
 
     def test_door_result_url_resolves_to_door_page_view(self):
