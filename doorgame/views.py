@@ -57,7 +57,7 @@ def choose_final_door(request):
         # Will have to change this next line so doesn't just get the last trial
         trial_existing = Trial.objects.last()
         choice = Choice()
-        choice.door_number = request.POST.get('door_chosen', 0)
+        choice.door_number = request.POST.get('final_door_chosen', 0)
         choice.trial = trial_existing
         choice.first_or_second_choice = 2
         choice.save()
