@@ -82,11 +82,15 @@ def door_result_page(request, username):
             # in this case they've already chosen the right number,
             # then remove at random one of the remaining 2 numbers.
             number_to_remove = randomchoice(possible_numbers)
-
+        other_door_choice_list = [1,2,3]
+        other_door_choice_list.remove(chosen_number)
+        other_door_choice_list.remove(number_to_remove)
+        number_to_change_to = other_door_choice_list[0]
 
         return render(request, 'door_result.html', {
             'door_chosen_text': 'door' + str(choice.door_number),
-            'door_to_remove_text': 'door' + str(number_to_remove)
+            'door_to_remove_text': 'door' + str(number_to_remove),
+            'door_to_change_to_text': 'door' + str(number_to_change_to)
         })
     else:
         return render(request, 'door_result.html',

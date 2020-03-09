@@ -11,7 +11,8 @@
 
 <p id="new_choice_message">It's not {{ door_to_remove_text }}.  You can change your choice or keep your current choice</p>
 
-<a id="keep_door_link"><button>Keep door choice</button></a>
+<a id="keep_door_link"><button>Keep door choice - keep {{ door_chosen_text }}</button></a>
+<a id="change_door_link"><button>Change door choice - change to {{ door_to_change_to_text }}</button></a>
 
 {% if user.is_authenticated %}
 

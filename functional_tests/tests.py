@@ -149,8 +149,10 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertRegex(new_choice_message, '.*\d\.*')
         self.assertIn("You can change your choice", new_choice_message)
 
-        # User choses to keep their door choice
+        # User can see option to keep or change their choice
         keep_door_link = self.browser.find_element_by_id('keep_door_link')
+        change_door_link = self.browser.find_element_by_id('change_door_link')
+        # User choses to keep their door choice
         keep_door_link.click()
         time.sleep(2)
 
