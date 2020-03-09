@@ -29,3 +29,9 @@ class Choice(models.Model):
 
 class Result(models.Model):
 	door_number = models.IntegerField(default=0)
+	trial = models.ForeignKey(
+    	Trial,
+    	on_delete=models.CASCADE,
+        default=None,
+        null=True
+    )

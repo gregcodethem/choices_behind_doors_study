@@ -158,6 +158,20 @@ class DoorResultPageTest(BaseTest):
         html = response.content.decode('utf8')
         self.assertIn('The result of your door choice', html)
 
+    def test_door_result_page_returns_an_incorrect_door(self):
+        self.login_temp()
+        user = User.objects.get(username='temporary')
+        response_home = self.client.post(
+            '/user/temporary/',
+            data={'door_chosen': 3}
+        )
+        request = HttpRequest()
+        user = User.objects.get(username='temporary')
+        response_door_result = door_result_page(request, user.username)
+        html_door_result = response_door_result.content.decode('utf8')
+        self.assertRegex(html_door_result, '.*door(1|2).*')
+
+
     def test_can_display_a_POST_request(self):
         self.login_temp()
         response_home = self.client.post(

@@ -1,4 +1,7 @@
 from random import randint
+# changed name of random.choice so as not to confuse with
+# the choice model instance
+from random import choice as randomchoice 
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -37,6 +40,7 @@ def choose_door(request):
 
         result = Result()
         result.door_number = randint(1,3)
+        result.trial = trial
         result.save()
 
         return redirect('/user/' + username_logged_in + '/door-result')
@@ -60,8 +64,29 @@ def home_page_user_unique(request, username):
 def door_result_page(request, username):
     choice = Choice.objects.last()
     if choice:
+        chosen_number = choice.door_number
+        possible_numbers = [1,2,3]
+        possible_numbers.remove(chosen_number)
+        trial = choice.trial
+        result = Result.objects.get(trial=trial)
+        result_number = result.door_number
+        try:
+            possible_numbers.remove(result_number)
+        except ValueError:
+            pass
+        # We should be left with either one or two numbers left
+        if len(possible_numbers) == 1:
+            number_to_remove = possible_numbers[0]
+        elif len(possible_numbers) ==2:
+            # fi there's a choice of 2 numbers to remove,
+            # in this case they've already chosen the right number,
+            # then remove at random one of the remaining 2 numbers.
+            number_to_remove = randomchoice(possible_numbers)
+
+
         return render(request, 'door_result.html', {
-            'door_chosen_text': 'door' + str(choice.door_number)
+            'door_chosen_text': 'door' + str(choice.door_number),
+            'door_to_remove_text': 'door' + str(number_to_remove)
         })
     else:
         return render(request, 'door_result.html',

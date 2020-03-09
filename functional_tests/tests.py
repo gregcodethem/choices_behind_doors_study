@@ -146,6 +146,7 @@ class NewVisitorTest(LiveServerTestCase):
         new_choice_message = self.browser.find_element_by_id(
             'new_choice_message').text
         self.assertIn("It's not door", new_choice_message)
+        self.assertRegex(new_choice_message, '.*\d\.*')
         self.assertIn("You can change your choice", new_choice_message)
 
         # User choses to keep their door choice

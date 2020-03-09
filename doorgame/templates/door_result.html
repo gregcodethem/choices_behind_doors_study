@@ -9,8 +9,11 @@
 
 <p id="chosen_message">You chose {{ door_chosen_text }} </p>
 
+<p id="new_choice_message">It's not {{ door_to_remove_text }}.  You can change your choice or keep your current choice</p>
+
+<a id="keep_door_link"><button>Keep door choice</button></a>
+
 {% if user.is_authenticated %}
-	<p>Hi {{ user.username }}!</p>
 
 <!-- Add content here - May have to deal with logged in/ not logged in problem -->
 <p><a href="{% url 'logout' %}" id="logout_link_anchor">logout</a></p>
