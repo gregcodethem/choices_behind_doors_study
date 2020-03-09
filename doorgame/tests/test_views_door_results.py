@@ -25,6 +25,17 @@ class FinalDoorResultPageTest(BaseTest):
         html = response.content.decode('utf8')
         self.assertIn('The result of your final door choice', html)
 
+    def test_first_result_page_can_display_a_POST_request(self):
+        self.login_temp()
+        response_home = self.client.post(
+            '/user/temporary/door-result', {'door_chosen': 1}
+        )
+        request = HttpRequest()
+        user = User.objects.get(username='temporary')
+        response_final_door_result = final_door_result_page(request, user.username)
+        html_final_door_result = response_final_door_result.content.decode('utf8')
+        self.assertIn("You chose door1", html_final_door_result)
+
 
 class DoorResultPageTest(BaseTest):
 
