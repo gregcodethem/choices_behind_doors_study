@@ -9,7 +9,7 @@ test_login_data = {
     "Ozen": {"username": "ozen", "password": "Russia432"}
 }
 
-class NewVisitorTest(LiveServerTestCase):
+class BaseTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -60,6 +60,7 @@ class NewVisitorTest(LiveServerTestCase):
 
 
 
+class NewVisitorTest(BaseTest):
 
     def test_layout(self):
         self.browser.get('http://localhost:8000/accounts/login')
@@ -131,31 +132,6 @@ class NewVisitorTest(LiveServerTestCase):
         # user logs out
         self.logout()
 
-
-    def test_user_can_change_door_choice(self):
-        self.browser.get('http://localhost:8000/accounts/login')
-        # Login screen appears
-        login_title = self.browser.find_element_by_tag_name(
-            'h2').text
-        self.assertIn('Login', login_title)
-
-        self.login()
-
-        self.user_chooses_a_door("door1")
-        # User sees message that they can change door
-        new_choice_message = self.browser.find_element_by_id(
-            'new_choice_message').text
-        self.assertIn("It's not door", new_choice_message)
-        self.assertRegex(new_choice_message, '.*\d\.*')
-        self.assertIn("You can change your choice", new_choice_message)
-
-        # User can see option to keep or change their choice
-        keep_door_link = self.browser.find_element_by_id('keep_door_link')
-        change_door_link = self.browser.find_element_by_id('change_door_link')
-        # User choses to keep their door choice
-        keep_door_link.click()
-        time.sleep(2)
-
     def test_multiple_users_can_have_turns(self):
         # first user comes to site
         self.browser.get('http://localhost:8000/accounts/login')
@@ -201,3 +177,70 @@ class NewVisitorTest(LiveServerTestCase):
 
         # the choice of user 1 is not saved
 
+
+
+
+class SecondChoiceTest(BaseTest):
+
+    def test_user_can_keep_door_choice(self):
+        self.browser.get('http://localhost:8000/accounts/login')
+        # Login screen appears
+        login_title = self.browser.find_element_by_tag_name(
+            'h2').text
+        self.assertIn('Login', login_title)
+
+        self.login()
+
+        self.user_chooses_a_door("door1")
+        # User sees message that they can change door
+        new_choice_message = self.browser.find_element_by_id(
+            'new_choice_message').text
+        self.assertIn("It's not door", new_choice_message)
+        self.assertRegex(new_choice_message, '.*\d\.*')
+        self.assertIn("You can change your choice", new_choice_message)
+
+        # User can see option to keep or change their choice
+        keep_door_link = self.browser.find_element_by_id('keep_door_link')
+        change_door_link = self.browser.find_element_by_id('change_door_link')
+        # User choses to keep their door choice
+        keep_door_link.click()
+        time.sleep(2)
+        # User sees message that they chose to keep their door choice.
+        final_choice_message = self.browser.find_element_by_id(
+            'final_choice_message').text
+        self.assertIn("You kept your choice")
+        
+        self.logout()
+
+    def test_user_can_change_door_choice(self):
+        self.browser.get('http://localhost:8000/accounts/login')
+        # Login screen appears
+        login_title = self.browser.find_element_by_tag_name(
+            'h2').text
+        self.assertIn('Login', login_title)
+
+        self.login()
+
+        self.user_chooses_a_door("door1")
+        # User sees message that they can change door
+        new_choice_message = self.browser.find_element_by_id(
+            'new_choice_message').text
+        self.assertIn("It's not door", new_choice_message)
+        self.assertRegex(new_choice_message, '.*\d\.*')
+        self.assertIn("You can change your choice", new_choice_message)
+
+        # User can see option to keep or change their choice
+        keep_door_link = self.browser.find_element_by_id('keep_door_link')
+        change_door_link = self.browser.find_element_by_id('change_door_link')
+        # User choses to keep their door choice
+        change_door_link.click()
+        time.sleep(2)
+
+        # User sees message that they chose to CHANGE their door choice.
+        final_choice_message = self.browser.find_element_by_id(
+            'final_choice_message').text
+        self.assertIn("You changed your choice")
+
+
+
+    
