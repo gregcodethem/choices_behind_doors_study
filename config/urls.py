@@ -26,7 +26,14 @@ urlpatterns = [
     path('', views.home_page_user, name='home'),
     #path('door-result', views.door_result_page, name='door_result_page'),
     path('choose_door', views.choose_door, name='choose-door'),
-    path('user/<username>/door-result', views.door_result_page, name='door_result_page'),
+    path('user/<username>/door-result',
+         views.door_result_page,
+         name='door_result_page'
+         ),
+    path('user/<username>/final-door-result',
+        views.final_door_result_page,
+        name='final_door_result_page'
+        ),
     path('user', views.home_page_user, name='home-user'),
     path('user/<username>/',
          views.home_page_user_unique,

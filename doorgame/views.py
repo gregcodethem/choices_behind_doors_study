@@ -95,3 +95,6 @@ def door_result_page(request, username):
     else:
         return render(request, 'door_result.html',
                       )
+
+def final_door_result_page(request, username):
+    pass

@@ -2,13 +2,19 @@ from django.urls import resolve
 from django.test import Client
 from django.http import HttpRequest
 
-from doorgame.views import door_result_page
+from doorgame.views import door_result_page, final_door_result_page
 
 from doorgame.models import Choice, Trial, Result
 from django.contrib.auth.models import User
 
 from .test_views_base import BaseTest
 
+
+class FinalDoorResultPageTest(BaseTest):
+
+    def test_final_door_result_url_resolves_to_final_door_page_view(self):
+        found = resolve('/user/temporary/final-door-result')
+        self.assertEqual(found.func, final_door_result_page)
 
 class DoorResultPageTest(BaseTest):
 
