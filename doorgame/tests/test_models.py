@@ -7,7 +7,8 @@ from doorgame.models import (
     Trial,
     Result,
     MemoryGame
-    )
+)
+
 
 class ResultModelTest(TestCase):
 
@@ -21,7 +22,7 @@ class ResultModelTest(TestCase):
         first_result.door_number = 3
         first_result.save()
 
-        second_result= Result()
+        second_result = Result()
         second_result.door_number = 2
         second_result.save()
 
@@ -32,6 +33,45 @@ class ResultModelTest(TestCase):
         second_saved_result = saved_results[1]
         self.assertEqual(first_saved_result.door_number, 3)
         self.assertEqual(second_saved_result.door_number, 2)
+
+    # not sure if I need to save two types of results,
+    # keep this here for now for base of chocie tests
+    @skip
+    def test_saving_and_retrieving_final_results_keeps_same_door_number(self):
+        user_test = User.objects.create_user(
+            'george',
+            '',
+            'somethingpassword')
+        user_test.save()
+        trial = Trial()
+        trial.user = user_test
+        trial.save()
+        first_result = Result()
+        first_result.door_number = 3
+        first_result.first_or_second_choice = 1
+        first_result.trial = trial
+        first_result.save()
+
+        # keeps same number
+        final_result = Result()
+        final_result.door_number = 3
+        final_result.first_or_second_choice = 2
+        final_result.trial = trial
+        final_result.save()
+
+        first_saved_result = Result.objects.get(
+            trial=trial,
+            first_or_second_choice=1
+        )
+        final_saved_result = Result.objects.get(
+            trial=trial,
+            first_or_second_choice=2
+        )
+
+        self.assertEqual(first_saved_result.door_number, 3)
+        self.assertEqual(first_saved_result.first_or_second_choice, 1)
+        self.assertEqual(final_saved_result.door_number, 3)
+        self.assertEqual(final_saved_result.first_or_second_choice, 2)
 
     def test_result_saves_trial(self):
         user_test = User.objects.create_user(
@@ -45,7 +85,6 @@ class ResultModelTest(TestCase):
         first_result = Result()
         first_result.trial = first_trial
         first_result.save()
-
 
         saved_results = Result.objects.all()
         self.assertEqual(saved_results.count(), 1)
@@ -71,6 +110,7 @@ class TrialModelTest(TestCase):
         first_saved_trial = saved_trials[0]
         first_saved_user = first_saved_trial.user
         self.assertEqual(first_saved_user, user_test)
+
 
 class MemoryGameModelTest(TestCase):
 
@@ -115,6 +155,44 @@ class ChoiceModelTest(TestCase):
         self.assertEqual(first_saved_choice.door_number, 1)
         self.assertEqual(second_saved_choice.door_number, 2)
 
+
+    def test_saving_and_retrieving_final_choices_keeps_same_door_number(self):
+        user_test = User.objects.create_user(
+            'george',
+            '',
+            'somethingpassword')
+        user_test.save()
+        trial = Trial()
+        trial.user = user_test
+        trial.save()
+        first_choice = Choice()
+        first_choice.door_number = 3
+        first_choice.first_or_second_choice = 1
+        first_choice.trial = trial
+        first_choice.save()
+
+        # keeps same number
+        final_choice = Choice()
+        final_choice.door_number = 3
+        final_choice.first_or_second_choice = 2
+        final_choice.trial = trial
+        final_choice.save()
+
+        first_saved_choice = Choice.objects.get(
+            trial=trial,
+            first_or_second_choice=1
+        )
+        final_saved_choice = Choice.objects.get(
+            trial=trial,
+            first_or_second_choice=2
+        )
+
+        self.assertEqual(first_saved_choice.door_number, 3)
+        self.assertEqual(first_saved_choice.first_or_second_choice, 1)
+        self.assertEqual(final_saved_choice.door_number, 3)
+        self.assertEqual(final_saved_choice.first_or_second_choice, 2)
+
+
     def test_saving_and_retrieving_user_name_from_choices(self):
         user_test_one = User.objects.create_user(
             'george',
@@ -154,7 +232,6 @@ class ChoiceModelTest(TestCase):
 
         self.assertEqual(first_saved_user, user_test_one)
         self.assertEqual(second_saved_user, user_test_two)
-
 
     def test_choice_saves_trial(self):
         user_test = User.objects.create_user(
