@@ -28,7 +28,10 @@ class FinalDoorResultPageTest(BaseTest):
     def test_first_result_page_can_display_a_POST_request(self):
         self.login_temp()
         response_home = self.client.post(
-            '/user/temporary/door-result', {'door_chosen': 1}
+            '/user/temporary/', {'door_chosen': 1}
+        )
+        response_first_door_result = self.client.post(
+            '/user/temporary/door-result/', {'door_chosen': 1}
         )
         request = HttpRequest()
         user = User.objects.get(username='temporary')

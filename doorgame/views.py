@@ -48,6 +48,21 @@ def choose_door(request):
     else:
         pass
 
+@login_required(login_url='accounts/login')
+def choose_final_door(request):
+    if request.method == 'POST':
+        user_logged_in = request.user
+        username_logged_in = user_logged_in.username
+        # ------ !!!!!
+        # Will have to change this next line so doesn't just get the last trial
+        trial_existing = Trial.objects.last()
+        choice = Choice()
+        choice.door_number = request.POST.get('door_chosen', 0)
+        choice.trial = trial_existing
+        choice.first_or_second_choice = 2
+        choice.save()
+
+        return redirect('/user/' + username_logged_in + '/final-door-result')
 
 @login_required(login_url='accounts/login')
 def home_page_user_unique(request, username):
@@ -62,6 +77,9 @@ def home_page_user_unique(request, username):
 
 
 def door_result_page(request, username):
+    if request.method == "POST":
+        choose_final_door(request)
+        return redirect('/user/' + username_logged_in + '/final-door-result')
     choice = Choice.objects.last()
     if choice:
         chosen_number = choice.door_number
@@ -88,9 +106,9 @@ def door_result_page(request, username):
         number_to_change_to = other_door_choice_list[0]
 
         return render(request, 'door_result.html', {
-            'door_chosen_text': 'door' + str(choice.door_number),
-            'door_to_remove_text': 'door' + str(number_to_remove),
-            'door_to_change_to_text': 'door' + str(number_to_change_to)
+            'door_chosen_number': str(choice.door_number),
+            'door_to_remove_number': str(number_to_remove),
+            'door_to_change_to_number': str(number_to_change_to),
         })
     else:
         return render(request, 'door_result.html',
@@ -98,4 +116,12 @@ def door_result_page(request, username):
 
 
 def final_door_result_page(request, username):
-    return render(request, 'final_door_result.html')
+    choice = Choice.objects.last()
+    if choice:
+        final_chosen_number = choice.door_number
+
+        return render(request, 'final_door_result.html', {
+            'final_door_chosen_number': str(final_chosen_number)
+            })
+    else:
+        return render(request, 'final_door_result.html')

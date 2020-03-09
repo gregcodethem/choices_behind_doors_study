@@ -26,6 +26,7 @@ urlpatterns = [
     path('', views.home_page_user, name='home'),
     #path('door-result', views.door_result_page, name='door_result_page'),
     path('choose_door', views.choose_door, name='choose-door'),
+    path('choose_final_door', views.choose_final_door, name='choose_final_door'),
     path('user/<username>/door-result',
          views.door_result_page,
          name='door_result_page'
