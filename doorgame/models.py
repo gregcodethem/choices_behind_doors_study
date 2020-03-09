@@ -20,6 +20,7 @@ class MemoryGame(models.Model):
 
 class Choice(models.Model):
     door_number = models.IntegerField(default=0)
+    first_or_second_choice = models.IntegerField(default=0)
     trial = models.ForeignKey(
     	Trial,
     	on_delete=models.CASCADE,
