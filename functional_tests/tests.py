@@ -208,7 +208,7 @@ class SecondChoiceTest(BaseTest):
         # User sees message that they chose to keep their door choice.
         final_choice_message = self.browser.find_element_by_id(
             'final_choice_message').text
-        self.assertIn("You kept your choice")
+        self.assertIn("You chose door1", final_choice_message)
         
         self.logout()
 
@@ -239,8 +239,9 @@ class SecondChoiceTest(BaseTest):
         # User sees message that they chose to CHANGE their door choice.
         final_choice_message = self.browser.find_element_by_id(
             'final_choice_message').text
-        self.assertIn("You changed your choice")
+        self.assertIn("You chose door", final_choice_message)
+        self.assertNotIn("You chose door1", final_choice_message)
 
-
+        self.logout()
 
     
