@@ -9,10 +9,43 @@ from django.contrib.auth.models import User
 
 from .test_views_base import BaseTest
 
+from django.contrib.auth import get_user_model
+
 class TwoUsersUseSimultaneously(BaseTest):
 
-    def test_two_users_use_at_same_time(self):
-        pass
+    def test_two_users_use_at_same_time_make_initial_choice(self):
+        self.login_temp()
+        User = get_user_model()
+        user_one = User.objects.get(username='temporary')
+        response = self.client.post(
+            '/user/temporary/', {'door_chosen': 1}
+        )
+        self.assertEqual(Choice.objects.count(), 1)
+        self.assertEqual(Trial.objects.count(), 1)
+
+        
+        user_two = User.objects.create_user('Dolores',
+                                        'Dolores@lachicana.com',
+                                        'por_su_abuela_catalan')
+        self.client.login(username='Dolores', password='por_su_abuela_catalan')
+        response = self.client.post(
+            '/user/Dolores/', {'door_chosen': 2}
+        )
+        self.assertEqual(Choice.objects.count(), 2)
+        self.assertEqual(Trial.objects.count(), 2)
+        
+        saved_trial_user_one = Trial.objects.get(
+            user=user_one)
+        saved_trial_user_two = Trial.objects.get(
+            user=user_two)
+
+        saved_choice_user_one = Choice.objects.get(
+            trial=saved_trial_user_one)
+        saved_choice_user_two = Choice.objects.get(
+            trial=saved_trial_user_two)
+        self.assertEqual(saved_choice_user_one.door_number, 1)
+        self.assertEqual(saved_choice_user_two.door_number, 2)
+
 
 class FinalDoorResultPageTest(BaseTest):
 
@@ -39,8 +72,10 @@ class FinalDoorResultPageTest(BaseTest):
         )
         request = HttpRequest()
         user = User.objects.get(username='temporary')
-        response_final_door_result = final_door_result_page(request, user.username)
-        html_final_door_result = response_final_door_result.content.decode('utf8')
+        response_final_door_result = final_door_result_page(
+            request, user.username)
+        html_final_door_result = response_final_door_result.content.decode(
+            'utf8')
         self.assertIn("You chose door1", html_final_door_result)
 
 
