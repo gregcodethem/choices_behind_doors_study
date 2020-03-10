@@ -9,6 +9,10 @@ from django.contrib.auth.models import User
 
 from .test_views_base import BaseTest
 
+class TwoUsersUseSimultaneously(BaseTest):
+
+    def test_two_users_use_at_same_time(self):
+        pass
 
 class FinalDoorResultPageTest(BaseTest):
 
