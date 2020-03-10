@@ -78,6 +78,8 @@ def home_page_user_unique(request, username):
 
 def door_result_page(request, username):
     if request.method == "POST":
+        user_logged_in = request.user
+        username_logged_in = user_logged_in.username
         choose_final_door(request)
         return redirect('/user/' + username_logged_in + '/final-door-result')
     choice = Choice.objects.last()

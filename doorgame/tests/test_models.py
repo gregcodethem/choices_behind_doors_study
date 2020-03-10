@@ -17,7 +17,7 @@ class TwoUsersCreateModelsAtSameTimeTest(TestCase):
         user_test_one = User.objects.create_user(
             'Acho',
             '',
-            'su_ajedrez')
+            'tu_ajedrez')
         user_test_one.save()
         user_test_two = User.objects.create_user(
             'Darren',
