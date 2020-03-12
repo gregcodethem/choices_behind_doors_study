@@ -14,7 +14,7 @@ from django.contrib.auth import get_user_model
 
 class TwoUsersUseSimultaneously(BaseTest):
 
-    def test_two_users_use_at_same_time_make_initial_choice(self):
+    def test_two_users_use_at_same_time_two_choices_made_for_each_trial(self):
         self.login_temp()
         User = get_user_model()
         user_one = User.objects.get(username='temporary')
@@ -33,6 +33,23 @@ class TwoUsersUseSimultaneously(BaseTest):
         )
         self.assertEqual(Choice.objects.count(), 2)
         self.assertEqual(Trial.objects.count(), 2)
+
+
+    def test_two_users_use_at_same_time_make_initial_choice(self):
+        self.login_temp()
+        User = get_user_model()
+        user_one = User.objects.get(username='temporary')
+        response = self.client.post(
+            '/user/temporary/', {'door_chosen': 1}
+        )
+
+        user_two = User.objects.create_user('Dolores',
+                                            'Dolores@lachicana.com',
+                                            'por_su_abuela_catalan')
+        self.client.login(username='Dolores', password='por_su_abuela_catalan')
+        response = self.client.post(
+            '/user/Dolores/', {'door_chosen': 2}
+        )
 
         saved_trial_user_one = Trial.objects.get(
             user=user_one)
