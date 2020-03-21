@@ -31,7 +31,7 @@ class BaseTest(LiveServerTestCase):
         password_input_box.send_keys(password)
         # click Login
         password_input_box.send_keys(Keys.ENTER)
-        time.sleep(1)
+        time.sleep(2)
 
     def logout(self):
         logout_link = self.browser.find_element_by_id('logout_link_anchor')
@@ -71,6 +71,10 @@ class NewVisitorTest(BaseTest):
 
         self.login()
 
+        # sees memory game
+        memory_title = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('Can you remember these dots?', memory_title)
+
         # see text welcome page
         game_title = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Welcome to the door game', game_title)
@@ -97,6 +101,8 @@ class NewVisitorTest(BaseTest):
             delta=20
         )
         '''
+
+class DifferentChoiceTest(BaseTest):
 
     def test_user_can_choose_different_doors(self):
         self.browser.get('http://localhost:8000/accounts/login')
@@ -190,8 +196,10 @@ class SecondChoiceTest(BaseTest):
         self.assertIn('Login', login_title)
 
         self.login()
+        time.sleep(1)
 
         self.user_chooses_a_door("door1")
+
         # User sees message that they can change door
         new_choice_message = self.browser.find_element_by_id(
             'new_choice_message').text

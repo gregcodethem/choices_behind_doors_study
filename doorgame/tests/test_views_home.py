@@ -1,3 +1,5 @@
+from unittest import skip
+
 from django.urls import resolve
 from django.test import Client
 from django.http import HttpRequest
@@ -61,6 +63,8 @@ class HomePageTest(BaseTest):
         )
         self.assertTrue(logged_in)
 
+    @skip
+    # change to wherever the doorgame is
     def test_home_page_returns_correct_html(self):
         self.login_temp()
         user = User.objects.get(username='temporary')
@@ -71,6 +75,16 @@ class HomePageTest(BaseTest):
         self.assertIn('<h2>Welcome to the door game</h2>', html)
         # self.assertTrue(html.endswith('</html>'))
 
+
+    def test_home_page_returns_correct_html(self):
+        self.login_temp()
+        user = User.objects.get(username='temporary')
+
+        response = self.client.get('/user/'+user.username+'/')
+        html = response.content.decode('utf8')
+        # self.assertTrue(html.startswith('<html>'))
+        self.assertIn('<h2>Can you remember these dots?</h2>', html)
+        # self.assertTrue(html.endswith('</html>'))
 
     def test_can_save_a_post_request(self):
         self.login_temp()
