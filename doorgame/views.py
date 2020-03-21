@@ -74,8 +74,11 @@ def home_page_memory_game(request, username):
     user_logged_in = request.user
 
     if request.method == 'POST':
-        pass #insert method to remember pattern here (if necessary)
+        #insert method to remember pattern here (if necessary)
         return redirect('/user/' + username_logged_in + '/door-page-one')
+
+    else:
+        pass # insert some method here to generate the pattern
 
     return render(request, 'home.html', {"username": username_logged_in})   
 
