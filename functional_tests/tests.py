@@ -38,6 +38,14 @@ class BaseTest(LiveServerTestCase):
         logout_link.click()
         time.sleep(2)
 
+    def user_clicks_through_memory_game(self):
+        memory_title = self.browser.find_element_by_tag_name('h2').text
+        
+        # user can go to door game
+        go_to_door_game = self.browser.find_element_by_id('go_to_door_game')
+        go_to_door_game.click()
+        time.sleep(1)
+
     def user_chooses_a_door(self, door_number):
         # door_number must be string
 
@@ -78,7 +86,7 @@ class NewVisitorTest(BaseTest):
         # user can go to door game
         go_to_door_game = self.browser.find_element_by_id('go_to_door_game')
         go_to_door_game.click()
-        
+
         time.sleep(1)
         # see text welcome page
         game_title = self.browser.find_element_by_tag_name('h2').text
@@ -119,6 +127,8 @@ class DifferentChoiceTest(BaseTest):
         
         self.login()
 
+        self.user_clicks_through_memory_game()
+
         self.user_chooses_a_door("door1")
         # their door choice is saved
         # user logs out
@@ -129,6 +139,7 @@ class DifferentChoiceTest(BaseTest):
         # User logs in
 
         self.login()
+        self.user_clicks_through_memory_game()
         self.user_chooses_a_door("door2")
 
         # user logs out
@@ -138,6 +149,7 @@ class DifferentChoiceTest(BaseTest):
         # User logs in
 
         self.login()
+        self.user_clicks_through_memory_game()
         
         self.user_chooses_a_door("door3")
         # user logs out
@@ -152,6 +164,7 @@ class DifferentChoiceTest(BaseTest):
         greg_game_url = self.browser.current_url
         self.assertRegex(greg_game_url, '/user/.+')
 
+        self.user_clicks_through_memory_game()
         self.user_chooses_a_door("door1")
         # their door choice is saved
         # user logs out
@@ -169,6 +182,7 @@ class DifferentChoiceTest(BaseTest):
         self.assertRegex(ozen_game_url, '/user/.+')
         self.assertNotEqual(ozen_game_url, greg_game_url)
 
+        self.user_clicks_through_memory_game()
         self.user_chooses_a_door("door2")
         # this url is also has user as a prefix
         ozen_result_url = self.browser.current_url
@@ -203,6 +217,7 @@ class SecondChoiceTest(BaseTest):
         self.login()
         time.sleep(1)
 
+        self.user_clicks_through_memory_game()
         self.user_chooses_a_door("door1")
 
         # User sees message that they can change door
@@ -233,6 +248,7 @@ class SecondChoiceTest(BaseTest):
         self.assertIn('Login', login_title)
 
         self.login()
+        self.user_clicks_through_memory_game()
 
         self.user_chooses_a_door("door1")
         # User sees message that they can change door
