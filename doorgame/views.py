@@ -68,6 +68,17 @@ def choose_final_door(request):
 
         return redirect('/user/' + username_logged_in + '/final-door-result')
 
+@login_required(login_url='accounts/login')
+def home_page_memory_game(request, username):
+    username_logged_in = request.user.username
+    user_logged_in = request.user
+
+    if request.method == 'POST':
+        pass #insert method to remember pattern here (if necessary)
+        return redirect('/user/' + username_logged_in + '/door-page-one')
+
+    return render(request, 'home.html', {"username": username_logged_in})   
+
 
 @login_required(login_url='accounts/login')
 def home_page_user_unique(request, username):

@@ -5,7 +5,7 @@
 
 {% block content %}
 
-<h2>Can you remember these dots?</h2>
+<h2>Welcome to the door game</h2>
 
 
 {% if user.is_authenticated %}
@@ -13,7 +13,7 @@
 
 {% load static %}
 
-<form id="form-id-door1" action="/door-page-one" method="POST">
+<form id="form-id-door1" action="/choose_door" method="POST">
 
 	<input type="hidden" value="1" name="door_chosen">
 
@@ -24,7 +24,7 @@
 	{% csrf_token %}
 </form>
 
-<form id="form-id-door2" action="/door-page-one" method="POST">
+<form id="form-id-door2" action="/choose_door" method="POST">
 	{% csrf_token %}
 	<input type="hidden" value="2" name="door_chosen">
 	
@@ -33,7 +33,7 @@
 	</a>
 </form>
 
-<form id="form-id-door3" action="/door-page-one" method="POST">
+<form id="form-id-door3" action="/choose_door" method="POST">
 
 	<input type="hidden" value="3" name="door_chosen">
 	{% csrf_token %}

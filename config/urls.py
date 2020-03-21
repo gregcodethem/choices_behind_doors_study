@@ -32,11 +32,15 @@ urlpatterns = [
          name='door_result_page'
          ),
     path('user/<username>/final-door-result',
-        views.final_door_result_page,
-        name='final_door_result_page'
-        ),
+         views.final_door_result_page,
+         name='final_door_result_page'
+         ),
     path('user', views.home_page_user, name='home-user'),
     path('user/<username>/',
+         views.home_page_memory_game,
+         name='home_user_memory_game'
+         ),
+    path('user/<username>/door-page-one',
          views.home_page_user_unique,
          name='home_user_unique'
          )
