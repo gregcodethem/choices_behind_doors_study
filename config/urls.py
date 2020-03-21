@@ -27,6 +27,7 @@ urlpatterns = [
     #path('door-result', views.door_result_page, name='door_result_page'),
     path('choose_door', views.choose_door, name='choose-door'),
     path('choose_final_door', views.choose_final_door, name='choose_final_door'),
+    path('door_page_one', views.door_page_one, name="door-page-one"),
     path('user/<username>/door-result',
          views.door_result_page,
          name='door_result_page'
@@ -40,7 +41,7 @@ urlpatterns = [
          views.home_page_memory_game,
          name='home_user_memory_game'
          ),
-    path('user/<username>/door-page-one',
+    path('user/<username>/door_page_one',
          views.home_page_user_unique,
          name='home_user_unique'
          )

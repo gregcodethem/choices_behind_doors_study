@@ -79,6 +79,11 @@ def home_page_memory_game(request, username):
 
     return render(request, 'home.html', {"username": username_logged_in})   
 
+@login_required(login_url='accounts/login')
+def door_page_one(request):
+    username_logged_in = request.user.username
+    if request.method == "POST":
+        return redirect('/user/' + username_logged_in + '/door_page_one')
 
 @login_required(login_url='accounts/login')
 def home_page_user_unique(request, username):
@@ -89,7 +94,7 @@ def home_page_user_unique(request, username):
         choose_door(request)
         return redirect('/user/' + username_logged_in + '/door-result')
 
-    return render(request, 'home.html', {"username": username_logged_in})
+    return render(request, 'door-page-one.html', {"username": username_logged_in})
 
 
 def door_result_page(request, username):
