@@ -19,7 +19,7 @@ class TwoUsersUseSimultaneously(BaseTest):
         User = get_user_model()
         user_one = User.objects.get(username='temporary')
         response = self.client.post(
-            '/user/temporary/door-page-one', {'door_chosen': 1}
+            '/user/temporary/door_page_one', {'door_chosen': 1}
         )
         self.assertEqual(Choice.objects.count(), 1)
         self.assertEqual(Trial.objects.count(), 1)
@@ -29,7 +29,7 @@ class TwoUsersUseSimultaneously(BaseTest):
                                             'por_su_abuela_catalan')
         self.client.login(username='Dolores', password='por_su_abuela_catalan')
         response = self.client.post(
-            '/user/Dolores/door-page-one', {'door_chosen': 2}
+            '/user/Dolores/door_page_one', {'door_chosen': 2}
         )
         self.assertEqual(Choice.objects.count(), 2)
         self.assertEqual(Trial.objects.count(), 2)
@@ -40,7 +40,7 @@ class TwoUsersUseSimultaneously(BaseTest):
         User = get_user_model()
         user_one = User.objects.get(username='temporary')
         response = self.client.post(
-            '/user/temporary/door-page-one', {'door_chosen': 1}
+            '/user/temporary/door_page_one', {'door_chosen': 1}
         )
 
         user_two = User.objects.create_user('Dolores',
@@ -48,7 +48,7 @@ class TwoUsersUseSimultaneously(BaseTest):
                                             'por_su_abuela_catalan')
         self.client.login(username='Dolores', password='por_su_abuela_catalan')
         response = self.client.post(
-            '/user/Dolores/door-page-one', {'door_chosen': 2}
+            '/user/Dolores/door_page_one', {'door_chosen': 2}
         )
 
         saved_trial_user_one = Trial.objects.get(
@@ -161,7 +161,7 @@ class FinalDoorResultPageTest(BaseTest):
     def test_first_result_page_can_display_a_POST_request(self):
         self.login_temp()
         response_home = self.client.post(
-            '/user/temporary/door-page-one', {'door_chosen': 1}
+            '/user/temporary/door_page_one', {'door_chosen': 1}
         )
         response_first_door_result = self.client.post(
             '/user/temporary/door-result/', {'door_chosen': 1}
@@ -194,7 +194,7 @@ class DoorResultPageTest(BaseTest):
         self.login_temp()
         user = User.objects.get(username='temporary')
         response_home = self.client.post(
-            '/user/temporary/door-page-one',
+            '/user/temporary/door_page_one',
             data={'door_chosen': 3}
         )
         request = HttpRequest()
@@ -206,7 +206,7 @@ class DoorResultPageTest(BaseTest):
     def test_can_display_a_POST_request(self):
         self.login_temp()
         response_home = self.client.post(
-            '/user/temporary/door-page-one', {'door_chosen': 1}
+            '/user/temporary/door_page_one', {'door_chosen': 1}
         )
         request = HttpRequest()
         user = User.objects.get(username='temporary')
@@ -219,7 +219,7 @@ class DoorResultPageTest(BaseTest):
         user = User.objects.get(username='temporary')
         # add for door 2
         response_home = self.client.post(
-            '/user/temporary/door-page-one',
+            '/user/temporary/door_page_one',
             data={'door_chosen': 2}
 
         )
@@ -233,7 +233,7 @@ class DoorResultPageTest(BaseTest):
         user = User.objects.get(username='temporary')
 
         response_home = self.client.post(
-            '/user/temporary/door-page-one',
+            '/user/temporary/door_page_one',
             data={'door_chosen': 3}
         )
         request = HttpRequest()
