@@ -207,7 +207,7 @@ class DifferentChoiceTest(BaseTest):
 
 class SecondChoiceTest(BaseTest):
 
-    def test_user_can_keep_door_choice(self):
+    def test_user_can_keep_door_choice_and_get_pattern_again(self):
         self.browser.get('http://localhost:8000/accounts/login')
         # Login screen appears
         login_title = self.browser.find_element_by_tag_name(
@@ -237,6 +237,12 @@ class SecondChoiceTest(BaseTest):
         final_choice_message = self.browser.find_element_by_id(
             'final_choice_message').text
         self.assertIn("You chose door1", final_choice_message)
+
+        final_pattern_message = self.browser.find_element_by_id(
+            'final_pattern_message').text
+        self.assertIn(
+            'Can you remember the pattern from before?', final_pattern_message
+            )
         
         self.logout()
 

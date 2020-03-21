@@ -19,24 +19,6 @@
 {% csrf_token %}
 </form>
 
-<form id="form-id-door2" action="/door-page-one" method="POST">
-	{% csrf_token %}
-	<input type="hidden" value="2" name="door_chosen">
-	
-	<a href="#" onclick="document.forms['form-id-door2'].submit();">
-		<img src="{% static 'doorgame/door.jpg' %}" id="door2" alt="door2">
-	</a>
-</form>
-
-<form id="form-id-door3" action="/door-page-one" method="POST">
-
-	<input type="hidden" value="3" name="door_chosen">
-	{% csrf_token %}
-	<a href="#" onclick="document.forms['form-id-door3'].submit();">
-		<img src="{% static 'doorgame/door.jpg' %}" id="door3" alt="door3">
-	</a>
-</form>
-
 
   <p><a href="{% url 'logout' %}" id="logout_link_anchor">logout</a></p>
 {% else %}
