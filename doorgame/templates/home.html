@@ -13,10 +13,10 @@
 
 {% load static %}
 
+<img src="{% static 'doorgame/box_with_dot.png' %}" id="box_1" alt="box_1">
+<img src="{% static 'doorgame/box_empty.png' %}" id="box_2" alt="box_2">
+	
 <form id="form-go-to-door-game" action="/door_page_one" method="POST">
-	<img src="{% static 'doorgame/box_with_dot.png' %}" id="box_1" alt="box_1">
-	<img src="{% static 'doorgame/box_empty.png' %}" id="box_2" alt="box_2">
-
 
 	<input type="hidden" value="1" name="go_to_door_game">
 	<a id="go_to_door_game"><button>I remember the pattern, let's go to the door game.</button></a>
