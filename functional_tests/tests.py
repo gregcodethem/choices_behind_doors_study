@@ -83,6 +83,11 @@ class NewVisitorTest(BaseTest):
         memory_title = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Can you remember these dots?', memory_title)
 
+        # user sees a box they can remember
+        box_1 = self.browser.find_element_by_id('box_1')
+        box_2 = self.browser.find_element_by_id('box_2')
+
+
         # user can go to door game
         go_to_door_game = self.browser.find_element_by_id('go_to_door_game')
         go_to_door_game.click()
