@@ -4,12 +4,32 @@ from django.http import HttpRequest
 
 from doorgame.views import door_result_page, final_door_result_page
 
-from doorgame.models import Choice, Trial, Result
+from doorgame.models import Choice, Trial, Result, MemoryGame
 from django.contrib.auth.models import User
 
 from .test_views_base import BaseTest
 
 from django.contrib.auth import get_user_model
+
+
+class FinalPattern(BaseTest):
+
+    def test_can_choose_final_patten(self):
+        self.login_temp()
+        User = get_user_model()
+        user_one = User.objects.get(username='temporary')
+        trial = Trial()
+        trial.user = user_one
+        response = self.client.post(
+            '/user/temporary/final_pattern',
+            {
+                'box_1': False,
+                'box_2': True,
+                'trial': trial,
+            }
+        )
+        self.assertEqual(MemoryGame.objects.count(), 1)
+
 
 
 class TwoUsersUseSimultaneously(BaseTest):
@@ -33,7 +53,6 @@ class TwoUsersUseSimultaneously(BaseTest):
         )
         self.assertEqual(Choice.objects.count(), 2)
         self.assertEqual(Trial.objects.count(), 2)
-
 
     def test_two_users_use_at_same_time_make_initial_choice(self):
         self.login_temp()
@@ -120,15 +139,14 @@ class TwoUsersUseSimultaneously(BaseTest):
             '/user/Darren/door-result', {'door_chosen': 5}
         )
 
-
         # check has saved 2 choices for each user
         saved_choices = Choice.objects.all()
         username_list = []
         for choice in saved_choices:
             username_list.append(choice.trial.user.username)
-        self.assertEqual(username_list.count('Acho'),2)
-        self.assertEqual(username_list.count('Darren'),2)
-        
+        self.assertEqual(username_list.count('Acho'), 2)
+        self.assertEqual(username_list.count('Darren'), 2)
+
         # retrieve saved second choices
         '''
         saved_final_choice_user_one = Choice.objects.get(
@@ -140,7 +158,6 @@ class TwoUsersUseSimultaneously(BaseTest):
             first_or_second_choice=2
         )
         '''
-
 
 
 class FinalDoorResultPageTest(BaseTest):

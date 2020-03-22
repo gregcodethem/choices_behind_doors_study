@@ -248,6 +248,10 @@ class SecondChoiceTest(BaseTest):
         self.assertIn(
             'Can you remember the pattern from before?', final_pattern_message
             )
+
+        # user sees blank boxes that they can click
+        box_1 = self.browser.find_element_by_id('box_1')
+        box_2 = self.browser.find_element_by_id('box_2')
         
         self.logout()
 

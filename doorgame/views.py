@@ -5,7 +5,7 @@ from random import choice as randomchoice
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from doorgame.models import Choice, Trial, Result
+from doorgame.models import Choice, Trial, Result, MemoryGame
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
@@ -15,6 +15,16 @@ from django.contrib.auth import get_user_model
 def home_page(request, user=None):
     return redirect('/user')
 
+@login_required(login_url='accounts/login')
+def final_pattern(request, username):
+    username_logged_in = request.user.username
+    if request.method == 'POST':
+        memory_game = MemoryGame()
+        memory_game.box_1 = request.POST.get('box_1')
+        memory_game.box_2 = request.POST.get('box_2')
+        memory_game.initial_or_final = 'final'
+        memory_game.save()
+        return redirect('/user' + username_logged_in)
 
 @login_required(login_url='accounts/login')
 def home_page_user(request):

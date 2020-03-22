@@ -44,6 +44,10 @@ urlpatterns = [
     path('user/<username>/door_page_one',
          views.home_page_user_unique,
          name='home_user_unique'
-         )
+         ),
+    path('user/<username>/final_pattern',
+        views.final_pattern,
+        name='final_pattern'
+        ),
     #path('', TemplateView.as_view(template_name='home.html'), name='home'),
 ]
