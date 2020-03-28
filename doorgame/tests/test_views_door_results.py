@@ -22,7 +22,7 @@ class FinalPattern(BaseTest):
         trial.user = user_one
         trial.save()
         response = self.client.post(
-            '/final_pattern_step',
+            '/final_pattern',
             {
                 'box_1': False,
                 'box_2': True,

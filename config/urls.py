@@ -45,13 +45,10 @@ urlpatterns = [
          views.home_page_user_unique,
          name='home_user_unique'
          ),
-    path('final_pattern_step',
-        views.final_pattern_step,
-        name='final_pattern_step'
-        ),
-    path('user/<username>/final_pattern',
+    path('final_pattern',
         views.final_pattern,
         name='final_pattern'
         ),
+
     #path('', TemplateView.as_view(template_name='home.html'), name='home'),
 ]
