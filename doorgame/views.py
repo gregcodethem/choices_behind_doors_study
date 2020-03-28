@@ -152,6 +152,7 @@ def door_page_one(request):
 
     if request.method == "POST":
         return redirect('/user/' + username_logged_in + '/door_page_one')
+    return redirect('/user/' + username_logged_in + '/door_page_one')
 
 
 @login_required(login_url='accounts/login')

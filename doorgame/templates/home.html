@@ -35,6 +35,15 @@
 </form>
 
 
+<script>
+    function redirect(){
+       window.location.href = "/door_page_one";
+    }
+
+    setTimeout(redirect, 3000); //2000 is equivalent to 2 seconds
+</script>
+
+
   <p><a href="{% url 'logout' %}" id="logout_link_anchor">logout</a></p>
 {% else %}
   <p>You are not logged in</p>
