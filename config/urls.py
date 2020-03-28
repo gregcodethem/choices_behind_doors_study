@@ -49,6 +49,11 @@ urlpatterns = [
         views.final_pattern,
         name='final_pattern'
         ),
-
+    path('user/<username>/final_survey',
+        views.final_survey,
+        name='final_survey'),
+    path('final_survey_completed',
+        views.final_survey_completed,
+        name='final_survey_completed'),
     #path('', TemplateView.as_view(template_name='home.html'), name='home'),
 ]

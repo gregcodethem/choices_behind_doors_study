@@ -1,6 +1,21 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class SurveyAnswers(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        default=None,
+        null=True
+    )
+    estimate_stayed_lost = models.IntegerField(default=0)
+    estimate_stayed_won = models.IntegerField(default=0)
+    estimate_switched_lost = models.IntegerField(default=0)
+    estimate_switched_won = models.IntegerField(default=0)
+    age = models.IntegerField(default=0)
+    familiar = models.TextField(default="blank")
+    gender = models.TextField(default="blank")
+    education_level = models.TextField(default="blank")
 
 class Trial(models.Model):
     user = models.ForeignKey(

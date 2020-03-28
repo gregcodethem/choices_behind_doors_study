@@ -5,12 +5,13 @@ from random import choice as randomchoice
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from doorgame.models import Choice, Trial, Result, MemoryGame
+from doorgame.models import Choice, Trial, Result, MemoryGame, SurveyAnswers
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
 # Create your views here.
 
+trial_limit = 60
 
 def home_page(request, user=None):
     return redirect('/user')
@@ -41,6 +42,11 @@ def final_pattern(request):
             memory_game.box_2 = True
         memory_game.initial_or_final = 'final'
         memory_game.save()
+
+
+        trial_number = trial_existing.number_of_trial
+        if trial_number >= trial_limit:
+            return redirect('/user/' + username_logged_in + '/final_survey')
 
         return redirect('/user/' + username_logged_in)
 
@@ -221,3 +227,38 @@ def final_door_result_page(request, username):
         })
     else:
         return render(request, 'final_door_result.html')
+
+@login_required(login_url='accounts/login')
+def final_survey(request, username):
+    username_logged_in = request.user.username
+
+    return render(request, 'final_survey.html',)
+
+
+def final_survey_completed(request):
+    if request.method == "POST":
+        user = request.user
+        survey_answers = SurveyAnswers()
+        survey_answers.user = user
+        estimate_stayed_lost = request.POST.get('stayed-lost')
+        estimate_stayed_won = request.POST.get('stayed-won')
+        estimate_switched_lost = request.POST.get('switched-lost')
+        estimate_switched_won = request.POST.get('switched-lost')
+        
+        survey_answers.estimate_stayed_lost = estimate_stayed_lost
+        survey_answers.estimate_stayed_won = estimate_stayed_won
+        survey_answers.estimate_switched_lost = estimate_switched_lost
+        survey_answers.estimate_stayed_won = estimate_switched_won
+        
+        familiar = request.POST.get('familiar')
+        survey_answers.familiar = familiar
+        age = request.POST.get('age')
+        survey_answers.age = age
+
+        gender = request.POST.get('gender')
+        survey_answers.gender = 'male'
+        education_level = request.POST.get('education-level')
+        survey_answers.education_level = education_level
+        survey_answers.save()
+
+        return render(request, 'thankyou.html')
