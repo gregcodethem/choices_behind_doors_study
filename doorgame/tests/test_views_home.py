@@ -34,6 +34,14 @@ class SimpleTest(BaseTest):
         self.assertIn('<h2>Can you remember these dots?</h2>', html)
         self.assertIn('temporary', html)
 
+class TrialNumberTest(BaseTest):
+
+    def test_home_page_gives_trial_number(self):
+        self.login_temp()
+        response = self.client.get('/user', follow=True)
+
+        html = response.content.decode('utf8')
+        self.assertIn('Trial number 1', html)
 
 class ResultTest(BaseTest):
 

@@ -15,6 +15,7 @@ from django.contrib.auth import get_user_model
 def home_page(request, user=None):
     return redirect('/user')
 
+
 @login_required(login_url='accounts/login')
 def final_pattern(request):
     username_logged_in = request.user.username
@@ -24,8 +25,8 @@ def final_pattern(request):
         # if not then it should be false
         user_logged_in = request.user
         username_logged_in = user_logged_in.username
-        
-        #find the trials by this user
+
+        # find the trials by this user
         trial_existing_objects = Trial.objects.filter(
             user=request.user
         )
@@ -40,9 +41,9 @@ def final_pattern(request):
             memory_game.box_2 = True
         memory_game.initial_or_final = 'final'
         memory_game.save()
-        
+
         return redirect('/user/' + username_logged_in)
-        
+
     else:
         print("final_pattern_step has NOT registered post request")
     return redirect('/user/' + username_logged_in)
@@ -86,8 +87,8 @@ def choose_final_door(request):
     if request.method == 'POST':
         user_logged_in = request.user
         username_logged_in = user_logged_in.username
-        
-        #find the trials by this user
+
+        # find the trials by this user
         trial_existing_objects = Trial.objects.filter(
             user=request.user
         )
@@ -100,25 +101,44 @@ def choose_final_door(request):
 
         return redirect('/user/' + username_logged_in + '/final-door-result')
 
+
 @login_required(login_url='accounts/login')
 def home_page_memory_game(request, username):
     username_logged_in = request.user.username
     user_logged_in = request.user
 
+    # Add a method to get the most recent trial for this user
+    # if there is a trial for this user, otherwise post that this is
+    # trial number 1, may need to put this
+    # may need to put this in another view method, as need to sort out
+    # how the variable is fed in.
+    trials_for_this_user = Trial.objects.filter(user=user_logged_in)
+    latest_trial = trials_for_this_user.last()
+    if len(trials_for_this_user) != 0:
+        number_of_trial = latest_trial.number_of_trial + 1
+    else:
+        number_of_trial = 1
+
     if request.method == 'POST':
-        #insert method to remember pattern here (if necessary)
+        # insert method to remember pattern here (if necessary)
         return redirect('/user/' + username_logged_in + '/door-page-one')
 
     else:
-        pass # insert some method here to generate the pattern
+        pass  # insert some method here to generate the pattern
 
-    return render(request, 'home.html', {"username": username_logged_in})   
+    return render(request, 'home.html', {
+        "username": username_logged_in,
+        "number_of_trial": number_of_trial
+    })
+
 
 @login_required(login_url='accounts/login')
 def door_page_one(request):
     username_logged_in = request.user.username
+
     if request.method == "POST":
         return redirect('/user/' + username_logged_in + '/door_page_one')
+
 
 @login_required(login_url='accounts/login')
 def home_page_user_unique(request, username):
@@ -129,7 +149,10 @@ def home_page_user_unique(request, username):
         choose_door(request)
         return redirect('/user/' + username_logged_in + '/door-result')
 
-    return render(request, 'door-page-one.html', {"username": username_logged_in})
+    return render(request,
+                  'door-page-one.html', {
+                      "username": username_logged_in,
+                  })
 
 
 def door_result_page(request, username):

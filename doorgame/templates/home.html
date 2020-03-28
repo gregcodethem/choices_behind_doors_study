@@ -11,6 +11,8 @@
 {% if user.is_authenticated %}
 	<p>Hi {{ user.username }}!</p>
 
+	<p>Trial number {{ number_of_trial }}</p>
+
 {% load static %}
 
 <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_1" alt="box_1">
