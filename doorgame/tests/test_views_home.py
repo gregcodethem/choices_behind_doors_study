@@ -10,7 +10,7 @@ from doorgame.views import (
     home_page_user_unique,
 )
 
-from doorgame.models import Choice, Trial, Result
+from doorgame.models import Choice, Trial, Result, MemoryGame
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
@@ -74,6 +74,16 @@ class TrialNumberTest(BaseTest):
         self.assertEqual(number_of_trial, 1)
 
 
+class MemoryGameTest(BaseTest):
+
+    def test_memory_game_saved_when_seeing_it(self):
+        self.login_temp()
+        user = User.objects.get(username='temporary')
+        response = self.client.get(
+            '/user/temporary/',
+            )
+        memory_game_list = MemoryGame.objects.all()
+        self.assertEqual(len(memory_game_list), 1)
 
 
 class ResultTest(BaseTest):

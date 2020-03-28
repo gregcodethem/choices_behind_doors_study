@@ -118,6 +118,9 @@ def home_page_memory_game(request, username):
         return redirect('/user/' + username_logged_in + '/door-page-one')
 
     else:
+
+
+
         trial = Trial()
         trial.user = request.user
 
@@ -130,10 +133,16 @@ def home_page_memory_game(request, username):
         trial.number_of_trial = number_of_trial
         trial.save()
         # insert some method here to generate the pattern
+        memory_game = MemoryGame()
+        memory_game.box_1 = True
+        memory_game.box_2 = False 
+        memory_game.trial = trial
+        memory_game.save()
 
     return render(request, 'home.html', {
         "username": username_logged_in,
-        "number_of_trial": number_of_trial
+        "number_of_trial": number_of_trial,
+        "memory_game": memory_game,
     })
 
 

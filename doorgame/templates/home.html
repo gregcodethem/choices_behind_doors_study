@@ -15,9 +15,18 @@
 
 {% load static %}
 
+{% if memory_game.box_1 == True %}
 <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_1" alt="box_1">
+{% else %}
+<img src="{% static 'doorgame/box_empty.png' %}" id="box_1" alt="box_1">
+{% endif %}
+
+{% if memory_game.box_2 == True %}
+<img src="{% static 'doorgame/box_with_dot.png' %}" id="box_2" alt="box_2">
+{% else %}
 <img src="{% static 'doorgame/box_empty.png' %}" id="box_2" alt="box_2">
-	
+{% endif %}
+
 <form id="form-go-to-door-game" action="/door_page_one" method="POST">
 
 	<input type="hidden" value="1" name="go_to_door_game">
