@@ -43,6 +43,24 @@ class TrialNumberTest(BaseTest):
         html = response.content.decode('utf8')
         self.assertIn('Trial number 1', html)
 
+    def test_home_page_gives_trial_number_two_for_second_trial(self):
+        user_test = User.objects.create_user(
+            'george',
+            '',
+            'somethingpassword')
+        user_test.save()
+        first_trial = Trial()
+        first_trial.user = user_test
+        first_trial.save()
+
+        self.login_temp()
+        response = self.client.get('/user', follow=True)
+
+        html = response.content.decode('utf8')
+        self.assertIn('Trial number 2', html)
+
+
+
 class ResultTest(BaseTest):
 
     def test_result_recorded_when_choice_made(self):
