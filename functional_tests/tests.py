@@ -2,12 +2,14 @@ from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
+
 import time
 
 test_login_data = {
     "Greg": {"username": "greg", "password": "Spain"},
     "Ozen": {"username": "ozen", "password": "Russia432"}
 }
+
 
 class BaseTest(LiveServerTestCase):
 
@@ -40,7 +42,7 @@ class BaseTest(LiveServerTestCase):
 
     def user_clicks_through_memory_game(self):
         memory_title = self.browser.find_element_by_tag_name('h2').text
-        
+
         # user can go to door game
         go_to_door_game = self.browser.find_element_by_id('go_to_door_game')
         go_to_door_game.click()
@@ -54,7 +56,7 @@ class BaseTest(LiveServerTestCase):
         self.assertIn('Welcome to the door game', game_title)
 
         time.sleep(2)
-        
+
         # user can chose a door
         door1 = self.browser.find_element_by_id(door_number)
         # user clicks on door1
@@ -64,8 +66,7 @@ class BaseTest(LiveServerTestCase):
         # User sees message that they've chosen door1
         chosen_message = self.browser.find_element_by_id(
             'chosen_message').text
-        self.assertIn('You chose '+ door_number, chosen_message)
-
+        self.assertIn('You chose ' + door_number, chosen_message)
 
 
 class NewVisitorTest(BaseTest):
@@ -86,7 +87,6 @@ class NewVisitorTest(BaseTest):
         # user sees a box they can remember
         box_1 = self.browser.find_element_by_id('box_1')
         box_2 = self.browser.find_element_by_id('box_2')
-
 
         # user can go to door game
         go_to_door_game = self.browser.find_element_by_id('go_to_door_game')
@@ -120,6 +120,7 @@ class NewVisitorTest(BaseTest):
         )
         '''
 
+
 class DifferentChoiceTest(BaseTest):
 
     def test_user_can_choose_different_doors(self):
@@ -129,7 +130,6 @@ class DifferentChoiceTest(BaseTest):
             'h2').text
         self.assertIn('Login', login_title)
 
-        
         self.login()
 
         self.user_clicks_through_memory_game()
@@ -138,7 +138,6 @@ class DifferentChoiceTest(BaseTest):
         # their door choice is saved
         # user logs out
         self.logout()
-
 
         # ------- Door 2-------
         # User logs in
@@ -155,7 +154,7 @@ class DifferentChoiceTest(BaseTest):
 
         self.login()
         self.user_clicks_through_memory_game()
-        
+
         self.user_chooses_a_door("door3")
         # user logs out
         self.logout()
@@ -178,7 +177,7 @@ class DifferentChoiceTest(BaseTest):
         self.browser.quit()
         self.browser = webdriver.Firefox()
 
-        # Ozen visits the home page.  
+        # Ozen visits the home page.
         self.browser.get('http://localhost:8000/accounts/login')
 
         self.login("Ozen")
@@ -196,18 +195,14 @@ class DifferentChoiceTest(BaseTest):
         # their door choice is saved
         # user logs out
         self.logout()
-        
 
         # they login with different details
-
 
         # they chose a door
 
         # their choice is saved
 
         # the choice of user 1 is not saved
-
-
 
 
 class SecondChoiceTest(BaseTest):
@@ -247,12 +242,35 @@ class SecondChoiceTest(BaseTest):
             'final_pattern_message').text
         self.assertIn(
             'Can you remember the pattern from before?', final_pattern_message
-            )
+        )
 
         # user sees blank boxes that they can click
         box_1 = self.browser.find_element_by_id('box_1')
         box_2 = self.browser.find_element_by_id('box_2')
-        
+
+        box_1.click()
+
+        # user goes back to first screen
+        play_again_link = self.browser.find_element_by_id(
+            'play_again_link')
+        play_again_link.click()
+
+        time.sleep(1)
+
+        '''
+        This doesn't work on the test db:
+        saved_trials = Trials.objects.all()
+        saved_memory_game_results = MemoryGame.objects.all()
+        print(len(saved_memory_game_results))
+        # check memory game saved
+        saved_memory_game = MemoryGame.objects.last()
+        #saved_memory_game = saved_memory_game_results[-1]
+        saved_box_1 = saved_memory_game.box_1
+        saved_box_2 = saved_memory_game.box_2
+        self.assertEqual(saved_box_1, True)
+        self.assertEqual(saved_box_2, False)
+        '''
+
         self.logout()
 
     def test_user_can_change_door_choice(self):
@@ -287,5 +305,3 @@ class SecondChoiceTest(BaseTest):
         self.assertNotIn("You chose door1", final_choice_message)
 
         self.logout()
-
-    

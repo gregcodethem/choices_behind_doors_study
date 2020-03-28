@@ -20,8 +20,9 @@ class FinalPattern(BaseTest):
         user_one = User.objects.get(username='temporary')
         trial = Trial()
         trial.user = user_one
+        trial.save()
         response = self.client.post(
-            '/user/temporary/final_pattern',
+            '/final_pattern_step',
             {
                 'box_1': False,
                 'box_2': True,
@@ -29,6 +30,10 @@ class FinalPattern(BaseTest):
             }
         )
         self.assertEqual(MemoryGame.objects.count(), 1)
+        saved_memory_game = MemoryGame.objects.get()
+        self.assertEqual(False, saved_memory_game.box_1)
+        self.assertEqual(True, saved_memory_game.box_2)
+
 
 
 

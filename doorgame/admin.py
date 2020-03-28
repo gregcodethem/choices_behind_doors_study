@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Trial, Choice, MemoryGame
+
+
+admin.site.register(Trial)
+admin.site.register(Choice)
+admin.site.register(MemoryGame)

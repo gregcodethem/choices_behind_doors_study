@@ -16,15 +16,69 @@ def home_page(request, user=None):
     return redirect('/user')
 
 @login_required(login_url='accounts/login')
+def final_pattern_step(request):
+    username_logged_in = request.user.username
+    if request.method == 'POST':
+        memory_game = MemoryGame()
+        # if I can retrieve anything then the request should be true
+        # if not then it should be false
+        user_logged_in = request.user
+        username_logged_in = user_logged_in.username
+        
+        #find the trials by this user
+        trial_existing_objects = Trial.objects.filter(
+            user=request.user
+        )
+        trial_existing = trial_existing_objects.last()
+        memory_game.trial = trial_existing
+        # if I can retrieve anything then the request should be true
+        # if not then it should be false
+
+        if request.POST.get('box_1') == "True":
+            memory_game.box_1 = True
+        if request.POST.get('box_2') == "True":
+            memory_game.box_2 = True
+        memory_game.initial_or_final = 'final'
+        memory_game.save()
+        
+        return redirect('/user/' + username_logged_in)
+        
+        return redirect('/user/' + username_logged_in + '/final_pattern')
+    else:
+        print("final_pattern_step has NOT registered post request")
+    return redirect('/user/' + username_logged_in + '/final_pattern')
+
+
+@login_required(login_url='accounts/login')
 def final_pattern(request, username):
     username_logged_in = request.user.username
     if request.method == 'POST':
         memory_game = MemoryGame()
-        memory_game.box_1 = request.POST.get('box_1')
-        memory_game.box_2 = request.POST.get('box_2')
+        # if I can retrieve anything then the request should be true
+        # if not then it should be false
+        user_logged_in = request.user
+        username_logged_in = user_logged_in.username
+        
+        #find the trials by this user
+        trial_existing_objects = Trial.objects.filter(
+            user=request.user
+        )
+        trial_existing = trial_existing_objects.last()
+        memory_game.trial = trial_existing
+        # if I can retrieve anything then the request should be true
+        # if not then it should be false
+
+        if request.POST.get('box_1') == "True":
+            memory_game.box_1 = True
+        if request.POST.get('box_2') == "True":
+            memory_game.box_2 = True
         memory_game.initial_or_final = 'final'
         memory_game.save()
-        return redirect('/user' + username_logged_in)
+        
+        return redirect('/user/' + username_logged_in)
+
+    return redirect('/user/' + username_logged_in)
+
 
 @login_required(login_url='accounts/login')
 def home_page_user(request):
