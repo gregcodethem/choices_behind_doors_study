@@ -51,13 +51,28 @@ class TrialNumberTest(BaseTest):
         user_test.save()
         first_trial = Trial()
         first_trial.user = user_test
+        first_trial.number_of_trial = 1
         first_trial.save()
 
-        self.login_temp()
+        #User = get_user_model()
+        self.client.login(username='george', password='somethingpassword')
         response = self.client.get('/user', follow=True)
 
         html = response.content.decode('utf8')
         self.assertIn('Trial number 2', html)
+
+    def test_trial_number_created_when_memory_game_accessed(self):
+        self.login_temp()
+        user = User.objects.get(username='temporary')
+        response = self.client.get(
+            '/user/temporary/',
+            )
+        trials_list = Trial.objects.all()
+        trial_created = Trial.objects.last()
+        number_of_trial = trial_created.number_of_trial
+
+        self.assertEqual(number_of_trial, 1)
+
 
 
 
@@ -140,6 +155,11 @@ class DoorToChooseTest(BaseTest):
     def test_saves_user_in_post_request(self):
         self.login_temp()
         user = User.objects.get(username='temporary')
+        trial = Trial()
+        trial.user = user
+        trial.number_of_trial = 1
+        trial.save()
+
         response = self.client.post(
             '/user/temporary/door_page_one',
             {

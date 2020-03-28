@@ -64,17 +64,22 @@ def choose_door(request):
     username_logged_in = request.user.username
     if request.method == 'POST':
         user_logged_in = request.user
-        trial = Trial()
-        trial.user = request.user
-        trial.save()
+
+        # Here I need to retrieve the latest trial
+        # find the trials by this user
+        trial_existing_objects = Trial.objects.filter(
+            user=request.user
+        )
+        trial_existing = trial_existing_objects.last()
+
         choice = Choice()
         choice.door_number = request.POST.get('door_chosen', 0)
-        choice.trial = trial
+        choice.trial = trial_existing
         choice.save()
 
         result = Result()
         result.door_number = randint(1, 3)
-        result.trial = trial
+        result.trial = trial_existing
         result.save()
 
         return redirect('/user/' + username_logged_in + '/door-result')
@@ -107,24 +112,24 @@ def home_page_memory_game(request, username):
     username_logged_in = request.user.username
     user_logged_in = request.user
 
-    # Add a method to get the most recent trial for this user
-    # if there is a trial for this user, otherwise post that this is
-    # trial number 1, may need to put this
-    # may need to put this in another view method, as need to sort out
-    # how the variable is fed in.
-    trials_for_this_user = Trial.objects.filter(user=user_logged_in)
-    latest_trial = trials_for_this_user.last()
-    if len(trials_for_this_user) != 0:
-        number_of_trial = latest_trial.number_of_trial + 1
-    else:
-        number_of_trial = 1
 
     if request.method == 'POST':
         # insert method to remember pattern here (if necessary)
         return redirect('/user/' + username_logged_in + '/door-page-one')
 
     else:
-        pass  # insert some method here to generate the pattern
+        trial = Trial()
+        trial.user = request.user
+
+        trials_for_this_user = Trial.objects.filter(user=user_logged_in)
+        latest_trial = trials_for_this_user.last()
+        if len(trials_for_this_user) != 0:
+            number_of_trial = latest_trial.number_of_trial + 1
+        else:
+            number_of_trial = 1
+        trial.number_of_trial = number_of_trial
+        trial.save()
+        # insert some method here to generate the pattern
 
     return render(request, 'home.html', {
         "username": username_logged_in,

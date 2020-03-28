@@ -43,33 +43,56 @@ class TwoUsersUseSimultaneously(BaseTest):
         self.login_temp()
         User = get_user_model()
         user_one = User.objects.get(username='temporary')
+        
+        trial_one = Trial()
+        trial_one.user = user_one
+        trial_one.save()
+
         response = self.client.post(
             '/user/temporary/door_page_one', {'door_chosen': 1}
         )
         self.assertEqual(Choice.objects.count(), 1)
-        self.assertEqual(Trial.objects.count(), 1)
+
+        #!!---------------!!
+        #Improve this test to check each choice corresdponds to the right choice
 
         user_two = User.objects.create_user('Dolores',
                                             'Dolores@lachicana.com',
                                             'por_su_abuela_catalan')
         self.client.login(username='Dolores', password='por_su_abuela_catalan')
+        
+        trial_two = Trial()
+        trial_two.user = user_two
+        trial_two.save()
+
         response = self.client.post(
             '/user/Dolores/door_page_one', {'door_chosen': 2}
         )
         self.assertEqual(Choice.objects.count(), 2)
-        self.assertEqual(Trial.objects.count(), 2)
+
 
     def test_two_users_use_at_same_time_make_initial_choice(self):
         self.login_temp()
         User = get_user_model()
         user_one = User.objects.get(username='temporary')
+
+        trial_user_one = Trial()
+        trial_user_one.user = user_one
+        trial_user_one.number_of_trial = 1
+        trial_user_one.save()
+
         response = self.client.post(
             '/user/temporary/door_page_one', {'door_chosen': 1}
         )
 
+
         user_two = User.objects.create_user('Dolores',
                                             'Dolores@lachicana.com',
                                             'por_su_abuela_catalan')
+        trial_user_two = Trial()
+        trial_user_two.user = user_two
+        trial_user_two.number_of_trial = 1
+        trial_user_two.save()
         self.client.login(username='Dolores', password='por_su_abuela_catalan')
         response = self.client.post(
             '/user/Dolores/door_page_one', {'door_chosen': 2}
