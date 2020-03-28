@@ -18,7 +18,9 @@
 	<div id="div_box_1"><img src="{% static 'doorgame/box_empty.png' %}" id="box_1_image" alt="box_1">
 	</div>
 	<label for="box_1">Box 1</label><input type="checkbox" id="box_1" value="True" name="box_1"></input>
-	<img src="{% static 'doorgame/box_empty.png' %}" id="box_2_image" alt="box_2">
+	<div id="div_box_2">
+		<img src="{% static 'doorgame/box_empty.png' %}" id="box_2_image" alt="box_2">
+	</div>
 	<label for="box_2">Box 2</label><input type="checkbox" value="True" name="box_2" id="box_2"></input>
 	
 	<input type="submit" id="play_again_link" value="This is the pattern as best as I remember, let's play again.">
@@ -35,9 +37,26 @@
   <a href="{% url 'login' %}" id="login_link_anchor">login</a>
 {% endif %}
 <script>
-document.getElementById("box_1").addEventListener("click", changeImage);
-function changeImage() {
-	document.getElementById("div_box_1").innerHTML = '<img src="{% static 'doorgame/box_empty.png' %}" id="box_2" alt="box_2">'
-}
+document.addEventListener("DOMContentLoaded", function (event) {
+    var _selector1 = document.querySelector('input[name=box_1]');
+    _selector1.addEventListener('change', function (event) {
+        if (_selector1.checked) {
+            document.getElementById("div_box_1").innerHTML = '<img src="/static/doorgame/box_with_dot.png" id="box_1_image" alt="box_1">'
+        } else {
+            document.getElementById("div_box_1").innerHTML = '<img src="/static/doorgame/box_empty.png" id="box_1_image" alt="box_1">'
+        }
+    });
+    var _selector2 = document.querySelector('input[name=box_2]');
+    _selector2.addEventListener('change', function (event) {
+        if (_selector2.checked) {
+            document.getElementById("div_box_2").innerHTML = '<img src="/static/doorgame/box_with_dot.png" id="box_2_image" alt="box_2">'
+        } else {
+            document.getElementById("div_box_2").innerHTML = '<img src="/static/doorgame/box_empty.png" id="box_2_image" alt="box_2">'
+        }
+    });
+});
+
+
+</script>
 
 {% endblock %}
