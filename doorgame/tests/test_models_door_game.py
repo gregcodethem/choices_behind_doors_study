@@ -216,7 +216,47 @@ class TrialModelTest(TestCase):
         first_saved_user = first_saved_trial.user
         self.assertEqual(first_saved_user, user_test)
 
+    def test_trial_saves_number(self):
+        user_test = User.objects.create_user(
+            'george',
+            '',
+            'somethingpassword')
+        user_test.save()
+        first_trial = Trial()
+        first_trial.user = user_test
+        first_trial.number_of_trial = 1
+        first_trial.save()
 
+        saved_trials = Trial.objects.all()
+        self.assertEqual(saved_trials.count(), 1)
+        first_saved_trial = saved_trials[0]
+        first_saved_number_of_trial = first_saved_trial.number_of_trial
+        self.assertEqual(first_saved_number_of_trial, 1)
+
+    def test_trial_saves_number_for_two_different_trials(self):
+        user_test = User.objects.create_user(
+            'george',
+            '',
+            'somethingpassword')
+        user_test.save()
+        first_trial = Trial()
+        first_trial.user = user_test
+        first_trial.number_of_trial = 1
+        first_trial.save()
+
+        second_trial = Trial()
+        second_trial.user = user_test
+        second_trial.number_of_trial = 2
+        second_trial.save()
+
+        saved_trials = Trial.objects.all()
+        self.assertEqual(saved_trials.count(), 2)
+        first_saved_trial = saved_trials[0]
+        first_saved_number_of_trial = first_saved_trial.number_of_trial
+        self.assertEqual(first_saved_number_of_trial, 1)
+        second_saved_trial = saved_trials[1]
+        second_saved_number_of_trial = second_saved_trial.number_of_trial
+        self.assertEqual(second_saved_number_of_trial, 2)
 
 class ChoiceModelTest(TestCase):
 

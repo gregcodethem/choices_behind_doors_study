@@ -9,6 +9,7 @@ class Trial(models.Model):
         default=None,
         null=True
     )
+    number_of_trial = models.IntegerField(default=0)
 
 
 class MemoryGame(models.Model):

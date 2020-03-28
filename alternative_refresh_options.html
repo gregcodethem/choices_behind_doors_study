@@ -1,0 +1,47 @@
+
+
+
+attempt 1 - doesn't do anything
+document.getElementById("box_1").addEventListener("click", changeImage);
+function changeImage() {
+	document.getElementById("div_box_1").innerHTML = '<img src="/static/doorgame/box_with_dot.png" id="box_1_image" alt="box_2">'
+}
+
+
+attempt 2 - not working
+$('input[name=box_1]').change(function(){
+	if($(this).is(':checked')) {
+		document.getElementById("div_box_1").innerHTML = '<img src="/static/doorgame/box_with_dot.png" id="box_1_image" alt="box_1">'
+	} else {
+		document.getElementById("div_box_1").innerHTML = '<img src="/static/doorgame/box_empty.png" id="box_1_image" alt="box_1">'
+	}
+});
+
+
+attempt 3 - same as attempt 2
+var checkbox = document.querySelector("input[name=checkbox");
+
+checkbox.addEventListener( 'change', function() {
+	if(this.checked) {
+		document.getElementById("div_box_1").innerHTML = '<img src="/static/doorgame/box_with_dot.png" id="box_1_image" alt="box_1">'
+	} else {
+		document.getElementById("div_box_1").innerHTML = '<img src="/static/doorgame/box_empty.png" id="box_1_image" alt="box_1">'
+	}
+});
+
+
+attempt4 - working
+
+<script>
+document.addEventListener("DOMContentLoaded", function (event) {
+    var _selector = document.querySelector('input[name=checkbox]');
+    _selector.addEventListener('change', function (event) {
+        if (_selector.checked) {
+            document.getElementById("div_box_1").innerHTML = '<img src="/static/doorgame/box_with_dot.png" id="box_1_image" alt="box_1">'
+        } else {
+            document.getElementById("div_box_1").innerHTML = '<img src="/static/doorgame/box_empty.png" id="box_1_image" alt="box_1">'
+        }
+    });
+});
+
+</script>
