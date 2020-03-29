@@ -8,13 +8,15 @@
 
 <form id="form-final-survey" action="/final_survey_completed" method="POST">
 	<p>You played a total of 60 games of the Monty Hall Dilemma.  In the appropriate spaces below, enter the number of games in which you recall that you:</p>
-		<label for="stayed-lost">STAYED with your initial door and LOST:</label><input type="number" id="stayed-lost" name="stayed-lost"></br>
+		<label for="stayed-lost">STAYED with your initial door and LOST:</label><input type="number" id="stayed-lost" name="stayed-lost" class="trial-estimate"></br>
 		<label for="stayed-won">STAYED with your initial door and WON:</label>
-		<input type="number" id="stayed-won" name="stayed-won"></br>
+		<input type="number" id="stayed-won" name="stayed-won" class="trial-estimate"></br>
 		<label for="switched-lost">SWITCHED to the other door and LOST:</label>
-		<input type="number" id="switched-lost" name="switched-lost"></br>
+		<input type="number" id="switched-lost" name="switched-lost" class="trial-estimate"></br>
 		<label for="switched-won">SWITCHED to the other door and WON:</label>
-		<input type="number" id="switched-won" name="switched-won"></br>
+		<input type="number" id="switched-won" name="switched-won" class="trial-estimate"></br>
+		<label for="total">Total (has to add up to 60)</label><input type="text" id="total" disabled />
+		<div id="div_total_warning"></div>
 
 	<p> Are you familiar with the Monty Hall problem?</p>
 		<input type="radio" id="yes" name="familiar" value="yes">
@@ -39,5 +41,29 @@
 	<input type="submit" id="complete-the-survey" value="I have completed the survey">
 {% csrf_token %}
 </form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js "></script>
+ 
+
+<script>
+	$('.trial-estimate').keyup(function () {
+		// initialize the sum (total price) to zero
+    	var sum = 0;
+
+    	// we use jQuery each() to loop through all the textbox with 'price' class
+	    // and compute the sum for each loop
+	    $('.trial-estimate').each(function() {
+        	sum += Number($(this).val());
+    	});
+
+	    console.log(sum)
+	    // set the computed value to 'totalPrice' textbox
+	    $('#total').val(sum);
+	    if (sum != 60) {
+	    	document.getElementById("div_total_warning").innerHTML = '<p><font color="red">Warning: Total has to add upto 60.  Please change your entries above until the total is 60.</font></p>'
+	    };
+    });
+
+</script>
 
 {% endblock %}
