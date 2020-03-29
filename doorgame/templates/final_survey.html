@@ -6,16 +6,15 @@
 
 <p>Please complete the following questions</p>
 
-<form id="form-final-survey" action="/final_survey_completed" method="POST">
+<form id="form-final-survey" action="/final_survey_completed" method="POST" name="formfinalsurvey" onsubmit="checkform(event)">
 	<p>You played a total of 60 games of the Monty Hall Dilemma.  In the appropriate spaces below, enter the number of games in which you recall that you:</p>
-		<label for="stayed-lost">STAYED with your initial door and LOST:</label><input type="number" id="stayed-lost" name="stayed-lost" class="trial-estimate"></br>
+		<label for="stayed-lost">STAYED with your initial door and LOST:</label><input type="number" id="stayed-lost" name="stayedlost" class="trial-estimate"></br><div id="div_stayed_lost_warning"></div>
 		<label for="stayed-won">STAYED with your initial door and WON:</label>
 		<input type="number" id="stayed-won" name="stayed-won" class="trial-estimate"></br>
 		<label for="switched-lost">SWITCHED to the other door and LOST:</label>
 		<input type="number" id="switched-lost" name="switched-lost" class="trial-estimate"></br>
 		<label for="switched-won">SWITCHED to the other door and WON:</label>
 		<input type="number" id="switched-won" name="switched-won" class="trial-estimate"></br>
-		<label for="total">Total (has to add up to 60)</label><input type="text" id="total" disabled />
 		<div id="div_total_warning"></div>
 
 	<p> Are you familiar with the Monty Hall problem?</p>
@@ -38,7 +37,7 @@
 	  	<input type="radio" id="doctor" name="education-level" value="doctor">
 	  	<label for="doctor">Doctorate</label><br>
 
-	<input type="submit" id="complete-the-survey" value="I have completed the survey">
+	<input type="submit" id="complete-the-survey" value="I have completed the survey"><div id="div_genenal_warning"></div>
 {% csrf_token %}
 </form>
 
@@ -60,9 +59,37 @@
 	    // set the computed value to 'totalPrice' textbox
 	    $('#total').val(sum);
 	    if (sum != 60) {
-	    	document.getElementById("div_total_warning").innerHTML = '<p><font color="red">Warning: Total has to add upto 60.  Please change your entries above until the total is 60.</font></p>'
+	    	document.getElementById("div_total_warning").innerHTML = '<p><font color="red">Warning: Total has to add upto 60.  Your numbers add upto '+sum.toString()+'.  Please change your entries above until the total is 60.</font></p>'
 	    };
     });
+
+    $('form input').keydown(function (e) {
+        if (e.keyCode == 13) {
+            var inputs = $(this).parents("form").eq(0).find(":input");
+            if (inputs[inputs.index(this) + 1] != null) {                    
+                inputs[inputs.index(this) + 1].focus();
+            }
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    function checkform(evt) {
+    	var myForm = document.formfinalsurvey;
+    	var condition = true;
+    	if(myForm.stayedlost.value.length == 0) {
+    		document.getElementById("div_stayed_lost_warning").innerHTML = '<p><font color="red">Warning: this can\'t be blank</font></p>';
+    		document.getElementById("div_genenal_warning").innerHTML = '<p><font color="red">Warning: there is an error above please address this then try to submit again</font></p>'
+    		condition = false;
+    	};
+    	if(condition){ condition =  confirm('Do you want to submit the form?'); }
+
+        if(!condition) {
+            if(evt.preventDefault) { event.preventDefault(); }    
+            else if(evt.returnValue) { evt.returnValue = false; }    
+            else { return false; }
+        }
+    };
 
 </script>
 
