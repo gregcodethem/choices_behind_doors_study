@@ -8,6 +8,7 @@ class SurveyAnswers(models.Model):
         default=None,
         null=True
     )
+    best_strategy = models.TextField(default="blank")
     estimate_stayed_lost = models.IntegerField(default=0)
     estimate_stayed_won = models.IntegerField(default=0)
     estimate_switched_lost = models.IntegerField(default=0)

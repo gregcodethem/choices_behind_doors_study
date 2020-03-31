@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Well done!  Now please answer the following question.</h2>
+
+<p>Please complete the following questions</p>
+
+<form id="form-final-survey_one" action="/final_survey_one_completed" method="POST" name="formfinalsurveyone" onsubmit="checkform(event)">
+	<p>You played a total of 60 games of the Monty Hall Dilemma.  In the appropriate spaces below, enter the number of games in which you recall that you:</p>
+
+	<p> Which strategy has the highest chance of winning?  Please choose one.</p>
+		<input type="radio" id="stick" name="best_strategy" value="stick">
+		<label for="stick">Stick</label></br>
+		<input type="radio" id="switch" name="best_strategy" value="switch">
+		<label for="switch">Switch</label></br>
+		<input type="radio" id="even" name="best_strategy" value="even">
+		<label for="even">Even</label></br>
+	
+	<input type="submit" id="complete-the-survey" value="Submit answer"><div id="div_genenal_warning"></div>
+{% csrf_token %}
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js "></script>
+ 
+
+<script>
+	$('.trial-estimate').keyup(function () {
+		// initialize the sum (total price) to zero
+    	var sum = 0;
+
+    	// we use jQuery each() to loop through all the textbox with 'price' class
+	    // and compute the sum for each loop
+	    $('.trial-estimate').each(function() {
+        	sum += Number($(this).val());
+    	});
+
+	    console.log(sum)
+	    // set the computed value to 'totalPrice' textbox
+	    $('#total').val(sum);
+	    if (sum != 60) {
+	    	document.getElementById("div_total_warning").innerHTML = '<p><font color="red">Warning: Total has to add upto 60.  Your numbers add upto '+sum.toString()+'.  Please change your entries above until the total is 60.</font></p>'
+	    };
+    });
+
+    $('form input').keydown(function (e) {
+        if (e.keyCode == 13) {
+            var inputs = $(this).parents("form").eq(0).find(":input");
+            if (inputs[inputs.index(this) + 1] != null) {                    
+                inputs[inputs.index(this) + 1].focus();
+            }
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    function checkform(evt) {
+    	var myForm = document.formfinalsurvey;
+    	var condition = true;
+    	if(myForm.stayedlost.value.length == 0) {
+    		document.getElementById("div_stayed_lost_warning").innerHTML = '<p><font color="red">Warning: this can\'t be blank</font></p>';
+    		document.getElementById("div_genenal_warning").innerHTML = '<p><font color="red">Warning: there is an error above please address this then try to submit again</font></p>'
+    		condition = false;
+    	};
+    	if(condition){ condition =  confirm('Do you want to submit the form?'); }
+
+        if(!condition) {
+            if(evt.preventDefault) { event.preventDefault(); }    
+            else if(evt.returnValue) { evt.returnValue = false; }    
+            else { return false; }
+        }
+    };
+
+</script>
+
+{% endblock %}
