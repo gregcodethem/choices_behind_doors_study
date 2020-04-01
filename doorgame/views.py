@@ -13,6 +13,7 @@ from django.contrib.auth import get_user_model
 
 trial_limit = 60
 
+
 def home_page(request, user=None):
     return redirect('/user')
 
@@ -42,7 +43,6 @@ def final_pattern(request):
             memory_game.box_2 = True
         memory_game.initial_or_final = 'final'
         memory_game.save()
-
 
         trial_number = trial_existing.number_of_trial
         if trial_number >= trial_limit:
@@ -118,14 +118,11 @@ def home_page_memory_game(request, username):
     username_logged_in = request.user.username
     user_logged_in = request.user
 
-
     if request.method == 'POST':
         # insert method to remember pattern here (if necessary)
         return redirect('/user/' + username_logged_in + '/door-page-one')
 
     else:
-
-
 
         trial = Trial()
         trial.user = request.user
@@ -141,7 +138,7 @@ def home_page_memory_game(request, username):
         # insert some method here to generate the pattern
         memory_game = MemoryGame()
         memory_game.box_1 = True
-        memory_game.box_2 = False 
+        memory_game.box_2 = False
         memory_game.trial = trial
         memory_game.save()
 
@@ -228,43 +225,61 @@ def final_door_result_page(request, username):
     else:
         return render(request, 'final_door_result.html')
 
+
 @login_required(login_url='accounts/login')
 def final_survey_one(request, username):
     username_logged_in = request.user.username
 
     return render(request, 'final_survey_one.html',)
 
+
 @login_required(login_url='accounts/login')
 def final_survey_one_completed(request):
     username_logged_in = request.user.username
     user = request.user
-    if request.method =="POST":
+    if request.method == "POST":
         survey_answers = SurveyAnswers()
         survey_answers.user = user
         best_strategy = request.POST.get('best_strategy')
         survey_answers.best_strategy = best_strategy
         survey_answers.save()
-        return render (request,
-                  'final_survey_two.html', {
-                      "username": username_logged_in,
-                  })
+        return render(request,
+                      'final_survey_two.html', {
+                          "username": username_logged_in,
+                      })
 
 
 def final_survey_two_completed(request):
     if request.method == "POST":
-        user = request.user
-        survey_answers = SurveyAnswers()
-        survey_answers.user = user
+        user_logged_in = request.user
+        survey_answers_for_user = SurveyAnswers.objects.filter(
+            user=user_logged_in
+        )
+        survey_answers = survey_answers_for_user.last()
         estimate_stayed_lost = request.POST.get('stayed-lost')
         estimate_stayed_won = request.POST.get('stayed-won')
         estimate_switched_lost = request.POST.get('switched-lost')
         estimate_switched_won = request.POST.get('switched-lost')
-        
+
         survey_answers.estimate_stayed_lost = estimate_stayed_lost
         survey_answers.estimate_stayed_won = estimate_stayed_won
         survey_answers.estimate_switched_lost = estimate_switched_lost
         survey_answers.estimate_stayed_won = estimate_switched_won
-        
+
+        survey_answers.save()
+
+        return render(request,
+                      'final_survey_three.html')
+
+
+def final_survey_three_completed(request):
+    if request.method == "POST":
+        user_logged_in = request.user
+        survey_answers_for_user = SurveyAnswers.objects.filter(
+            user=user_logged_in
+        )
+        survey_answers = survey_answers_for_user.last()
+
         familiar = request.POST.get('familiar')
         survey_answers.familiar = familiar
         age = request.POST.get('age')
@@ -277,6 +292,3 @@ def final_survey_two_completed(request):
         survey_answers.save()
 
         return render(request, 'thankyou.html')
-
-def final_survey_three_completed(request):
-    pass

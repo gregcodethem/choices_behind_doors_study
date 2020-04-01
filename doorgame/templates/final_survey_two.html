@@ -6,9 +6,10 @@
 
 <p>Please complete the following questions</p>
 
-<form id="form-final-survey" action="/final_survey_completed" method="POST" name="formfinalsurvey" onsubmit="checkform(event)">
+<form id="form-final-survey" action="/final_survey_two_completed" method="POST" name="formfinalsurvey" onsubmit="checkform(event)">
 	<p>You played a total of 60 games of the Monty Hall Dilemma.  In the appropriate spaces below, enter the number of games in which you recall that you: 1) STAYED with your initial door and LOST; 2) STAYED with your initial door and won; 3) SWITCHED to the other door and LOST; and 4) SWITCHED to the other door and WON.  Make sure that the sum of your estimates is equal to 60.  Click the submit button only after you have entered an estimate in each space below and the sum of your estimates is equal to 60.</p>
-		<label for="stayed-lost">STAYED with your initial door and LOST:</label><input type="number" id="stayed-lost" name="stayedlost" class="trial-estimate"></br><div id="div_stayed_lost_warning"></div>
+		<label for="stayed-lost">STAYED with your initial door and LOST:</label>
+		<input type="number" id="stayed-lost" name="stayed-lost" class="trial-estimate"></br><div id="div_stayed_lost_warning"></div>
 		<label for="stayed-won">STAYED with your initial door and WON:</label>
 		<input type="number" id="stayed-won" name="stayed-won" class="trial-estimate"></br>
 		<label for="switched-lost">SWITCHED to the other door and LOST:</label>
@@ -17,25 +18,7 @@
 		<input type="number" id="switched-won" name="switched-won" class="trial-estimate"></br>
 		<div id="div_total_warning"></div>
 
-	<p> Are you familiar with the Monty Hall problem?</p>
-		<input type="radio" id="yes" name="familiar" value="yes">
-		<label for="yes">Yes</label></br>
-		<input type="radio" id="no" name="familiar" value="no">
-		<label for="no">No</label></br>
-	<p> How old are you?</p>
-		<input type="number" id="age" name="age">
-	<p>What is your gender?</p>
-	  <input type="radio" id="male" name="gender" value="male">
-	  <label for="male">Male</label><br>
-	  <input type="radio" id="female" name="gender" value="female">
-	  <label for="female">Female</label><br>
-	<p>What level did you study at university until?</p>
-		<input type="radio" id="bachelor" name="education-level" value="bachelor">
-	  	<label for="bachelor">Bachelor</label><br>
-	  	<input type="radio" id="master" name="education-level" value="master">
-	  	<label for="master">Master</label><br>
-	  	<input type="radio" id="doctor" name="education-level" value="doctor">
-	  	<label for="doctor">Doctorate</label><br>
+
 
 	<input type="submit" id="complete-the-survey" value="I have completed the survey"><div id="div_genenal_warning"></div>
 {% csrf_token %}

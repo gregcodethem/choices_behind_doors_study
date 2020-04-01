@@ -6,18 +6,9 @@
 
 <p>Please complete the following questions</p>
 
-<form id="form-final-survey" action="/final_survey_completed" method="POST" name="formfinalsurvey" onsubmit="checkform(event)">
-	<p>You played a total of 60 games of the Monty Hall Dilemma.  In the appropriate spaces below, enter the number of games in which you recall that you:</p>
-		<label for="stayed-lost">STAYED with your initial door and LOST:</label><input type="number" id="stayed-lost" name="stayedlost" class="trial-estimate"></br><div id="div_stayed_lost_warning"></div>
-		<label for="stayed-won">STAYED with your initial door and WON:</label>
-		<input type="number" id="stayed-won" name="stayed-won" class="trial-estimate"></br>
-		<label for="switched-lost">SWITCHED to the other door and LOST:</label>
-		<input type="number" id="switched-lost" name="switched-lost" class="trial-estimate"></br>
-		<label for="switched-won">SWITCHED to the other door and WON:</label>
-		<input type="number" id="switched-won" name="switched-won" class="trial-estimate"></br>
-		<div id="div_total_warning"></div>
+<form id="form-final-survey" action="/final_survey_three_completed" method="POST" name="formfinalsurvey" onsubmit="checkform(event)">
 
-	<p> Are you familiar with the Monty Hall problem?</p>
+	<p> Were you familiar with the Monty Hall problem before playing the game (Yes/No)?</p>
 		<input type="radio" id="yes" name="familiar" value="yes">
 		<label for="yes">Yes</label></br>
 		<input type="radio" id="no" name="familiar" value="no">
@@ -45,23 +36,7 @@
  
 
 <script>
-	$('.trial-estimate').keyup(function () {
-		// initialize the sum (total price) to zero
-    	var sum = 0;
 
-    	// we use jQuery each() to loop through all the textbox with 'price' class
-	    // and compute the sum for each loop
-	    $('.trial-estimate').each(function() {
-        	sum += Number($(this).val());
-    	});
-
-	    console.log(sum)
-	    // set the computed value to 'totalPrice' textbox
-	    $('#total').val(sum);
-	    if (sum != 60) {
-	    	document.getElementById("div_total_warning").innerHTML = '<p><font color="red">Warning: Total has to add upto 60.  Your numbers add upto '+sum.toString()+'.  Please change your entries above until the total is 60.</font></p>'
-	    };
-    });
 
     $('form input').keydown(function (e) {
         if (e.keyCode == 13) {
