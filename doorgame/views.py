@@ -165,7 +165,9 @@ def prelim_two(request):
     return render(request, 'prelim_two.html', {
         "memory_game": MemoryGamePrelim
         })
-    
+
+def prelim_three(request):
+    return render(request, 'prelim_three.html')
 
 @login_required(login_url='accounts/login')
 def door_page_one(request):
