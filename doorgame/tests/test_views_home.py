@@ -196,6 +196,19 @@ class DoorToChooseTest(BaseTest):
         self.client.get('/')
         self.assertEqual(Choice.objects.count(), 0)
 
+    def test_door_result_page_returns_doors_true_or_false(self):
+        self.login_temp()
+        user = User.objects.get(username='temporary')
+        response = self.client.post(
+            '/user/temporary/door_page_one', {'door_chosen': 1}
+        )
+        html = response.content.decode('utf8')
+
+        self.assertIn("door one is true", html)
+        self.assertIn("door two is", html)
+        self.assertIn("door three is", html)
+        self.assertIn("false", html)
+
 
 class LoginScreenTest(BaseTest):
 

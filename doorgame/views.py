@@ -179,6 +179,7 @@ def door_result_page(request, username):
         username_logged_in = user_logged_in.username
         choose_final_door(request)
         return redirect('/user/' + username_logged_in + '/final-door-result')
+    # !----- Need to make choice specific to the user ----!
     choice = Choice.objects.last()
     if choice:
         chosen_number = choice.door_number
@@ -195,7 +196,7 @@ def door_result_page(request, username):
         if len(possible_numbers) == 1:
             number_to_remove = possible_numbers[0]
         elif len(possible_numbers) == 2:
-            # fi there's a choice of 2 numbers to remove,
+            # if there's a choice of 2 numbers to remove,
             # in this case they've already chosen the right number,
             # then remove at random one of the remaining 2 numbers.
             number_to_remove = randomchoice(possible_numbers)
