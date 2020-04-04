@@ -1,0 +1,41 @@
+<!-- templates/registration/login.html -->
+{% extends 'base.html' %}
+
+{% block title %}Door Game{% endblock %}
+
+{% block content %}
+
+<p> Welcome to the memory and decision task</p>
+
+<p> This experiment was prepared to study people's decision making strategies under a memory condition</p>
+
+<p> The memory condition contains a matrix with 4 randomly positioned dots.</p>
+
+<p> Before the decision making task, you will see the matrix with randomly placed dots on it for 850ms </p>
+<p> Then you will read a scenario and make a decision about it.  After your decision is recorded an empty matrix will be presented.  You will be asked to place the dots on the matrix correctly.</p>
+<p> There is no time limit for the experiment</p>
+
+<h2>Can you remember these dots?</h2>
+
+<form id="form-go-to-prelim-two" action="/prelim_two" method="POST">
+
+  <input type="hidden" value="1" name="go_to_prelim_two">
+  <a id="go_to_prelim_two"><button>Continue to next page</button></a>
+{% csrf_token %}
+</form>
+
+
+{% if user.is_authenticated %}
+	<p>Hi {{ user.username }}!</p>
+
+	<p>Trial number {{ number_of_trial }}</p>
+
+{% load static %}
+
+
+  <p><a href="{% url 'logout' %}" id="logout_link_anchor">logout</a></p>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}" id="login_link_anchor">login</a>
+{% endif %}
+{% endblock %}

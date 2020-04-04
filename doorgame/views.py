@@ -143,7 +143,7 @@ def home_page_memory_game(request, username):
         memory_game.save()
 
     if number_of_trial == 1:
-        return render(request, 'example.html', {
+        return render(request, 'prelim_one.html', {
             "username": username_logged_in,
             "number_of_trial": number_of_trial,
             "memory_game": memory_game,
@@ -155,6 +155,17 @@ def home_page_memory_game(request, username):
         "memory_game": memory_game,
     })
 
+@login_required(login_url='accounts/login')
+def prelim_two(request):
+    class MemoryGamePrelimClass:
+        pass
+    MemoryGamePrelim = MemoryGamePrelimClass()
+    MemoryGamePrelim.box_1 = True
+    MemoryGamePrelim.box_2 = False
+    return render(request, 'prelim_two.html', {
+        "memory_game": MemoryGamePrelim
+        })
+    
 
 @login_required(login_url='accounts/login')
 def door_page_one(request):
