@@ -169,6 +169,9 @@ def prelim_two(request):
 def prelim_three(request):
     return render(request, 'prelim_three.html')
 
+def prelim_four(request):
+    return render(request, 'prelim_four.html')
+
 @login_required(login_url='accounts/login')
 def door_page_one(request):
     username_logged_in = request.user.username

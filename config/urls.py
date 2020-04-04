@@ -30,6 +30,7 @@ urlpatterns = [
     path('door_page_one', views.door_page_one, name="door-page-one"),
     path('prelim_two', views.prelim_two, name="prelim_two"),
     path('prelim_three', views.prelim_three, name="prelim_three"),
+    path('prelim_four', views.prelim_four, name="prelim_four"),
     path('user/<username>/door-result',
          views.door_result_page,
          name='door_result_page'

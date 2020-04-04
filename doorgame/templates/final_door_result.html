@@ -1,62 +1,26 @@
 <!-- templates/registration/login.html -->
-{% extends 'base.html' %}
+{% extends 'mem_game_blank_base.html' %}
 
 {% block title %}Door Game Result{% endblock %}
 
-{% block content %}
 
+{% block final_door_choice %}
 <h2>The result of your final door choice</h2>
 
 <p id="final_choice_message">You chose door{{ final_door_chosen_number }}</p>
 
+{% endblock %}
 
-<p id="final_pattern_message">Can you remember the pattern from before?</p>
 
-{% load static %}
-
+{% block form_start_html_tag %}
 <form id="form-go-to-door-game" action="/final_pattern" method="POST">
-	<div id="div_box_1"><img src="{% static 'doorgame/box_empty.png' %}" id="box_1_image" alt="box_1">
-	</div>
-	<label for="box_1">Box 1</label><input type="checkbox" id="box_1" value="True" name="box_1"></input>
-	<div id="div_box_2">
-		<img src="{% static 'doorgame/box_empty.png' %}" id="box_2_image" alt="box_2">
-	</div>
-	<label for="box_2">Box 2</label><input type="checkbox" value="True" name="box_2" id="box_2"></input>
+{% endblock %}
 	
-	<input type="submit" id="play_again_link" value="This is the pattern as best as I remember, let's play again.">
+{% block submit_button %}
+<input type="submit" id="play_again_link" value="This is the pattern as best as I remember, let's play again.">
+{% endblock submit_button %}
+
+{% block close_form_tag %}
 {% csrf_token %}
 </form>
-
-{% if user.is_authenticated %}
-
-<!-- Add content here - May have to deal with logged in/ not logged in problem -->
-<p><a href="{% url 'logout' %}" id="logout_link_anchor">logout</a></p>
-
-{% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'login' %}" id="login_link_anchor">login</a>
-{% endif %}
-<script>
-document.addEventListener("DOMContentLoaded", function (event) {
-    var _selector1 = document.querySelector('input[name=box_1]');
-    _selector1.addEventListener('change', function (event) {
-        if (_selector1.checked) {
-            document.getElementById("div_box_1").innerHTML = '<img src="/static/doorgame/box_with_dot.png" id="box_1_image" alt="box_1">'
-        } else {
-            document.getElementById("div_box_1").innerHTML = '<img src="/static/doorgame/box_empty.png" id="box_1_image" alt="box_1">'
-        }
-    });
-    var _selector2 = document.querySelector('input[name=box_2]');
-    _selector2.addEventListener('change', function (event) {
-        if (_selector2.checked) {
-            document.getElementById("div_box_2").innerHTML = '<img src="/static/doorgame/box_with_dot.png" id="box_2_image" alt="box_2">'
-        } else {
-            document.getElementById("div_box_2").innerHTML = '<img src="/static/doorgame/box_empty.png" id="box_2_image" alt="box_2">'
-        }
-    });
-});
-
-
-</script>
-
 {% endblock %}
