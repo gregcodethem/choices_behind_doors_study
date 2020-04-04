@@ -142,6 +142,13 @@ def home_page_memory_game(request, username):
         memory_game.trial = trial
         memory_game.save()
 
+    if number_of_trial == 1:
+        return render(request, 'example.html', {
+            "username": username_logged_in,
+            "number_of_trial": number_of_trial,
+            "memory_game": memory_game,
+        }
+        )
     return render(request, 'home.html', {
         "username": username_logged_in,
         "number_of_trial": number_of_trial,
@@ -205,10 +212,29 @@ def door_result_page(request, username):
         other_door_choice_list.remove(number_to_remove)
         number_to_change_to = other_door_choice_list[0]
 
+        doors_to_display_list = [chosen_number,
+                                 number_to_change_to
+                                 ]
+        if 1 in doors_to_display_list:
+            door_one_bool = True
+        else:
+            door_one_bool = False
+        if 2 in doors_to_display_list:
+            door_two_bool = True
+        else:
+            door_two_bool = False
+        if 3 in doors_to_display_list:
+            door_three_bool = True
+        else:
+            door_three_bool = False
+
         return render(request, 'door_result.html', {
             'door_chosen_number': str(choice.door_number),
             'door_to_remove_number': str(number_to_remove),
             'door_to_change_to_number': str(number_to_change_to),
+            'door_one_bool': door_one_bool,
+            'door_two_bool': door_two_bool,
+            'door_three_bool': door_three_bool,
         })
     else:
         return render(request, 'door_result.html',

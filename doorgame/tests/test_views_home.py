@@ -203,11 +203,11 @@ class DoorToChooseTest(BaseTest):
             '/user/temporary/door_page_one', {'door_chosen': 1}
         )
         html = response.content.decode('utf8')
-
-        self.assertIn("door one is true", html)
-        self.assertIn("door two is", html)
-        self.assertIn("door three is", html)
-        self.assertIn("false", html)
+        print(html)
+        self.assertIn("It could be door one", html)
+        self.assertIn("door two", html)
+        self.assertIn("door three", html)
+        self.assertIn("It's not door", html)
 
 
 class LoginScreenTest(BaseTest):

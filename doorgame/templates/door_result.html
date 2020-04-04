@@ -11,6 +11,48 @@
 
 <p id="new_choice_message">It's not door{{ door_to_remove_number }}.  You can change your choice or keep your current choice</p>
 
+
+{% load static %}
+
+<div class="row">
+	<div class="col-sm-4">
+		{% if door_one_bool %}
+			<a href="#" onclick="document.forms['form-id-door1'].submit();">
+				<img src="{% static 'doorgame/door.jpg' %}" id="door1" alt="door1">
+			</a>
+				<p>It could be door one</p>
+
+		{% else %}
+				<p>It's not door one</p>
+		{% endif %}
+	</div>
+	<div class="col-sm-4">
+		{% if door_two_bool %}
+			<a href="#" onclick="document.forms['form-id-door2'].submit();">
+				<img src="{% static 'doorgame/door.jpg' %}" id="door2" alt="door2">
+			</a>
+			<p>It could be door two</p>
+		{% else %}
+
+			<p>It's not door two</p>
+
+		{% endif %}
+
+	</div>
+
+	<div class="col-sm-4">
+		{% if door_three_bool %}
+			<a href="#" onclick="document.forms['form-id-door3'].submit();">
+				<img src="{% static 'doorgame/door.jpg' %}" id="door3" alt="door3">
+			</a>
+			<p>It could be door three</p>
+		{% else %}
+			<p>It's not door three</p>
+		{% endif %}
+	</div>
+</div>
+
+
 <form id="form-id-door{{door_chosen_number}}" action="/choose_final_door" method="POST">
 	<input type="hidden" value="{{door_chosen_number}}" name="final_door_chosen">
 	<a id="keep_door_link"><button>Keep door choice - keep door{{ door_chosen_number }}</button></a>
@@ -24,40 +66,6 @@
 	</a>
 {% csrf_token %}
 </form>
-
-{% load static %}
-
-<div class="row">
-	<div class="col-sm-4">
-		<form id="form-id-door1" action="/choose_door" method="POST">
-			<input type="hidden" value="1" name="door_chosen">
-			<a href="#" onclick="document.forms['form-id-door1'].submit();">
-				<img src="{% static 'doorgame/door.jpg' %}" id="door1" alt="door1">
-			</a>
-			{% csrf_token %}
-		</form>
-	</div>
-	<div class="col-sm-4">
-		<form id="form-id-door2" action="/choose_door" method="POST">
-			{% csrf_token %}
-			<input type="hidden" value="2" name="door_chosen">
-			<a href="#" onclick="document.forms['form-id-door2'].submit();">
-				<img src="{% static 'doorgame/door.jpg' %}" id="door2" alt="door2">
-			</a>
-		</form>
-	</div>
-
-	<div class="col-sm-4">
-		<form id="form-id-door3" action="/choose_door" method="POST">
-
-			<input type="hidden" value="3" name="door_chosen">
-			{% csrf_token %}
-			<a href="#" onclick="document.forms['form-id-door3'].submit();">
-				<img src="{% static 'doorgame/door.jpg' %}" id="door3" alt="door3">
-			</a>
-		</form>
-	</div>
-</div>
 
 {% if user.is_authenticated %}
 
