@@ -361,8 +361,8 @@ def final_survey_three_completed(request):
         survey_answers.age = age
 
         gender = request.POST.get('gender')
-        survey_answers.gender = 'male'
-        education_level = request.POST.get('education-level')
+        survey_answers.gender = gender
+        education_level = request.POST.get('education_level')
         survey_answers.education_level = education_level
         survey_answers.save()
 
