@@ -4,6 +4,12 @@
 {% block title %}Door Game{% endblock %}
 
 {% block content %}
+<style>
+img {
+  width: 80%;
+  height: auto;
+}
+</style>
 
 <h2>Welcome to the door game</h2>
 
@@ -19,7 +25,7 @@
 		<form id="form-id-door1" action="/choose_door" method="POST">
 			<input type="hidden" value="1" name="door_chosen">
 			<a href="#" onclick="document.forms['form-id-door1'].submit();">
-				<img src="{% static 'doorgame/door.jpg' %}" id="door1" alt="door1">
+				<img src="{% static 'doorgame/door.png' %}" id="door1" alt="door1">
 			</a>
 			{% csrf_token %}
 		</form>
@@ -29,7 +35,7 @@
 			{% csrf_token %}
 			<input type="hidden" value="2" name="door_chosen">
 			<a href="#" onclick="document.forms['form-id-door2'].submit();">
-				<img src="{% static 'doorgame/door.jpg' %}" id="door2" alt="door2">
+				<img src="{% static 'doorgame/door.png' %}" id="door2" alt="door2">
 			</a>
 		</form>
 	</div>
@@ -40,7 +46,7 @@
 			<input type="hidden" value="3" name="door_chosen">
 			{% csrf_token %}
 			<a href="#" onclick="document.forms['form-id-door3'].submit();">
-				<img src="{% static 'doorgame/door.jpg' %}" id="door3" alt="door3">
+				<img src="{% static 'doorgame/door.png' %}" id="door3" alt="door3">
 			</a>
 		</form>
 	</div>
