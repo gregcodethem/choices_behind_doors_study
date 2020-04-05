@@ -1,6 +1,12 @@
 <!-- templates/registration/login.html -->
 {% extends 'base.html' %}
 
+<style>
+img {
+  width: 100%;
+  height: auto;
+}
+</style>
 
 {% block content %}
 
@@ -15,15 +21,36 @@
 
 {% load static %}
 
+
 {% block form_start_html_tag %}
 {% endblock %}
-	<div id="div_box_1"><img src="{% static 'doorgame/box_empty.png' %}" id="box_1_image" alt="box_1">
-	</div>
-	<label for="box_1">Box 1</label><input type="checkbox" id="box_1" value="True" name="box_1"></input>
-	<div id="div_box_2">
-		<img src="{% static 'doorgame/box_empty.png' %}" id="box_2_image" alt="box_2">
-	</div>
-	<label for="box_2">Box 2</label><input type="checkbox" value="True" name="box_2" id="box_2"></input>
+<div class="row">
+    {% for i in '123'|make_list %}
+        <div class="col-sm-2">
+        	<div id="div_box_{{ i }}"><img src="{% static 'doorgame/box_empty.png' %}" id="box_{{ i }}_image" alt="box_{{ i }}">
+        	</div>
+        	<label for="box_{{ i }}">Box {{ i}}</label><input type="checkbox" id="box_{{ i }}" value="True" name="box_{{ i }}"></input>
+        </div>
+    {% endfor %}
+</div>
+<div class="row">
+    {% for i in '456'|make_list %}
+        <div class="col-sm-2">
+            <div id="div_box_{{ i }}"><img src="{% static 'doorgame/box_empty.png' %}" id="box_{{ i }}_image" alt="box_{{ i }}">
+            </div>
+            <label for="box_{{ i }}">Box {{ i}}</label><input type="checkbox" id="box_{{ i }}" value="True" name="box_{{ i }}"></input>
+        </div>
+    {% endfor %}
+</div>
+<div class="row">
+    {% for i in '789'|make_list %}
+        <div class="col-sm-2">
+            <div id="div_box_{{ i }}"><img src="{% static 'doorgame/box_empty.png' %}" id="box_{{ i }}_image" alt="box_{{ i }}">
+            </div>
+            <label for="box_{{ i }}">Box {{ i}}</label><input type="checkbox" id="box_{{ i }}" value="True" name="box_{{ i }}"></input>
+        </div>
+    {% endfor %}
+</div>
 	
     {% block submit_button %}
 
@@ -43,22 +70,20 @@
 {% endif %}
 <script>
 document.addEventListener("DOMContentLoaded", function (event) {
-    var _selector1 = document.querySelector('input[name=box_1]');
-    _selector1.addEventListener('change', function (event) {
-        if (_selector1.checked) {
-            document.getElementById("div_box_1").innerHTML = '<img src="/static/doorgame/box_with_dot.png" id="box_1_image" alt="box_1">'
-        } else {
-            document.getElementById("div_box_1").innerHTML = '<img src="/static/doorgame/box_empty.png" id="box_1_image" alt="box_1">'
-        }
-    });
-    var _selector2 = document.querySelector('input[name=box_2]');
-    _selector2.addEventListener('change', function (event) {
-        if (_selector2.checked) {
-            document.getElementById("div_box_2").innerHTML = '<img src="/static/doorgame/box_with_dot.png" id="box_2_image" alt="box_2">'
-        } else {
-            document.getElementById("div_box_2").innerHTML = '<img src="/static/doorgame/box_empty.png" id="box_2_image" alt="box_2">'
-        }
-    });
+    
+    var _selectors = [];
+    for (let i = 1; i <10; i++) {
+        _selectors[i] = document.querySelector('input[name=box_'+ i.toString() + ']')
+        _selectors[i].addEventListener('change', function (event) {
+            if (_selectors[i].checked) {
+                document.getElementById("div_box_" + 
+                     i.toString()).innerHTML = '<img src="/static/doorgame/box_with_dot.png" id="box_'+i.toString()+'_image" alt="box_'+i.toString()+'">'
+            } else {
+                document.getElementById("div_box_" + i.toString()).innerHTML = '<img src="/static/doorgame/box_empty.png" id="box_'+i.toString()+'_image" alt="box_'+i.toString()+'">'
+            }
+        });
+
+    };
 });
 
 
