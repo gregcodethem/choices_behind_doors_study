@@ -17,6 +17,7 @@
 		<label for="switched-won">SWITCHED to the other door and WON:</label>
 		<input type="number" id="switched-won" name="switched-won" class="trial-estimate"></br>
 		<div id="div_total_warning"></div>
+        <div id="div_total_sumbmit_warning"></div>
 
 
 
@@ -28,7 +29,8 @@
  
 
 <script>
-	$('.trial-estimate').keyup(function () {
+	var sum_of_totals = 0
+    $('.trial-estimate').keyup(function () {
 		// initialize the sum (total price) to zero
     	var sum = 0;
 
@@ -37,6 +39,7 @@
 	    $('.trial-estimate').each(function() {
         	sum += Number($(this).val());
     	});
+        sum_of_totals = sum
 
 	    console.log(sum)
 	    // set the computed value to 'totalPrice' textbox
@@ -60,13 +63,15 @@
     });
 
     function checkform(evt) {
-    	var myForm = document.formfinalsurvey;
-    	var condition = true;
-    	if(myForm.stayedlost.value.length == 0) {
-    		document.getElementById("div_stayed_lost_warning").innerHTML = '<p><font color="red">Warning: this can\'t be blank</font></p>';
-    		document.getElementById("div_genenal_warning").innerHTML = '<p><font color="red">Warning: there is an error above please address this then try to submit again</font></p>'
+    	var condition = false;
+    	if(sum_of_totals != 60) {
+    		document.getElementById("div_total_submit_warning").innerHTML = '<p><font color="red">Warning: You can\'t submit if the total above is not 60</font></p>';
+    		
     		condition = false;
-    	};
+    	}
+        else if(sum_of_totals == 60) {
+            condition = true
+        };
     	if(condition){ condition =  confirm('Do you want to submit the form?'); }
 
         if(!condition) {

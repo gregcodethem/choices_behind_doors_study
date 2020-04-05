@@ -13,20 +13,24 @@
 		<label for="yes">Yes</label></br>
 		<input type="radio" id="no" name="familiar" value="no">
 		<label for="no">No</label></br>
+        <div id="div_familiar_warning"></div>
 	<p> How old are you?</p>
 		<input type="number" id="age" name="age">
+        <div id="div_age_warning"></div>
 	<p>What is your gender?</p>
 	  <input type="radio" id="male" name="gender" value="male">
 	  <label for="male">Male</label><br>
 	  <input type="radio" id="female" name="gender" value="female">
 	  <label for="female">Female</label><br>
+      <div id="div_gender_warning"></div>
 	<p>What level did you study at university until?</p>
-		<input type="radio" id="bachelor" name="education-level" value="bachelor">
+		<input type="radio" id="bachelor" name="education_level" value="bachelor">
 	  	<label for="bachelor">Bachelor</label><br>
-	  	<input type="radio" id="master" name="education-level" value="master">
+	  	<input type="radio" id="master" name="education_level" value="master">
 	  	<label for="master">Master</label><br>
-	  	<input type="radio" id="doctor" name="education-level" value="doctor">
+	  	<input type="radio" id="doctor" name="education_level" value="doctor">
 	  	<label for="doctor">Doctorate</label><br>
+        <div id="div_university_warning"></div>
 
 	<input type="submit" id="complete-the-survey" value="I have completed the survey"><div id="div_genenal_warning"></div>
 {% csrf_token %}
@@ -52,11 +56,27 @@
     function checkform(evt) {
     	var myForm = document.formfinalsurvey;
     	var condition = true;
-    	if(myForm.stayedlost.value.length == 0) {
-    		document.getElementById("div_stayed_lost_warning").innerHTML = '<p><font color="red">Warning: this can\'t be blank</font></p>';
+    	if(myForm.familiar.value.length == 0) {
+    		document.getElementById("div_familiar_warning").innerHTML = '<p><font color="red">Warning: this can\'t be blank</font></p>';
     		document.getElementById("div_genenal_warning").innerHTML = '<p><font color="red">Warning: there is an error above please address this then try to submit again</font></p>'
     		condition = false;
     	};
+        if(myForm.age.value.length == 0) {
+            document.getElementById("div_age_warning").innerHTML = '<p><font color="red">Warning: this can\'t be blank</font></p>';
+            document.getElementById("div_genenal_warning").innerHTML = '<p><font color="red">Warning: there is an error above please address this then try to submit again</font></p>'
+            condition = false;
+        };
+        if(myForm.gender.value.length == 0) {
+            document.getElementById("div_gender_warning").innerHTML = '<p><font color="red">Warning: this can\'t be blank</font></p>';
+            document.getElementById("div_genenal_warning").innerHTML = '<p><font color="red">Warning: there is an error above please address this then try to submit again</font></p>'
+            condition = false;
+        };
+        if(myForm.education_level.value.length == 0) {
+            document.getElementById("div_university_warning").innerHTML = '<p><font color="red">Warning: this can\'t be blank</font></p>';
+            document.getElementById("div_general_warning").innerHTML = '<p><font color="red">Warning: there is an error above please address this then try to submit again</font></p>'
+            condition = false;
+        };
+
     	if(condition){ condition =  confirm('Do you want to submit the form?'); }
 
         if(!condition) {
