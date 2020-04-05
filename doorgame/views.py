@@ -19,6 +19,11 @@ def home_page(request, user=None):
 
 
 @login_required(login_url='accounts/login')
+def remember_memory_game(request):
+    return render(request, 'remember_memory_game.html')
+
+
+@login_required(login_url='accounts/login')
 def final_pattern(request):
     username_logged_in = request.user.username
     if request.method == 'POST':
@@ -155,6 +160,7 @@ def home_page_memory_game(request, username):
         "memory_game": memory_game,
     })
 
+
 @login_required(login_url='accounts/login')
 def prelim_two(request):
     class MemoryGamePrelimClass:
@@ -164,13 +170,16 @@ def prelim_two(request):
     MemoryGamePrelim.box_2 = False
     return render(request, 'prelim_two.html', {
         "memory_game": MemoryGamePrelim
-        })
+    })
+
 
 def prelim_three(request):
     return render(request, 'prelim_three.html')
 
+
 def prelim_four(request):
     return render(request, 'prelim_four.html')
+
 
 @login_required(login_url='accounts/login')
 def door_page_one(request):

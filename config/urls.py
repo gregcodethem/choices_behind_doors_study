@@ -39,7 +39,13 @@ urlpatterns = [
          views.final_door_result_page,
          name='final_door_result_page'
          ),
+    path('remember_memory_game',
+         views.remember_memory_game,
+         name='remember_memory_game'
+         ),
+
     path('user', views.home_page_user, name='home-user'),
+
     path('user/<username>/',
          views.home_page_memory_game,
          name='home_user_memory_game'
@@ -49,20 +55,20 @@ urlpatterns = [
          name='home_user_unique'
          ),
     path('final_pattern',
-        views.final_pattern,
-        name='final_pattern'
-        ),
+         views.final_pattern,
+         name='final_pattern'
+         ),
     path('user/<username>/final_survey_one',
-        views.final_survey_one,
-        name='final_survey_one'),
+         views.final_survey_one,
+         name='final_survey_one'),
     path('final_survey_one_completed',
-        views.final_survey_one_completed,
-        name='final_survey_one_completed'),
+         views.final_survey_one_completed,
+         name='final_survey_one_completed'),
     path('final_survey_two_completed',
-        views.final_survey_two_completed,
-        name='final_survey_two_completed'),
+         views.final_survey_two_completed,
+         name='final_survey_two_completed'),
     path('final_survey_three_completed',
-        views.final_survey_three_completed,
-        name='final_survey_three_completed'),
+         views.final_survey_three_completed,
+         name='final_survey_three_completed'),
     #path('', TemplateView.as_view(template_name='home.html'), name='home'),
 ]
