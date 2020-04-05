@@ -43,7 +43,9 @@
 	    $('#total').val(sum);
 	    if (sum != 60) {
 	    	document.getElementById("div_total_warning").innerHTML = '<p><font color="red">Warning: Total has to add upto 60.  Your numbers add upto '+sum.toString()+'.  Please change your entries above until the total is 60.</font></p>'
-	    };
+	    } else {
+            document.getElementById("div_total_warning").innerHTML = ''
+        };
     });
 
     $('form input').keydown(function (e) {
