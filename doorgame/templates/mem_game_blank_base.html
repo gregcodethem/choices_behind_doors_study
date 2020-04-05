@@ -1,6 +1,8 @@
 <!-- templates/registration/login.html -->
 {% extends 'base.html' %}
 
+{% block content %}
+
 <style>
 img {
   width: 100%;
@@ -8,16 +10,7 @@ img {
 }
 </style>
 
-{% block content %}
-
-{% block final_door_choice %}
-<h2>The result of your final door choice</h2>
-
-<p id="final_choice_message">You chose door{{ final_door_chosen_number }}</p>
-
-{% endblock %}
-
-<p id="final_pattern_message">Can you remember the pattern from before?</p>
+<h2 id="final_pattern_message">Can you remember the pattern from before?</h2>
 
 {% load static %}
 

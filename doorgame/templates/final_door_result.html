@@ -1,10 +1,10 @@
 <!-- templates/registration/login.html -->
-{% extends 'mem_game_blank_base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Door Game Result{% endblock %}
 
 
-{% block final_door_choice %}
+{% block content %}
 
 <h2>The result of your final door choice</h2>
 
@@ -15,15 +15,4 @@
 {% endblock %}
 
 
-{% block form_start_html_tag %}
-<form id="form-go-to-door-game" action="/final_pattern" method="POST">
-{% endblock %}
-	
-{% block submit_button %}
-<input type="submit" id="play_again_link" value="This is the pattern as best as I remember, let's play again.">
-{% endblock submit_button %}
 
-{% block close_form_tag %}
-{% csrf_token %}
-</form>
-{% endblock %}
