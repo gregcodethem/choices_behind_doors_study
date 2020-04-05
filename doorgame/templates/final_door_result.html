@@ -10,7 +10,54 @@
 
 
 <p id="final_choice_message">You chose door{{ final_door_chosen_number }}</p>
+
+{% if sucessfully_chose_right_door %}
+	<p>You got it right, you win the car!</p>
+{% else %}
+	<p>You got it wrong, it's the goat for you!</p>
+{% endif %}
 {% load static %}
+{% load static %}
+
+<div class="row">
+	<div class="col-sm-4">
+		{% if door_one_bool %}
+			
+			<img src="{% static 'doorgame/open_door_car.jpg' %}" id="door1" alt="door1">
+		
+			<p>It was door one</p>
+
+		{% else %}
+			<img src="{% static 'doorgame/open_door_goat.png' %}" id="open_door_goat1" alt="open_door_goat1">
+			<p>It's not door one</p>
+		{% endif %}
+	</div>
+	<div class="col-sm-4">
+		{% if door_two_bool %}
+			<img src="{% static 'doorgame/open_door_car.jpg' %}" id="door2" alt="door2">
+			
+			<p>It was door two</p>
+		{% else %}
+			<img src="{% static 'doorgame/open_door_goat.png' %}" id="open_door_goat2" alt="open_door_goat2">
+			<p>It's not door two</p>
+
+		{% endif %}
+
+	</div>
+
+	<div class="col-sm-4">
+		{% if door_three_bool %}
+			
+			<img src="{% static 'doorgame/open_door_car.jpg' %}" id="door3" alt="door3">
+			
+			<p>It was door three</p>
+		{% else %}
+			<img src="{% static 'doorgame/open_door_goat.png' %}" id="open_door_goat3" alt="open_door_goat3">
+			<p>It's not door three</p>
+		{% endif %}
+	</div>
+</div>
+
 <p><a href="{% url 'remember_memory_game' %}">Go to next page</a><p>
 {% endblock %}
 

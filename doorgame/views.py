@@ -270,9 +270,33 @@ def final_door_result_page(request, username):
     choice = Choice.objects.last()
     if choice:
         final_chosen_number = choice.door_number
+        trial = choice.trial
+        result = Result.objects.get(trial=trial)
+        result_number = result.door_number
+        if final_chosen_number == result_number:
+            sucessfully_chose_right_door = True
+        else:
+            sucessfully_chose_right_door = False
+        if 1 == result_number:
+            door_one_bool = True
+        else:
+            door_one_bool = False
+        if 2 == result_number:
+            door_two_bool = True
+        else:
+            door_two_bool = False
+        if 3 == result_number:
+            door_three_bool = True
+        else:
+            door_three_bool = False
 
         return render(request, 'final_door_result.html', {
-            'final_door_chosen_number': str(final_chosen_number)
+            'final_door_chosen_number': str(final_chosen_number),
+            'sucessfully_chose_right_door': sucessfully_chose_right_door,
+            'door_one_bool': door_one_bool,
+            'door_two_bool': door_two_bool,
+            'door_three_bool': door_three_bool,
+
         })
     else:
         return render(request, 'final_door_result.html')
