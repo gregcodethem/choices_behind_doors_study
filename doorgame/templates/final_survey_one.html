@@ -16,6 +16,7 @@
 		<label for="switch">Switch</label></br>
 		<input type="radio" id="even" name="best_strategy" value="even">
 		<label for="even">Even</label></br>
+        <div id="div_best_strategy_warning"></div>
 	
 	<input type="submit" id="complete-the-survey" value="Submit answer"><div id="div_genenal_warning"></div>
 {% csrf_token %}
@@ -25,23 +26,7 @@
  
 
 <script>
-	$('.trial-estimate').keyup(function () {
-		// initialize the sum (total price) to zero
-    	var sum = 0;
 
-    	// we use jQuery each() to loop through all the textbox with 'price' class
-	    // and compute the sum for each loop
-	    $('.trial-estimate').each(function() {
-        	sum += Number($(this).val());
-    	});
-
-	    console.log(sum)
-	    // set the computed value to 'totalPrice' textbox
-	    $('#total').val(sum);
-	    if (sum != 60) {
-	    	document.getElementById("div_total_warning").innerHTML = '<p><font color="red">Warning: Total has to add upto 60.  Your numbers add upto '+sum.toString()+'.  Please change your entries above until the total is 60.</font></p>'
-	    };
-    });
 
     $('form input').keydown(function (e) {
         if (e.keyCode == 13) {
@@ -55,11 +40,10 @@
     });
 
     function checkform(evt) {
-    	var myForm = document.formfinalsurvey;
+    	var myForm = document.formfinalsurveyone;
     	var condition = true;
-    	if(myForm.stayedlost.value.length == 0) {
-    		document.getElementById("div_stayed_lost_warning").innerHTML = '<p><font color="red">Warning: this can\'t be blank</font></p>';
-    		document.getElementById("div_genenal_warning").innerHTML = '<p><font color="red">Warning: there is an error above please address this then try to submit again</font></p>'
+    	if(myForm.best_strategy.value.length == 0) {
+    		document.getElementById("div_best_strategy_warning").innerHTML = '<p><font color="red">Warning: this can\'t be blank</font></p>';
     		condition = false;
     	};
     	if(condition){ condition =  confirm('Do you want to submit the form?'); }

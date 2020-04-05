@@ -296,7 +296,6 @@ def final_door_result_page(request, username):
             'door_one_bool': door_one_bool,
             'door_two_bool': door_two_bool,
             'door_three_bool': door_three_bool,
-
         })
     else:
         return render(request, 'final_door_result.html')

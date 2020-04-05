@@ -42,6 +42,7 @@
         sum_of_totals = sum
 
 	    console.log(sum)
+        console.log(sum_of_totals)
 	    // set the computed value to 'totalPrice' textbox
 	    $('#total').val(sum);
 	    if (sum != 60) {
@@ -63,7 +64,8 @@
     });
 
     function checkform(evt) {
-    	var condition = false;
+    	consol.log(sum_of_totals)
+        var condition = false;
     	if(sum_of_totals != 60) {
     		document.getElementById("div_total_submit_warning").innerHTML = '<p><font color="red">Warning: You can\'t submit if the total above is not 60</font></p>';
     		
