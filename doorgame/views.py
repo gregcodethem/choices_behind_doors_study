@@ -5,13 +5,15 @@ from random import choice as randomchoice
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from doorgame.models import Choice, Trial, Result, MemoryGame, SurveyAnswers
+from doorgame.models import Choice, Trial, Result, MemoryGame, SurveyAnswers, MemoryGameList
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
+from .utils import memory_game_bool_matrix, add_memory_games
+from .all_dots import all_dots_list
 # Create your views here.
 
-trial_limit = 60
+from config.settings import TRIAL_LIMIT
 
 
 def home_page(request, user=None):
@@ -50,7 +52,7 @@ def final_pattern(request):
         memory_game.save()
 
         trial_number = trial_existing.number_of_trial
-        if trial_number >= trial_limit:
+        if trial_number >= TRIAL_LIMIT:
             return redirect('/user/' + username_logged_in + '/final_survey_one')
 
         return redirect('/user/' + username_logged_in)
@@ -129,6 +131,15 @@ def home_page_memory_game(request, username):
 
     else:
 
+        memory_game_list = MemoryGameList.objects.filter(user=user_logged_in)
+        print(f'first instance of memory game list {memory_game_list}')
+        if len(memory_game_list) == 0:
+            print('len of memory game list was 0, so creating new memory_game_list model')
+            memory_game_list = MemoryGameList()
+            memory_game_list.user = user_logged_in
+            memory_game_list.save()
+            add_memory_games(memory_game_list)
+
         trial = Trial()
         trial.user = request.user
 
@@ -140,12 +151,23 @@ def home_page_memory_game(request, username):
             number_of_trial = 1
         trial.number_of_trial = number_of_trial
         trial.save()
+        
+
+        # !!!!!----- This is the bit I need to change so
+        # that it's seeing the different patterns
         # insert some method here to generate the pattern
-        memory_game = MemoryGame()
-        memory_game.box_1 = True
-        memory_game.box_2 = False
-        memory_game.trial = trial
-        memory_game.save()
+        try:
+            print(f'memory_game_list: {memory_game_list}')
+            if len(memory_game_list) != 0:
+                memory_game = MemoryGame.objects.filter(
+                    memory_game_list=memory_game_list,
+                    number_of_trial=number_of_trial
+                )
+                memory_game.trial = trial
+                memory_game.save()
+
+        except:
+            print("not worked")
 
     if number_of_trial == 1:
         return render(request, 'prelim_one.html', {

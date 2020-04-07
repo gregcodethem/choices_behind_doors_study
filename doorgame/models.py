@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
+
 class SurveyAnswers(models.Model):
     user = models.ForeignKey(
         User,
@@ -18,6 +20,7 @@ class SurveyAnswers(models.Model):
     gender = models.TextField(default="blank")
     education_level = models.TextField(default="blank")
 
+
 class Trial(models.Model):
     user = models.ForeignKey(
         User,
@@ -28,6 +31,17 @@ class Trial(models.Model):
     number_of_trial = models.IntegerField(default=0)
 
 
+
+class MemoryGameList(models.Model):
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        default=None,
+        null=True
+    )
+
+
 class MemoryGame(models.Model):
     trial = models.ForeignKey(
         Trial,
@@ -35,6 +49,7 @@ class MemoryGame(models.Model):
         default=None,
         null=True
     )
+
     box_1 = models.BooleanField(default=False)
     box_2 = models.BooleanField(default=False)
     box_3 = models.BooleanField(default=False)
@@ -46,6 +61,15 @@ class MemoryGame(models.Model):
     box_9 = models.BooleanField(default=False)
 
     initial_or_final = models.CharField(max_length=15, default="")
+    number_of_trial = models.IntegerField(default=0)
+    memory_game_list = models.ForeignKey(
+        MemoryGameList,
+        on_delete=models.CASCADE,
+        default=None,
+        null=True
+    )
+
+
 
 
 
@@ -68,3 +92,4 @@ class Result(models.Model):
         default=None,
         null=True
     )
+
