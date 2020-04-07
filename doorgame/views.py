@@ -131,14 +131,16 @@ def home_page_memory_game(request, username):
 
     else:
 
-        memory_game_list = MemoryGameList.objects.filter(user=user_logged_in)
-        print(f'first instance of memory game list {memory_game_list}')
-        if len(memory_game_list) == 0:
+        memory_game_list_prelim = MemoryGameList.objects.filter(user=user_logged_in)
+        print(f'first instance of memory game list {memory_game_list_prelim}')
+        if len(memory_game_list_prelim) == 0:
             print('len of memory game list was 0, so creating new memory_game_list model')
             memory_game_list = MemoryGameList()
             memory_game_list.user = user_logged_in
             memory_game_list.save()
             add_memory_games(memory_game_list)
+        else:
+            memory_game_list = memory_game_list_prelim
 
         trial = Trial()
         trial.user = request.user
@@ -156,18 +158,18 @@ def home_page_memory_game(request, username):
         # !!!!!----- This is the bit I need to change so
         # that it's seeing the different patterns
         # insert some method here to generate the pattern
-        try:
-            print(f'memory_game_list: {memory_game_list}')
-            if len(memory_game_list) != 0:
-                memory_game = MemoryGame.objects.filter(
-                    memory_game_list=memory_game_list,
-                    number_of_trial=number_of_trial
-                )
-                memory_game.trial = trial
-                memory_game.save()
+        
+        print(f'memory_game_list: {memory_game_list}')
+        if len(memory_game_list) != 0:
+            memory_game_list_end = MemoryGame.objects.filter(
+                memory_game_list=memory_game_list[0],
+                number_of_trial=number_of_trial
+            )
+            memory_game = memory_game_list_end[0]
+            memory_game.trial = trial
+            memory_game.save()
 
-        except:
-            print("not worked")
+
 
     if number_of_trial == 1:
         return render(request, 'prelim_one.html', {
