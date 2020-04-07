@@ -52,7 +52,7 @@ def final_pattern(request):
         memory_game.save()
 
         trial_number = trial_existing.number_of_trial
-        if trial_number >= TRIAL_LIMIT:
+        if trial_number >= TRIAL_LIMIT-1:
             return redirect('/user/' + username_logged_in + '/final_survey_one')
 
         return redirect('/user/' + username_logged_in)
@@ -139,6 +139,7 @@ def home_page_memory_game(request, username):
             memory_game_list.user = user_logged_in
             memory_game_list.save()
             add_memory_games(memory_game_list)
+            memory_game_list = [memory_game_list]
         else:
             memory_game_list = memory_game_list_prelim
 
