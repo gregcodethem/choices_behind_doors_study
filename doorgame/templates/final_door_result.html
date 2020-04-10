@@ -7,25 +7,23 @@
 
 <style>
 img {
-  width: 70%;
+  width: 100%;
   height: auto;
 }
 </style>
 
 <h2>The result of your final door choice</h2>
-
-<p id="final_choice_message">You chose door{{ final_door_chosen_number }}</p>
-
-{% if sucessfully_chose_right_door %}
-	<p>You got it right, you win the car!</p>
-{% else %}
-	<p>You got it wrong, it's the goat for you!</p>
-{% endif %}
-{% load static %}
+<p id="final_choice_message">You chose door{{ final_door_chosen_number }}  
+	{% if sucessfully_chose_right_door %}
+		You got it right, you win the car!
+	{% else %}
+		You got it wrong, it's the goat for you!
+	{% endif %}
+</p>
 {% load static %}
 
 <div class="row">
-	<div class="col-sm-4">
+	<div class="col-sm-2">
 		{% if door_one_bool %}
 			
 			<img src="{% static 'doorgame/open_door_car.jpg' %}" id="door1" alt="door1">
@@ -37,7 +35,7 @@ img {
 			<p>It's not door one</p>
 		{% endif %}
 	</div>
-	<div class="col-sm-4">
+	<div class="col-sm-2">
 		{% if door_two_bool %}
 			<img src="{% static 'doorgame/open_door_car.jpg' %}" id="door2" alt="door2">
 			
@@ -50,7 +48,7 @@ img {
 
 	</div>
 
-	<div class="col-sm-4">
+	<div class="col-sm-2">
 		{% if door_three_bool %}
 			
 			<img src="{% static 'doorgame/open_door_car.jpg' %}" id="door3" alt="door3">

@@ -7,7 +7,7 @@
 
 <style>
 img {
-  width: 70%;
+  width: 100%;
   height: auto;
 }
 </style>
@@ -22,7 +22,7 @@ img {
 {% load static %}
 
 <div class="row">
-	<div class="col-sm-4">
+	<div class="col-sm-2">
 		{% if door_one_bool %}
 			<a href="#" onclick="document.forms['form-id-door1'].submit();">
 				<img src="{% static 'doorgame/door.png' %}" id="door1" alt="door1">
@@ -34,7 +34,7 @@ img {
 				<p>It's not door one</p>
 		{% endif %}
 	</div>
-	<div class="col-sm-4">
+	<div class="col-sm-2">
 		{% if door_two_bool %}
 			<a href="#" onclick="document.forms['form-id-door2'].submit();">
 				<img src="{% static 'doorgame/door.png' %}" id="door2" alt="door2">
@@ -48,7 +48,7 @@ img {
 
 	</div>
 
-	<div class="col-sm-4">
+	<div class="col-sm-2">
 		{% if door_three_bool %}
 			<a href="#" onclick="document.forms['form-id-door3'].submit();">
 				<img src="{% static 'doorgame/door.png' %}" id="door3" alt="door3">

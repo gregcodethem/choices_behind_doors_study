@@ -6,7 +6,7 @@
 {% block content %}
 <style>
 img {
-  width: 70%;
+  width: 100%;
   height: auto;
 }
 </style>
@@ -19,7 +19,7 @@ img {
 
 {% load static %}
 <div class="row">
-	<div class="col-sm-4">
+	<div class="col-sm-2">
 		<form id="form-id-door1" action="/choose_door" method="POST">
 			<input type="hidden" value="1" name="door_chosen">
 			<a href="#" onclick="document.forms['form-id-door1'].submit();">
@@ -28,7 +28,7 @@ img {
 			{% csrf_token %}
 		</form>
 	</div>
-	<div class="col-sm-4">
+	<div class="col-sm-2">
 		<form id="form-id-door2" action="/choose_door" method="POST">
 			{% csrf_token %}
 			<input type="hidden" value="2" name="door_chosen">
@@ -38,7 +38,7 @@ img {
 		</form>
 	</div>
 
-	<div class="col-sm-4">
+	<div class="col-sm-2">
 		<form id="form-id-door3" action="/choose_door" method="POST">
 
 			<input type="hidden" value="3" name="door_chosen">
