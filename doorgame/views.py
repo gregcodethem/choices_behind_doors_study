@@ -79,7 +79,15 @@ def final_pattern(request):
 
 @login_required(login_url='accounts/login')
 def trial_completed(request):
-    return render(request, 'trial_completed.html')
+    user = request.user
+    trial_existing_objects = Trial.objects.filter(
+        user=request.user
+    )
+    trial_existing = trial_existing_objects.last()
+    number_of_trial = trial_existing.number_of_trial - 1
+    return render(request, 'trial_completed.html',
+                  {'trial_number': number_of_trial
+                   })
 
 
 @login_required(login_url='accounts/login')

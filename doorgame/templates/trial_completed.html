@@ -2,6 +2,8 @@
 
 {% block content %}
 <p>You have attempted to remember the dots and have chosen your memory game</p>
+
+<p>You have completed trial number: {{ trial_number }}</p>
 {% load static %}
 <p>It's time to try again.  <a href="{% url 'home' %}">Please click here</a> 
 {% endblock %}
