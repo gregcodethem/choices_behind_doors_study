@@ -193,10 +193,34 @@ def prelim_two(request):
     MemoryGamePrelim = MemoryGamePrelimClass()
     MemoryGamePrelim.box_1 = True
     MemoryGamePrelim.box_2 = False
+    MemoryGamePrelim.box_3 = False
+    MemoryGamePrelim.box_4 = True
+    MemoryGamePrelim.box_5 = True
+    MemoryGamePrelim.box_6 = False
+    MemoryGamePrelim.box_7 = False
+    MemoryGamePrelim.box_8 = True
+    MemoryGamePrelim.box_9 = False
     return render(request, 'prelim_two.html', {
         "memory_game": MemoryGamePrelim
     })
 
+@login_required(login_url='accounts/login')
+def prelim_two_second_go(request):
+    class MemoryGamePrelimClass:
+        pass
+    MemoryGamePrelim = MemoryGamePrelimClass()
+    MemoryGamePrelim.box_1 = True
+    MemoryGamePrelim.box_2 = False
+    MemoryGamePrelim.box_3 = True
+    MemoryGamePrelim.box_4 = False
+    MemoryGamePrelim.box_5 = True
+    MemoryGamePrelim.box_6 = False
+    MemoryGamePrelim.box_7 = False
+    MemoryGamePrelim.box_8 = False
+    MemoryGamePrelim.box_9 = True
+    return render(request, 'prelim_two.html', {
+        "memory_game": MemoryGamePrelim
+    })
 
 def prelim_three(request):
     return render(request, 'prelim_three.html')
