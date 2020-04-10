@@ -30,6 +30,8 @@ urlpatterns = [
     path('door_page_one', views.door_page_one, name="door-page-one"),
     path('prelim_two', views.prelim_two, name="prelim_two"),
     path('prelim_three', views.prelim_three, name="prelim_three"),
+    path('prelim_two_second_go', views.prelim_two_second_go, name="prelim_two_second_go"),
+    path('prelim_three_second_go', views.prelim_three_second_go, name="prelim_three_second_go"),
     path('prelim_four', views.prelim_four, name="prelim_four"),
     path('user/<username>/door-result',
          views.door_result_page,

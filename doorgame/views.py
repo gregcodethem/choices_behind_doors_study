@@ -52,7 +52,7 @@ def final_pattern(request):
         memory_game.save()
 
         trial_number = trial_existing.number_of_trial
-        if trial_number >= TRIAL_LIMIT-1:
+        if trial_number >= TRIAL_LIMIT - 1:
             return redirect('/user/' + username_logged_in + '/final_survey_one')
 
         return redirect('/trial_completed')
@@ -60,6 +60,7 @@ def final_pattern(request):
     else:
         print("final_pattern_step has NOT registered post request")
     return redirect('/user/' + username_logged_in)
+
 
 @login_required(login_url='accounts/login')
 def trial_completed(request):
@@ -135,7 +136,8 @@ def home_page_memory_game(request, username):
 
     else:
 
-        memory_game_list_prelim = MemoryGameList.objects.filter(user=user_logged_in)
+        memory_game_list_prelim = MemoryGameList.objects.filter(
+            user=user_logged_in)
         print(f'first instance of memory game list {memory_game_list_prelim}')
         if len(memory_game_list_prelim) == 0:
             print('len of memory game list was 0, so creating new memory_game_list model')
@@ -158,12 +160,11 @@ def home_page_memory_game(request, username):
             number_of_trial = 1
         trial.number_of_trial = number_of_trial
         trial.save()
-        
 
         # !!!!!----- This is the bit I need to change so
         # that it's seeing the different patterns
         # insert some method here to generate the pattern
-        
+
         print(f'memory_game_list: {memory_game_list}')
         if len(memory_game_list) != 0:
             memory_game_list_end = MemoryGame.objects.filter(
@@ -173,8 +174,6 @@ def home_page_memory_game(request, username):
             memory_game = memory_game_list_end[0]
             memory_game.trial = trial
             memory_game.save()
-
-
 
     if number_of_trial == 1:
         return render(request, 'prelim_one.html', {
@@ -205,8 +204,10 @@ def prelim_two(request):
     MemoryGamePrelim.box_8 = True
     MemoryGamePrelim.box_9 = False
     return render(request, 'prelim_two.html', {
-        "memory_game": MemoryGamePrelim
+        "memory_game": MemoryGamePrelim,
+        "first_go": True
     })
+
 
 @login_required(login_url='accounts/login')
 def prelim_two_second_go(request):
@@ -223,11 +224,21 @@ def prelim_two_second_go(request):
     MemoryGamePrelim.box_8 = False
     MemoryGamePrelim.box_9 = True
     return render(request, 'prelim_two.html', {
-        "memory_game": MemoryGamePrelim
+        "memory_game": MemoryGamePrelim,
+        "first_go": False
     })
 
+
 def prelim_three(request):
-    return render(request, 'prelim_three.html')
+    return render(request, 'prelim_three.html',
+                  {'repeat_example': True
+                   })
+
+
+def prelim_three_second_go(request):
+    return render(request, 'prelim_three.html',
+                  {'repeat_example': False
+                   })
 
 
 def prelim_four(request):
