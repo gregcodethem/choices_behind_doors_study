@@ -15,7 +15,6 @@
 <p> Then you will read a scenario and make a decision about it.  After your decision is recorded, an empty matrix will be presented.  You will be asked to place the dots on the matrix correctly.</p>
 <p> There is no time limit for the experiment</p>
 
-<h2>Can you remember these dots?</h2>
 
 <form id="form-go-to-prelim-two" action="/prelim_two" method="POST">
 
@@ -26,9 +25,7 @@
 
 
 {% if user.is_authenticated %}
-	<p>Hi {{ user.username }}!</p>
 
-	<p>Trial number {{ number_of_trial }}</p>
 
 {% load static %}
 
