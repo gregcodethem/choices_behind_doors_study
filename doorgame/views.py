@@ -48,6 +48,21 @@ def final_pattern(request):
             memory_game.box_1 = True
         if request.POST.get('box_2') == "True":
             memory_game.box_2 = True
+        if request.POST.get('box_3') == "True":
+            memory_game.box_3 == True
+        if request.POST.get('box_4') == "True":
+            memory_game.box_4 == True
+        if request.POST.get('box_5') == "True":
+            memory_game.box_5 = True
+        if request.POST.get('box_6') == "True":
+            memory_game.box_6 = True
+        if request.POST.get('box_7') == "True":
+            memory_game.box_7 == True
+        if request.POST.get('box_8') == "True":
+            memory_game.box_8 == True
+        if request.POST.get('box_9') == "True":
+            memory_game.box_9 = True
+
         memory_game.initial_or_final = 'final'
         memory_game.save()
 
