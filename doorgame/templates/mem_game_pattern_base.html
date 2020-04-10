@@ -1,0 +1,106 @@
+<!-- templates/registration/login.html -->
+{% extends 'base.html' %}
+
+{% block title %}Door Game{% endblock %}
+
+{% block content %}
+
+<h2>Can you remember these dots?</h2>
+
+{% if user.is_authenticated %}
+
+{% block trial_number %}
+{% endblock %}
+
+{% load static %}
+<div class="row">
+  <div class="col-sm-3">
+    {% if memory_game.box_1 == True %}
+    <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_1" alt="box_1">
+    {% else %}
+    <img src="{% static 'doorgame/box_empty.png' %}" id="box_1" alt="box_1">
+    {% endif %}
+  </div>
+  <div class="col-sm-3">
+    {% if memory_game.box_2 == True %}
+    <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_2" alt="box_2">
+    {% else %}
+    <img src="{% static 'doorgame/box_empty.png' %}" id="box_2" alt="box_2">
+    {% endif %}
+  </div>
+  <div class="col-sm-3">
+    {% if memory_game.box_3 == True %}
+    <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_3" alt="box_3">
+    {% else %}
+    <img src="{% static 'doorgame/box_empty.png' %}" id="box_3" alt="box_3">
+    {% endif %}
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-3">
+    {% if memory_game.box_4 == True %}
+    <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_4" alt="box_4">
+    {% else %}
+    <img src="{% static 'doorgame/box_empty.png' %}" id="box_4" alt="box_4">
+    {% endif %}
+  </div>
+  <div class="col-sm-3">
+    {% if memory_game.box_5 == True %}
+    <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_5" alt="box_5">
+    {% else %}
+    <img src="{% static 'doorgame/box_empty.png' %}" id="box_5" alt="box_5">
+    {% endif %}
+  </div>
+  <div class="col-sm-3">
+    {% if memory_game.box_6 == True %}
+    <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_6" alt="box_6">
+    {% else %}
+    <img src="{% static 'doorgame/box_empty.png' %}" id="box_6" alt="box_6">
+    {% endif %}
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-3">
+    {% if memory_game.box_7 == True %}
+    <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_7" alt="box_7">
+    {% else %}
+    <img src="{% static 'doorgame/box_empty.png' %}" id="box_7" alt="box_7">
+    {% endif %}
+  </div>
+  <div class="col-sm-3">
+    {% if memory_game.box_8 == True %}
+    <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_8" alt="box_8">
+    {% else %}
+    <img src="{% static 'doorgame/box_empty.png' %}" id="box_8" alt="box_8">
+    {% endif %}
+  </div>
+  <div class="col-sm-3">
+    {% if memory_game.box_9 == True %}
+    <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_9" alt="box_9">
+    {% else %}
+    <img src="{% static 'doorgame/box_empty.png' %}" id="box_9" alt="box_9">
+    {% endif %}
+  </div>
+</div>
+
+{% block go_to_form_game %}
+{% endblock %}
+
+<br>
+<h2>Please remember where the dots are</h2>
+
+<script>
+    function redirect(){
+       window.location.href = {% block auto_redirect_location %}{% endblock %};
+    }
+
+    setTimeout(redirect, 10000); //2000 is equivalent to 2 seconds
+</script>
+
+
+  <p><a href="{% url 'logout' %}" id="logout_link_anchor">logout</a></p>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}" id="login_link_anchor">login</a>
+{% endif %}
+{% endblock %}
