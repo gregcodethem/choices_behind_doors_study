@@ -75,5 +75,8 @@ urlpatterns = [
     path('final_survey_three_completed',
          views.final_survey_three_completed,
          name='final_survey_three_completed'),
+    path('final_completion',
+        views.final_completion,
+        name='final_completion'),
     #path('', TemplateView.as_view(template_name='home.html'), name='home'),
 ]
