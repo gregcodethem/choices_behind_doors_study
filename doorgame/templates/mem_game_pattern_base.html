@@ -5,6 +5,13 @@
 
 {% block content %}
 
+<style>
+img {
+  width: 100%;
+  height: auto;
+}
+</style>
+
 <h2>Can you remember these dots?</h2>
 
 {% if user.is_authenticated %}
@@ -14,21 +21,21 @@
 
 {% load static %}
 <div class="row">
-  <div class="col-sm-3">
+  <div class="col-sm-1">
     {% if memory_game.box_1 == True %}
     <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_1" alt="box_1">
     {% else %}
     <img src="{% static 'doorgame/box_empty.png' %}" id="box_1" alt="box_1">
     {% endif %}
   </div>
-  <div class="col-sm-3">
+  <div class="col-sm-1">
     {% if memory_game.box_2 == True %}
     <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_2" alt="box_2">
     {% else %}
     <img src="{% static 'doorgame/box_empty.png' %}" id="box_2" alt="box_2">
     {% endif %}
   </div>
-  <div class="col-sm-3">
+  <div class="col-sm-1">
     {% if memory_game.box_3 == True %}
     <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_3" alt="box_3">
     {% else %}
@@ -37,21 +44,21 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-sm-3">
+  <div class="col-sm-1">
     {% if memory_game.box_4 == True %}
     <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_4" alt="box_4">
     {% else %}
     <img src="{% static 'doorgame/box_empty.png' %}" id="box_4" alt="box_4">
     {% endif %}
   </div>
-  <div class="col-sm-3">
+  <div class="col-sm-1">
     {% if memory_game.box_5 == True %}
     <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_5" alt="box_5">
     {% else %}
     <img src="{% static 'doorgame/box_empty.png' %}" id="box_5" alt="box_5">
     {% endif %}
   </div>
-  <div class="col-sm-3">
+  <div class="col-sm-1">
     {% if memory_game.box_6 == True %}
     <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_6" alt="box_6">
     {% else %}
@@ -60,21 +67,21 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-sm-3">
+  <div class="col-sm-1">
     {% if memory_game.box_7 == True %}
     <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_7" alt="box_7">
     {% else %}
     <img src="{% static 'doorgame/box_empty.png' %}" id="box_7" alt="box_7">
     {% endif %}
   </div>
-  <div class="col-sm-3">
+  <div class="col-sm-1">
     {% if memory_game.box_8 == True %}
     <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_8" alt="box_8">
     {% else %}
     <img src="{% static 'doorgame/box_empty.png' %}" id="box_8" alt="box_8">
     {% endif %}
   </div>
-  <div class="col-sm-3">
+  <div class="col-sm-1">
     {% if memory_game.box_9 == True %}
     <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_9" alt="box_9">
     {% else %}

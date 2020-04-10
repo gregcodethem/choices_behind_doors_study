@@ -19,7 +19,7 @@ img {
 {% endblock %}
 <div class="row">
     {% for i in '123'|make_list %}
-        <div class="col-sm-2">
+        <div class="col-sm-1">
         	<div id="div_box_{{ i }}"><img src="{% static 'doorgame/box_empty.png' %}" id="box_{{ i }}_image" alt="box_{{ i }}">
         	</div>
         	<label for="box_{{ i }}">Box {{ i}}</label><input type="checkbox" id="box_{{ i }}" value="True" name="box_{{ i }}"></input>
@@ -28,7 +28,7 @@ img {
 </div>
 <div class="row">
     {% for i in '456'|make_list %}
-        <div class="col-sm-2">
+        <div class="col-sm-1">
             <div id="div_box_{{ i }}"><img src="{% static 'doorgame/box_empty.png' %}" id="box_{{ i }}_image" alt="box_{{ i }}">
             </div>
             <label for="box_{{ i }}">Box {{ i}}</label><input type="checkbox" id="box_{{ i }}" value="True" name="box_{{ i }}"></input>
@@ -37,7 +37,7 @@ img {
 </div>
 <div class="row">
     {% for i in '789'|make_list %}
-        <div class="col-sm-2">
+        <div class="col-sm-1">
             <div id="div_box_{{ i }}"><img src="{% static 'doorgame/box_empty.png' %}" id="box_{{ i }}_image" alt="box_{{ i }}">
             </div>
             <label for="box_{{ i }}">Box {{ i}}</label><input type="checkbox" id="box_{{ i }}" value="True" name="box_{{ i }}"></input>
