@@ -20,7 +20,7 @@ img {
 {% endblock %}
 
 {% load static %}
-<div class="row">
+<div class="row no-gutters">
   <div class="col-sm-1">
     {% if memory_game.box_1 == True %}
     <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_1" alt="box_1">
@@ -43,7 +43,7 @@ img {
     {% endif %}
   </div>
 </div>
-<div class="row">
+<div class="row no-gutters">
   <div class="col-sm-1">
     {% if memory_game.box_4 == True %}
     <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_4" alt="box_4">
@@ -66,7 +66,7 @@ img {
     {% endif %}
   </div>
 </div>
-<div class="row">
+<div class="row no-gutters">
   <div class="col-sm-1">
     {% if memory_game.box_7 == True %}
     <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_7" alt="box_7">

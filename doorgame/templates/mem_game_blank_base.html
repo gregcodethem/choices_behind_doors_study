@@ -8,6 +8,7 @@ img {
   width: 100%;
   height: auto;
 }
+
 </style>
 
 <h2 id="final_pattern_message">Can you remember the pattern from before?</h2>
@@ -17,7 +18,7 @@ img {
 
 {% block form_start_html_tag %}
 {% endblock %}
-<div class="row">
+<div class="row no-gutters">
     {% for i in '123'|make_list %}
         <div class="col-sm-1">
         	<div id="div_box_{{ i }}"><img src="{% static 'doorgame/box_empty.png' %}" id="box_{{ i }}_image" alt="box_{{ i }}">
@@ -26,7 +27,7 @@ img {
         </div>
     {% endfor %}
 </div>
-<div class="row">
+<div class="row no-gutters">
     {% for i in '456'|make_list %}
         <div class="col-sm-1">
             <div id="div_box_{{ i }}"><img src="{% static 'doorgame/box_empty.png' %}" id="box_{{ i }}_image" alt="box_{{ i }}">
@@ -35,7 +36,7 @@ img {
         </div>
     {% endfor %}
 </div>
-<div class="row">
+<div class="row no-gutters">
     {% for i in '789'|make_list %}
         <div class="col-sm-1">
             <div id="div_box_{{ i }}"><img src="{% static 'doorgame/box_empty.png' %}" id="box_{{ i }}_image" alt="box_{{ i }}">
