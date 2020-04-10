@@ -180,7 +180,7 @@ def home_page_memory_game(request, username):
         if len(trials_for_this_user) != 0:
             number_of_trial = latest_trial.number_of_trial + 1
         else:
-            number_of_trial = 1
+            number_of_trial = 0
         trial.number_of_trial = number_of_trial
         trial.save()
 
@@ -198,7 +198,7 @@ def home_page_memory_game(request, username):
             memory_game.trial = trial
             memory_game.save()
 
-    if number_of_trial == 1:
+    if number_of_trial == 0:
         return render(request, 'prelim_one.html', {
             "username": username_logged_in,
             "number_of_trial": number_of_trial,
