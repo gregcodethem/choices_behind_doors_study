@@ -84,7 +84,7 @@ def trial_completed(request):
         user=request.user
     )
     trial_existing = trial_existing_objects.last()
-    number_of_trial = trial_existing.number_of_trial - 1
+    number_of_trial = trial_existing.number_of_trial
     return render(request, 'trial_completed.html',
                   {'trial_number': number_of_trial
                    })
@@ -291,7 +291,7 @@ def home_page_user_unique(request, username):
                       "username": username_logged_in,
                   })
 
-
+@login_required(login_url='accounts/login')
 def door_result_page(request, username):
     if request.method == "POST":
         user_logged_in = request.user
@@ -299,7 +299,16 @@ def door_result_page(request, username):
         choose_final_door(request)
         return redirect('/user/' + username_logged_in + '/final-door-result')
     # !----- Need to make choice specific to the user ----!
-    choice = Choice.objects.last()
+
+    # find the trials by this user
+    trial_existing_objects = Trial.objects.filter(
+        user=request.user
+    )
+    trial_existing = trial_existing_objects.last()
+    choices_from_this_trial = Choice.objects.filter(
+        trial=trial_existing
+    )
+    choice = choices_from_this_trial.last()
     if choice:
         chosen_number = choice.door_number
         possible_numbers = [1, 2, 3]
@@ -354,7 +363,15 @@ def door_result_page(request, username):
 
 
 def final_door_result_page(request, username):
-    choice = Choice.objects.last()
+    # find the trials by this user
+    trial_existing_objects = Trial.objects.filter(
+        user=request.user
+    )
+    trial_existing = trial_existing_objects.last()
+    choices_from_this_trial = Choice.objects.filter(
+        trial=trial_existing
+    )
+    choice = choices_from_this_trial.last()
     if choice:
         final_chosen_number = choice.door_number
         trial = choice.trial
