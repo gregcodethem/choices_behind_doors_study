@@ -55,11 +55,15 @@ def final_pattern(request):
         if trial_number >= TRIAL_LIMIT-1:
             return redirect('/user/' + username_logged_in + '/final_survey_one')
 
-        return redirect('/user/' + username_logged_in)
+        return redirect('/trial_completed')
 
     else:
         print("final_pattern_step has NOT registered post request")
     return redirect('/user/' + username_logged_in)
+
+@login_required(login_url='accounts/login')
+def trial_completed(request):
+    return render(request, 'trial_completed.html')
 
 
 @login_required(login_url='accounts/login')
