@@ -1,6 +1,7 @@
 from random import shuffle
 
 from .all_dots import all_dots_list
+from .easy_dots import easy_dots_list
 from config.settings import TRIAL_LIMIT
 from .models import MemoryGame
 
@@ -26,8 +27,11 @@ def memory_game_bool_matrix(dot_list):
     return bool_list_matrix
 
 
-def add_memory_games(MemoryGameList):
-    bool_matrix = memory_game_bool_matrix(all_dots_list)
+def add_memory_games(MemoryGameList, dot_list="hard"):
+    if dot_list == "hard":
+        bool_matrix = memory_game_bool_matrix(all_dots_list)
+    elif dot_list == "easy":
+        bool_matrix = memory_game_bool_matrix(easy_dots_list)
 
     for i in range(0, TRIAL_LIMIT):
         _MemoryGame = MemoryGame()

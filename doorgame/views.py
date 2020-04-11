@@ -184,7 +184,20 @@ def home_page_memory_game(request, username):
             memory_game_list=MemoryGameList()
             memory_game_list.user=user_logged_in
             memory_game_list.save()
-            add_memory_games(memory_game_list)
+
+            # find whether user is registered as easy or hard dot list
+            if user_logged_in.profile:
+                hard_or_easy_dot_list = user_logged_in.profile.hard_or_easy_dots
+                if hard_or_easy_dot_list == "easy":
+                    add_memory_games(memory_game_list,"easy")
+                elif hard_or_easy_dot_list == "hard":
+                    add_memory_games(memory_game_list, "hard")
+                else:
+                    print("Error: hard_or_easy_dots setting in incorrect format in Profile model")
+                    print("Adding hard list")
+                    add_memory_games(memory_game_list, dot_list="hard")
+            else:
+                add_memory_games(memory_game_list, dot_list="hard")
             memory_game_list=[memory_game_list]
         else:
             memory_game_list=memory_game_list_prelim
