@@ -228,6 +228,9 @@ def home_page_memory_game(request, username):
         "memory_game": memory_game,
     })
 
+@login_required(login_url='accounts/login')
+def prelim_one_part_b(request):
+    return render(request, 'prelim_one_part_b.html')
 
 @login_required(login_url='accounts/login')
 def prelim_two(request):
@@ -427,6 +430,7 @@ def final_survey_one(request, username):
     username_logged_in=request.user.username
 
     return render(request, 'final_survey_one.html',)
+
 
 
 @login_required(login_url='accounts/login')
