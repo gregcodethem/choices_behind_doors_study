@@ -157,13 +157,14 @@ def home_page_memory_game(request, username):
     # logout_if_reached_the_limit(request)
     user_logged_in=request.user
     trials_for_this_user=Trial.objects.filter(user=user_logged_in)
-    latest_trial=trials_for_this_user.last()
+    if len(trials_for_this_user) != 0:
+        latest_trial=trials_for_this_user.last()
 
-    if latest_trial.number_of_trial >= TRIAL_LIMIT:
-        return final_completion(request)
+        if latest_trial.number_of_trial >= TRIAL_LIMIT:
+            return final_completion(request)
 
-    else:
-        pass
+        else:
+            pass
 
 
     username_logged_in=request.user.username
@@ -204,7 +205,7 @@ def home_page_memory_game(request, username):
         # that it's seeing the different patterns
         # insert some method here to generate the pattern
 
-        print(f'memory_game_list: {memory_game_list}')
+        
         if len(memory_game_list) != 0:
             memory_game_list_end=MemoryGame.objects.filter(
                 memory_game_list=memory_game_list[0],
