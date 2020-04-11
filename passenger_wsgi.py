@@ -9,7 +9,6 @@ if sys.executable != INTERP:
 
 cwd = os.getcwd()
 sys.path.append(cwd)
-sys.path.append(cwd + '/doorgame')  # You must add your project here
 
 sys.path.insert(0, cwd + '/env/bin')
 sys.path.insert(
