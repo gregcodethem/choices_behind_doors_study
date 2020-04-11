@@ -25,7 +25,7 @@ SECRET_KEY = 'q2a!02@(g(#*o9u3*lby5n8dt!$q+h)14c4l(tm$z3i=q-cul4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.study.medialucida.co.uk', 'study.medialucida.co.uk']
 
 
 # Application definition
@@ -121,6 +121,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
 
 LOGIN_REDIRECT_URL = 'home-user'
 LOGOUT_REDIRECT_URL = 'home'
