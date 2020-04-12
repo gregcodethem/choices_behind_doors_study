@@ -199,7 +199,7 @@ def memory_game_initial_turn(request):
     if len(trials_for_this_user) != 0:
         number_of_trial = latest_trial.number_of_trial + 1
     else:
-        number_of_trial = 0
+        number_of_trial = 1
     trial.number_of_trial = number_of_trial
     trial.save()
 
@@ -323,7 +323,7 @@ def home_page_memory_game(request, username):
     user_logged_in = request.user
     if user_logged_in.profile.trial_completed >= TRIAL_LIMIT:
         return final_completion()
-        
+
     trials_for_this_user = Trial.objects.filter(user=user_logged_in)
     if len(trials_for_this_user) != 0:
         latest_trial = trials_for_this_user.last()
