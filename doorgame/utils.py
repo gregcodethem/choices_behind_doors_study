@@ -9,9 +9,9 @@ from .models import MemoryGame
 def memory_game_bool_matrix(dot_list):
         # if dots list shorter than trial limit
     # then repeat dots list until it gets to 61
+    i = 0
     while len(dot_list) < 61:
-        i = 0
-        dot_list.append(dot_list[i])
+        dot_list.append(dot_list[i % len(dot_list)])
         i = i + 1
 
     shuffle(dot_list)
