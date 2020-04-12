@@ -89,6 +89,9 @@ def trial_completed(request):
     )
     trial_existing = trial_existing_objects.last()
     number_of_trial = trial_existing.number_of_trial
+    user.profile.trial_completed = number_of_trial
+    user.save()
+
     return render(request, 'trial_completed.html',
                   {'trial_number': number_of_trial
                    })
@@ -242,12 +245,14 @@ def memory_game_start(request):
     # commented out as done above
     # trials_for_this_user = Trial.objects.filter(user=user_logged_in)
     latest_trial = trials_for_this_user.last()
-    number_of_trial = latest_trial.number_of_trial + 1
+    number_of_trial = user.profile.trials_completed + 1
 
     trial = Trial()
     trial.user = user_logged_in
     trial.number_of_trial = number_of_trial
     trial.save()
+    
+    '''
     new_trials_total = Trial.objects.all()
     if len(trials_for_this_user) == len(new_trials_total):
         trial = Trial()
@@ -256,6 +261,7 @@ def memory_game_start(request):
         trial.save()
     else:
         pass
+    '''
 
     memory_game_list_end = MemoryGame.objects.filter(
         memory_game_list=memory_game_list[0],

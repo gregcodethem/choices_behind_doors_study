@@ -9,6 +9,7 @@ class Profile(models.Model):
     hard_or_easy_dots = models.TextField(max_length=10, blank=True)
     prelim_completed = models.BooleanField(default=False)
     memory_game_list_created = models.BooleanField(default=False)
+    trials_completed = models.IntegerField(default=0)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
