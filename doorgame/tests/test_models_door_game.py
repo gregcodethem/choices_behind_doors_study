@@ -22,15 +22,13 @@ class TrialBugTest(TestCase):
         trial.save()
         trials_for_this_user = Trial.objects.filter(
             user=user_test_one)
-        print(trials_for_this_user)
-        print(len(trials_for_this_user))
+        self.assertEqual(len(trials_for_this_user),1)
         trial_two = Trial()
         trial_two.user = user_test_one
         trial_two.save()
         new_trials_for_this_user = Trial.objects.filter(
             user=user_test_one)
-        print(new_trials_for_this_user)
-        print(len(new_trials_for_this_user))
+        self.assertEqual(len(new_trials_for_this_user),2)
 
 class TwoUsersCreateModelsAtSameTimeTest(TestCase):
 
