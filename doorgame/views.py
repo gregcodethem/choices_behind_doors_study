@@ -219,15 +219,17 @@ def memory_game_initial_turn(request):
     })
 
 @login_required(login_url='accounts/login')
-def memory_game_start(request):
+def memory_game_start(request,number_of_trial):
     user_logged_in = request.user
     username_logged_in = request.user.username
 
-    trials_completed = user_logged_in.profile.trials_completed
+    #trials_completed = user_logged_in.profile.trials_completed
 
-    if trials_completed >= TRIAL_LIMIT:
+    #if trials_completed >= TRIAL_LIMIT:
+    #    return final_completion()
+
+    if number_of_trial > TRIAL_LIMIT:
         return final_completion()
-
 
     number_of_trial = trials_completed + 1
 
