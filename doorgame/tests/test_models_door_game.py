@@ -8,6 +8,29 @@ from doorgame.models import (
     Result,
 )
 
+class TrialBugTest(TestCase):
+
+    def test_trial_make(self):
+        # set up the users
+        user_test_one = User.objects.create_user(
+            'Acho',
+            '',
+            'tu_ajedrez')
+        user_test_one.save()
+        trial = Trial()
+        trial.user = user_test_one
+        trial.save()
+        trials_for_this_user = Trial.objects.filter(
+            user=user_test_one)
+        print(trials_for_this_user)
+        print(len(trials_for_this_user))
+        trial_two = Trial()
+        trial_two.user = user_test_one
+        trial_two.save()
+        new_trials_for_this_user = Trial.objects.filter(
+            user=user_test_one)
+        print(new_trials_for_this_user)
+        print(len(new_trials_for_this_user))
 
 class TwoUsersCreateModelsAtSameTimeTest(TestCase):
 
