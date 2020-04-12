@@ -5,5 +5,5 @@
 
 <p>You have completed trial number: {{ trial_number }}</p>
 {% load static %}
-<p>It's time to try again.  <a href="{% url 'memory_game_start' number_of_trial=trial_number+1 %}">Please click here</a> 
+<p>It's time to try again.  <a href="{% url 'memory_game_start' number_of_trial=trial_completed %}">Please click here</a> 
 {% endblock %}
