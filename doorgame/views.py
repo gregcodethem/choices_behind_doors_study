@@ -213,8 +213,53 @@ def memory_game_initial_turn(request):
         "memory_game": memory_game,
     })
 
+
 def memory_game_start(request):
-    pass
+    # logout_if_reached_the_limit(request)
+    user_logged_in = request.user
+    username_logged_in = request.user.username
+
+    trials_for_this_user = Trial.objects.filter(user=user_logged_in)
+    if len(trials_for_this_user) != 0:
+        latest_trial = trials_for_this_user.last()
+
+        if latest_trial.number_of_trial >= TRIAL_LIMIT:
+            return final_completion(request)
+
+        else:
+            pass
+
+    memory_game_list_prelim = MemoryGameList.objects.filter(
+        user=user_logged_in)
+    print(f'first instance of memory game list {memory_game_list_prelim}')
+    memory_game_list = memory_game_list_prelim
+
+    trial = Trial()
+    trial.user = request.user
+
+    trials_for_this_user = Trial.objects.filter(user=user_logged_in)
+    latest_trial = trials_for_this_user.last()
+    if len(trials_for_this_user) != 0:
+        number_of_trial = latest_trial.number_of_trial + 1
+    else:
+        number_of_trial = 0
+    trial.number_of_trial = number_of_trial
+    trial.save()
+
+    memory_game_list_end = MemoryGame.objects.filter(
+        memory_game_list=memory_game_list[0],
+        number_of_trial=number_of_trial
+    )
+    memory_game = memory_game_list_end[0]
+    memory_game.trial = trial
+    memory_game.save()
+
+    return render(request, 'home.html', {
+        "username": username_logged_in,
+        "number_of_trial": number_of_trial,
+        "memory_game": memory_game,
+    })
+
 
 @login_required(login_url='accounts/login')
 def home_page_memory_game(request, username):
