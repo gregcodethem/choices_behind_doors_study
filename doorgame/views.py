@@ -236,7 +236,7 @@ def memory_game_start(request):
     new_trial.number_of_trial = number_of_trial
     new_trial.save()
 
-    memory_game_list_from_setup = MemoryGame.objects.get(user=user_logged_in)
+    memory_game_list_from_setup = MemoryGameList.objects.get(user=user_logged_in)
     memory_game = MemoryGame.objects.get(
         memory_game_list=memory_game_list_from_setup,
         number_of_trial=number_of_trial
