@@ -29,6 +29,7 @@ class TrialBugTest(TestCase):
         new_trials_for_this_user = Trial.objects.filter(
             user=user_test_one)
         self.assertEqual(len(new_trials_for_this_user),2)
+        
 
 class TwoUsersCreateModelsAtSameTimeTest(TestCase):
 
