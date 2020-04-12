@@ -89,7 +89,8 @@ def trial_completed(request):
     )
     trial_existing = trial_existing_objects.last()
     number_of_trial = trial_existing.number_of_trial
-    user.profile.trial_completed = number_of_trial
+    current_trial_completed = user.profile.trials_completed
+    user.profile.trials_completed = current_trial_completed + 1
     user.save()
 
     return render(request, 'trial_completed.html',
