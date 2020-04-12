@@ -245,7 +245,7 @@ def memory_game_start(request):
     # commented out as done above
     # trials_for_this_user = Trial.objects.filter(user=user_logged_in)
     latest_trial = trials_for_this_user.last()
-    number_of_trial = user.profile.trials_completed + 1
+    number_of_trial = user_logged_in.profile.trials_completed + 1
 
     trial = Trial()
     trial.user = user_logged_in
