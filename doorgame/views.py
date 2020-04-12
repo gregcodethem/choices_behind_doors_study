@@ -321,6 +321,9 @@ def home_page_memory_game(request, username):
 
     # logout_if_reached_the_limit(request)
     user_logged_in = request.user
+    if user_logged_in.profile.trial_completed >= TRIAL_LIMIT:
+        return final_completion()
+        
     trials_for_this_user = Trial.objects.filter(user=user_logged_in)
     if len(trials_for_this_user) != 0:
         latest_trial = trials_for_this_user.last()
