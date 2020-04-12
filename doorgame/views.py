@@ -419,15 +419,27 @@ def prelim_two(request):
     class MemoryGamePrelimClass:
         pass
     MemoryGamePrelim = MemoryGamePrelimClass()
-    MemoryGamePrelim.box_1 = True
-    MemoryGamePrelim.box_2 = False
-    MemoryGamePrelim.box_3 = False
-    MemoryGamePrelim.box_4 = True
-    MemoryGamePrelim.box_5 = True
-    MemoryGamePrelim.box_6 = False
-    MemoryGamePrelim.box_7 = False
-    MemoryGamePrelim.box_8 = True
-    MemoryGamePrelim.box_9 = False
+    user_logged_in = request.user
+    if user_logged_in.profile.hard_or_easy_dots == 'easy':
+        MemoryGamePrelim.box_1 = True
+        MemoryGamePrelim.box_2 = True
+        MemoryGamePrelim.box_3 = True
+        MemoryGamePrelim.box_4 = False
+        MemoryGamePrelim.box_5 = False
+        MemoryGamePrelim.box_6 = False
+        MemoryGamePrelim.box_7 = False
+        MemoryGamePrelim.box_8 = False
+        MemoryGamePrelim.box_9 = False
+    else:
+        MemoryGamePrelim.box_1 = True
+        MemoryGamePrelim.box_2 = False
+        MemoryGamePrelim.box_3 = False
+        MemoryGamePrelim.box_4 = True
+        MemoryGamePrelim.box_5 = True
+        MemoryGamePrelim.box_6 = False
+        MemoryGamePrelim.box_7 = False
+        MemoryGamePrelim.box_8 = True
+        MemoryGamePrelim.box_9 = False
     return render(request, 'prelim_two.html', {
         "memory_game": MemoryGamePrelim,
         "first_go": True
@@ -439,15 +451,27 @@ def prelim_two_second_go(request):
     class MemoryGamePrelimClass:
         pass
     MemoryGamePrelim = MemoryGamePrelimClass()
-    MemoryGamePrelim.box_1 = True
-    MemoryGamePrelim.box_2 = False
-    MemoryGamePrelim.box_3 = True
-    MemoryGamePrelim.box_4 = False
-    MemoryGamePrelim.box_5 = True
-    MemoryGamePrelim.box_6 = False
-    MemoryGamePrelim.box_7 = False
-    MemoryGamePrelim.box_8 = False
-    MemoryGamePrelim.box_9 = True
+    user_logged_in = request.user
+    if user_logged_in.profile.hard_or_easy_dots == 'easy':
+        MemoryGamePrelim.box_1 = False
+        MemoryGamePrelim.box_2 = False
+        MemoryGamePrelim.box_3 = False
+        MemoryGamePrelim.box_4 = True
+        MemoryGamePrelim.box_5 = True
+        MemoryGamePrelim.box_6 = True
+        MemoryGamePrelim.box_7 = False
+        MemoryGamePrelim.box_8 = False
+        MemoryGamePrelim.box_9 = False
+    else:
+        MemoryGamePrelim.box_1 = True
+        MemoryGamePrelim.box_2 = False
+        MemoryGamePrelim.box_3 = True
+        MemoryGamePrelim.box_4 = False
+        MemoryGamePrelim.box_5 = True
+        MemoryGamePrelim.box_6 = False
+        MemoryGamePrelim.box_7 = False
+        MemoryGamePrelim.box_8 = False
+        MemoryGamePrelim.box_9 = True
     return render(request, 'prelim_two.html', {
         "memory_game": MemoryGamePrelim,
         "first_go": False
