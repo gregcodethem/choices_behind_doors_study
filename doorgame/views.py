@@ -120,6 +120,7 @@ def choose_door(request):
         choice = Choice()
         choice.door_number = request.POST.get('door_chosen', 0)
         choice.trial = trial_existing
+        choice.first_or_second_choice = 1
         choice.save()
 
         result = Result()
