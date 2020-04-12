@@ -157,7 +157,7 @@ def choose_final_door(request):
         return redirect('/user/' + username_logged_in + '/final-door-result')
 
 
-@login_required
+@login_required(login_url='accounts/login')
 def memory_game_initial_turn(request):
     user_logged_in = request.user
     username_logged_in = request.user.username
@@ -218,8 +218,42 @@ def memory_game_initial_turn(request):
         "memory_game": memory_game,
     })
 
-
+@login_required(login_url='accounts/login')
 def memory_game_start(request):
+    user_logged_in = request.user
+    username_logged_in = request.user.username
+
+    trials_completed = user_logged_in.profile.trials_completed
+
+    if trials_completed >= TRIAL_LIMIT:
+        return final_completion()
+
+
+    number_of_trial = trials_completed + 1
+
+    new_trial = Trial()
+    new_trial.user = user_logged_in
+    new_trial.number_of_trial = number_of_trial
+    new_trial.save()
+
+    memory_game_list_from_setup = MemoryGame.objects.get(user=user_logged_in)
+    memory_game = MemoryGame.objects.get(
+        memory_game_list=memory_game_list_from_setup,
+        number_of_trial=number_of_trial
+    )
+    memory_game.trial = new_trial
+    memory_game.save()
+
+    return render(request, 'home.html', {
+        "username": username_logged_in,
+        "number_of_trial": number_of_trial,
+        "memory_game": memory_game,
+    })
+
+
+
+@login_required(login_url='accounts/login')
+def memory_game_start_old(request):
     # logout_if_reached_the_limit(request)
     user_logged_in = request.user
     username_logged_in = request.user.username
