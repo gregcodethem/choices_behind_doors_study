@@ -206,7 +206,6 @@ def memory_game_initial_turn(request):
         )
         memory_game = memory_game_list_end[0]
         memory_game.trial = trial
-        memory_game.number_of_trial = number_of_trial
         memory_game.save()
 
     return render(request, 'home.html', {
@@ -221,7 +220,10 @@ def memory_game_start(request):
     user_logged_in = request.user
     username_logged_in = request.user.username
 
-    trials_for_this_user = Trial.objects.filter(user=user_logged_in)
+    #all_trial_objects = Trial.objects.all()
+    #trials_for_this_user = Trial.objects.filter(user=user_logged_in)
+    trials_for_this_user = Trial.objects.all()
+
     if len(trials_for_this_user) != 0:
         latest_trial = trials_for_this_user.last()
 
@@ -233,7 +235,7 @@ def memory_game_start(request):
 
     memory_game_list_prelim = MemoryGameList.objects.filter(
         user=user_logged_in)
-    print(f'first instance of memory game list {memory_game_list_prelim}')
+
     memory_game_list = memory_game_list_prelim
 
 
@@ -248,13 +250,14 @@ def memory_game_start(request):
     trial.number_of_trial = number_of_trial
     trial.save()
 
+
+
     memory_game_list_end = MemoryGame.objects.filter(
         memory_game_list=memory_game_list[0],
         number_of_trial=number_of_trial
     )
     memory_game = memory_game_list_end[0]
     memory_game.trial = trial
-    memory_game.number_of_trial = number_of_trial
     memory_game.save()
 
     return render(request, 'home.html', {
