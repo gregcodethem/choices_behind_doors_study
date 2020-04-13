@@ -50,18 +50,24 @@ def final_pattern(request):
 
         if request.POST.get('box_1') == "True":
             memory_game.box_1 = True
+            print('box_1 true')
         if request.POST.get('box_2') == "True":
             memory_game.box_2 = True
         if request.POST.get('box_3') == "True":
             memory_game.box_3 == True
+            print('box_3 true')
+        else:
+            memory_game.box_3 == False
         if request.POST.get('box_4') == "True":
             memory_game.box_4 == True
+            print('box_4 true')
         if request.POST.get('box_5') == "True":
             memory_game.box_5 = True
         if request.POST.get('box_6') == "True":
             memory_game.box_6 = True
         if request.POST.get('box_7') == "True":
             memory_game.box_7 == True
+            print('box_7 true')
         if request.POST.get('box_8') == "True":
             memory_game.box_8 == True
         if request.POST.get('box_9') == "True":
@@ -256,73 +262,12 @@ def memory_game_start(request,trial_completed):
 
 
 @login_required(login_url='accounts/login')
-def memory_game_start_old(request):
-    # logout_if_reached_the_limit(request)
-    user_logged_in = request.user
-    username_logged_in = request.user.username
-
-    #all_trial_objects = Trial.objects.all()
-    #trials_for_this_user = Trial.objects.filter(user=user_logged_in)
-    trials_for_this_user = Trial.objects.all()
-
-    if len(trials_for_this_user) != 0:
-        latest_trial = trials_for_this_user.last()
-
-        if latest_trial.number_of_trial >= TRIAL_LIMIT:
-            return final_completion(request)
-
-        else:
-            pass
-
-    memory_game_list_prelim = MemoryGameList.objects.filter(
-        user=user_logged_in)
-
-    memory_game_list = memory_game_list_prelim
-
-
-    # commented out as done above
-    # trials_for_this_user = Trial.objects.filter(user=user_logged_in)
-    latest_trial = trials_for_this_user.last()
-    number_of_trial = user_logged_in.profile.trials_completed + 1
-
-    trial = Trial()
-    trial.user = user_logged_in
-    trial.number_of_trial = number_of_trial
-    trial.save()
-    
-    '''
-    new_trials_total = Trial.objects.all()
-    if len(trials_for_this_user) == len(new_trials_total):
-        trial = Trial()
-        trial.user = user_logged_in
-        trial.number_of_trial = 3
-        trial.save()
-    else:
-        pass
-    '''
-
-    memory_game_list_end = MemoryGame.objects.filter(
-        memory_game_list=memory_game_list[0],
-        number_of_trial=number_of_trial
-    )
-    memory_game = memory_game_list_end[0]
-    memory_game.trial = trial
-    memory_game.save()
-
-    return render(request, 'home.html', {
-        "username": username_logged_in,
-        "number_of_trial": number_of_trial,
-        "memory_game": memory_game,
-    })
-
-
-@login_required(login_url='accounts/login')
 def home_page_memory_game(request, username):
 
     # logout_if_reached_the_limit(request)
     user_logged_in = request.user
     if user_logged_in.profile.trials_completed >= TRIAL_LIMIT:
-        return final_completion()
+        return final_completion(request)
 
     trials_for_this_user = Trial.objects.filter(user=user_logged_in)
     if len(trials_for_this_user) != 0:
@@ -391,7 +336,12 @@ def home_page_memory_game(request, username):
                 memory_game_list=memory_game_list[0],
                 number_of_trial=number_of_trial
             )
-            memory_game = memory_game_list_end[0]
+            if len(memory_game_list_end) !=0:
+                memory_game = memory_game_list_end[0]
+            else:
+                # This is a bit of a hack to stop it crashing when
+                # people log in after completing everything.
+                return final_completion(request)
             memory_game.trial = trial
             memory_game.save()
 

@@ -51,3 +51,59 @@ def add_memory_games(MemoryGameList, dot_list="hard"):
         _MemoryGame.memory_game_list = MemoryGameList
 
         _MemoryGame.save()
+
+
+def number_of_dots_correct_calculator(memory_game_one, memory_game_two):
+    number_correct = 0
+    if memory_game_one.box_1 == True:
+        if memory_game_two.box_1 == True:
+            number_correct += 1
+    if memory_game_one.box_2 == True:
+        if memory_game_two.box_2 == True:
+            number_correct += 1
+    if memory_game_one.box_3 == True:
+        if memory_game_two.box_3 == True:
+            number_correct += 1
+    if memory_game_one.box_4 == True:
+        if memory_game_two.box_4 == True:
+            number_correct += 1
+    if memory_game_one.box_5 == True:
+        if memory_game_two.box_5 == True:
+            number_correct += 1
+    if memory_game_one.box_6 == True:
+        if memory_game_two.box_6 == True:
+            number_correct += 1
+    if memory_game_one.box_7 == True:
+        if memory_game_two.box_7 == True:
+            number_correct += 1
+    if memory_game_one.box_8 == True:
+        if memory_game_two.box_8 == True:
+            number_correct += 1
+    if memory_game_one.box_9 == True:
+        if memory_game_two.box_9 == True:
+            number_correct += 1
+
+    return number_correct
+
+def number_of_dots_selected_calculator(memory_game):
+    total_selected = 0
+    if memory_game.box_1 == True:
+        total_selected += 1
+    if memory_game.box_2 == True:
+        total_selected += 1
+    if memory_game.box_3 == True:
+        total_selected += 1
+    if memory_game.box_4 == True:
+        total_selected += 1
+    if memory_game.box_5 == True:
+        total_selected += 1
+    if memory_game.box_6 == True:
+        total_selected += 1
+    if memory_game.box_7 == True:
+        total_selected += 1
+    if memory_game.box_8 == True:
+        total_selected += 1
+    if memory_game.box_9 == True:
+        total_selected += 1
+    return total_selected
+

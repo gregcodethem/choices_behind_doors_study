@@ -11,3 +11,5 @@ class MemoryGameTest(BaseTest):
 	def test_memory_game_bool_matrix_small_list(self):
 		expanded_matrix = memory_game_bool_matrix(easy_dots_list)
 		self.assertEqual(len(expanded_matrix), 61)
+
+

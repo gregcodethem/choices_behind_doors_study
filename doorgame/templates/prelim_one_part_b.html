@@ -25,8 +25,6 @@
 
 {% load static %}
 
-
-  <p><a href="{% url 'logout' %}" id="logout_link_anchor">logout</a></p>
 {% else %}
   <p>You are not logged in</p>
   <a href="{% url 'login' %}" id="login_link_anchor">login</a>

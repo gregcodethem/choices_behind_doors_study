@@ -12,7 +12,6 @@ img {
 }
 </style>
 
-<h2>Can you remember these dots?</h2>
 
 {% if user.is_authenticated %}
 
@@ -94,7 +93,6 @@ img {
 {% endblock %}
 
 <br>
-<h2>Please remember where the dots are</h2>
 
 <script>
     function redirect(){
@@ -105,7 +103,7 @@ img {
 </script>
 
 
-  <p><a href="{% url 'logout' %}" id="logout_link_anchor">logout</a></p>
+
 {% else %}
   <p>You are not logged in</p>
   <a href="{% url 'login' %}" id="login_link_anchor">login</a>
