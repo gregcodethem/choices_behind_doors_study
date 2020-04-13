@@ -6,15 +6,26 @@
 
 <h2>Well done</h2>
 
-<p> Now play the game with the decision task.  The decision task is the Monty Hall Problem.  Suppose you are in a game.  You are given three closed doors to chose from.  1 car and 2 goats are randomly hidden behind the doors.  You are given the first choice to chose one door among three doors.  Before you open your chosen door, Monty (the host) will open one of the two unchosen doors and reveal one of the two goats.</p>
+<p>Now play the memory task with the game.  In this study, you will play Monthy Hall Game with the memory task consecutively 60 times.</p>
+<p>In this game, Monty Hall, a thoroughly honest game-show host, has placed the car behind one of three doors.</p>  
+<p>There is a goat behind each of the other two doors.
+	
+<p>First, Monty will ask you to pick a door.  Then he will open one of the other two doors that you did not pick to reveal one of the goats</p>
+<p>Then, Monty will ask you to make a final choice between the remaining doors, and you will win whatever is behind the door you select.</p>
 
-<p> Then you will be asked to stick with their first choice or switch.  The aim is winning the car.  Remember:</p>
+
+
+<p>The aim is winning the car.  Remember:</p>
 
 <ul>
-	<li>The prize and duds are randomly placed behind the doors.</li>
-	<li>The unbiased host knows where the car and goats are.</li>
-	<li>The host always offers switch/stick options to the guests</li>
-	<li>The host always reveals one of the duds</li>
+	<li>The car and goats are randomly placed behind the doors.</li>
+	<li>The unbiased host, Monty, knows where the car and goats are.</li>
+	<li>Monty does not re-shuffle the car's location once you begin playing each game.</li>
+	<li>Monty never opens your inital choice or reveals the car.</li>
+	<li>Monty always reveals one of the goats.</li>
+	<li>Monty always offers switch/stick options to the guests.</li>
+	
+	
 </ul>
 {% load static %}
 <p><a href= {% url 'memory_game_initial_turn' %}>Let's play the game.</a></p>
