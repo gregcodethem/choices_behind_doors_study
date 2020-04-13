@@ -50,26 +50,20 @@ def final_pattern(request):
 
         if request.POST.get('box_1') == "True":
             memory_game.box_1 = True
-            print('box_1 true')
         if request.POST.get('box_2') == "True":
             memory_game.box_2 = True
         if request.POST.get('box_3') == "True":
-            memory_game.box_3 == True
-            print('box_3 true')
-        else:
-            memory_game.box_3 == False
+            memory_game.box_3 = True
         if request.POST.get('box_4') == "True":
-            memory_game.box_4 == True
-            print('box_4 true')
+            memory_game.box_4 = True
         if request.POST.get('box_5') == "True":
             memory_game.box_5 = True
         if request.POST.get('box_6') == "True":
             memory_game.box_6 = True
         if request.POST.get('box_7') == "True":
-            memory_game.box_7 == True
-            print('box_7 true')
+            memory_game.box_7 = True
         if request.POST.get('box_8') == "True":
-            memory_game.box_8 == True
+            memory_game.box_8 = True
         if request.POST.get('box_9') == "True":
             memory_game.box_9 = True
 
