@@ -437,6 +437,9 @@ def prelim_three_second_go(request):
 def prelim_four(request):
     return render(request, 'prelim_four.html')
 
+def prelim_five(request):
+    return render(request, 'prelim_five.html')
+
 
 @login_required(login_url='accounts/login')
 def door_page_one(request):

@@ -36,6 +36,7 @@ urlpatterns = [
     path('prelim_two_second_go', views.prelim_two_second_go, name="prelim_two_second_go"),
     path('prelim_three_second_go', views.prelim_three_second_go, name="prelim_three_second_go"),
     path('prelim_four', views.prelim_four, name="prelim_four"),
+    path('prelim_five', views.prelim_five, name="prelim_five"),
     path('memory_game_initial_turn', views.memory_game_initial_turn, name="memory_game_initial_turn"),
     path('memory_game_start/<trial_completed>', views.memory_game_start, name="memory_game_start"),
     path('user/<username>/door-result',
