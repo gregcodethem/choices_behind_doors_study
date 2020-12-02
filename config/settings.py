@@ -126,4 +126,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
 LOGIN_REDIRECT_URL = 'home-user'
 LOGOUT_REDIRECT_URL = 'home'
 
-TRIAL_LIMIT = 60
+TRIAL_LIMIT = 30
