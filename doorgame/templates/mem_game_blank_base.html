@@ -16,13 +16,14 @@ label {
 
 </style>
 
-{% if user.is_authenticated %}
+<div style="height:80px;">
+    {% if user.is_authenticated %}
 
-<h2 id="final_pattern_message">Can you remember the pattern from before?</h2>
+    <h2 id="final_pattern_message">Can you remember the pattern from before?</h2>
 
-<p>Please click on the squares</p>
+    <p>Please click on the squares</p>
 
-
+</div>
 
 
 {% block form_start_html_tag %}

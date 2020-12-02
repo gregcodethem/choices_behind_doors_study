@@ -10,13 +10,15 @@ img {
   height: auto;
 }
 </style>
+<div style="height:130px;">
+	<h2>Welcome to the door game</h2>
 
-<h2>Welcome to the door game</h2>
 
+	{% if user.is_authenticated %}
 
-{% if user.is_authenticated %}
+	<p>Please make your initial choice by clicking on one of the three doors</p>
 
-<p>Please make your initial choice by clicking on one of the three doors</p>
+</div>
 
 {% load static %}
 <div class="row">

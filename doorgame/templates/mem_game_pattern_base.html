@@ -12,12 +12,14 @@ img {
 }
 
 </style>
+<div style="height:80px;">
 
+  {% if user.is_authenticated %}
 
-{% if user.is_authenticated %}
+  {% block trial_number %}
+  {% endblock %}
 
-{% block trial_number %}
-{% endblock %}
+</div>
 
 {% load static %}
 <div class="row no-gutters">

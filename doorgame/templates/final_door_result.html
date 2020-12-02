@@ -12,14 +12,16 @@ img {
 }
 </style>
 
-<h2>The result of your final door choice</h2>
-<p id="final_choice_message">You chose door{{ final_door_chosen_number }}  
-	{% if sucessfully_chose_right_door %}
-		You got it right, you win the car!
-	{% else %}
-		You got it wrong, it's the goat for you!
-	{% endif %}
-</p>
+<div style="height:130px;">
+	<h2>The result of your final door choice</h2>
+	<p id="final_choice_message">You chose door{{ final_door_chosen_number }}  
+		{% if sucessfully_chose_right_door %}
+			You got it right, you win the car!
+		{% else %}
+			You got it wrong, it's the goat for you!
+		{% endif %}
+	</p>
+</div>
 {% load static %}
 
 <div class="row">
