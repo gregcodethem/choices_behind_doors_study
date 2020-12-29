@@ -1,6 +1,9 @@
 import sys
 import csv
 
+import django
+django.setup()
+
 from django.contrib.auth.models import User
 
 from doorgame.models import Trial, Choice, MemoryGame, Result
@@ -8,13 +11,15 @@ from doorgame.models import Trial, Choice, MemoryGame, Result
 from doorgame.utils import number_of_dots_correct_calculator, number_of_dots_selected_calculator
 
 
-def results(username):
+def results(username,row_format="list"):
     user = User.objects.get(username=username)
     trials = Trial.objects.filter(user=user)
     result_table = []
+    result_dic_table = []
 
     for trial in trials:
         result_row = []
+        result_dic = {}
 
         number_of_trial = trial.number_of_trial
         if number_of_trial == 0:
@@ -52,17 +57,38 @@ def results(username):
         else:
             number_of_dots_selected = ""
 
-        hard_or_easy = user.profile.hard_or_easy_dots
+        hard_or_easy_setting = user.profile.hard_or_easy_dots
+        if hard_or_easy_setting == '':
+            hard_or_easy = 'hard'
+        elif hard_or_easy_setting == 'easy':
+            hard_or_easy = hard_or_easy_setting
+        else:
+            print("Error: hard_or_easy_setting not in correct format")
+            print(f'username: {username}')
+            print(f'hard_or_easy_setting: {hard_or_easy_setting}')
+            print(f'type of hard_or_easy_setting: {type(hard_or_easy_setting)}')
 
         result_row.append(number_of_trial)
+        result_dic['number_of_trial'] = number_of_trial
         result_row.append(switch_or_stick)
+        result_dic['switch_or_stick'] = switch_or_stick
         result_row.append(win_or_lose)
+        result_dic['win_or_lose'] = win_or_lose
         result_row.append(hard_or_easy)
+        result_dic['hard_or_easy'] = hard_or_easy
         result_row.append(number_of_dots_correct)
+        result_dic['number_of_dots_correct'] = number_of_dots_correct
         result_row.append(number_of_dots_selected)
+        result_dic['number_of_dots_selected'] = number_of_dots_selected
         result_table.append(result_row)
+        result_dic_table.append(result_dic)
 
-    return result_table
+    if row_format == 'list':
+        return result_table
+    elif row_format == 'dic':
+        return result_dic_table
+    else:
+        print("Error: row_format not 'list' or 'dic'")
 
 
 def write_to_csv(username):
@@ -84,9 +110,11 @@ def write_all_to_csv():
 
 if __name__ == "__main__":
     # execute only if run as a script
+    
     if len(sys.argv) > 1:
         username = sys.argv[1]
         print(results(username))
+        write_to_csv(username)
     else:
         print("you haven't supplied a username")
-    results()
+    #results()
