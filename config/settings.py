@@ -126,4 +126,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
 LOGIN_REDIRECT_URL = 'home-user'
 LOGOUT_REDIRECT_URL = 'home'
 
-TRIAL_LIMIT = 30
+# The TRIAL_LIMIT should be one more than the actual trial limit,
+# so for 30, this should say 31
+TRIAL_LIMIT = 31

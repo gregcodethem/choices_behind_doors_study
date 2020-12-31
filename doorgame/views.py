@@ -15,6 +15,8 @@ from .all_dots import all_dots_list
 
 from config.settings import TRIAL_LIMIT
 
+display_trial_limit = TRIAL_LIMIT - 1
+
 
 def final_completion(request):
     return render(request, 'final_completion.html')
@@ -218,14 +220,15 @@ def memory_game_initial_turn(request):
         "memory_game": memory_game,
     })
 
+
 @login_required(login_url='accounts/login')
-def memory_game_start(request,trial_completed):
+def memory_game_start(request, trial_completed):
     user_logged_in = request.user
     username_logged_in = request.user.username
 
     #trials_completed = user_logged_in.profile.trials_completed
 
-    #if trials_completed >= TRIAL_LIMIT:
+    # if trials_completed >= TRIAL_LIMIT:
     #    return final_completion()
 
     number_of_trial = int(trial_completed) + 1
@@ -239,7 +242,8 @@ def memory_game_start(request,trial_completed):
     new_trial.number_of_trial = number_of_trial
     new_trial.save()
 
-    memory_game_list_from_setup = MemoryGameList.objects.get(user=user_logged_in)
+    memory_game_list_from_setup = MemoryGameList.objects.get(
+        user=user_logged_in)
     memory_game = MemoryGame.objects.get(
         memory_game_list=memory_game_list_from_setup,
         number_of_trial=number_of_trial
@@ -252,7 +256,6 @@ def memory_game_start(request,trial_completed):
         "number_of_trial": number_of_trial,
         "memory_game": memory_game,
     })
-
 
 
 @login_required(login_url='accounts/login')
@@ -330,7 +333,7 @@ def home_page_memory_game(request, username):
                 memory_game_list=memory_game_list[0],
                 number_of_trial=number_of_trial
             )
-            if len(memory_game_list_end) !=0:
+            if len(memory_game_list_end) != 0:
                 memory_game = memory_game_list_end[0]
             else:
                 # This is a bit of a hack to stop it crashing when
@@ -435,7 +438,10 @@ def prelim_three_second_go(request):
 
 
 def prelim_four(request):
-    return render(request, 'prelim_four.html')
+    return render(request, 'prelim_four.html',
+                  {'display_trial_limit': display_trial_limit
+                   })
+
 
 def prelim_five(request):
     return render(request, 'prelim_five.html')
@@ -583,7 +589,9 @@ def final_door_result_page(request, username):
 def final_survey_one(request, username):
     username_logged_in = request.user.username
 
-    return render(request, 'final_survey_one.html',)
+    return render(request, 'final_survey_one.html',
+                  {'display_trial_limit': display_trial_limit
+                   })
 
 
 @login_required(login_url='accounts/login')
@@ -599,6 +607,7 @@ def final_survey_one_completed(request):
         return render(request,
                       'final_survey_two.html', {
                           "username": username_logged_in,
+                          "display_trial_limit": display_trial_limit,
                       })
 
 

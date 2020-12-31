@@ -1,7 +1,11 @@
 import csv
+import os
 
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 import django
 django.setup()
+
 
 from django.contrib.auth.models import User
 
