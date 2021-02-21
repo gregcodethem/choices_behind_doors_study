@@ -28,14 +28,35 @@ def home_page(request, user=None):
 
 @login_required(login_url='accounts/login')
 def remember_memory_game(request):
-    return render(request, 'remember_memory_game.html')
+    user_logged_in = request.user
+    very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
+    
+    if very_hard_setting == "very_hard":
+        remember_memory_game_page_string = 'remember_memory_game_four_by_four.html'
+        third_row_number_list = ['9','10','11','12']
+        fourth_row_number_list = ['13','14','15','16']
+        all_number_row_list = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16']
+        return render(request, remember_memory_game_page_string,{
+            'third_row_number_list' : third_row_number_list,
+            'fourth_row_number_list': fourth_row_number_list,
+            'all_number_row_list': all_number_row_list,
+            })
+    else:
+        remember_memory_game_page_string = 'remember_memory_game.html'
+        return render(request, remember_memory_game_page_string)
 
 
 @login_required(login_url='accounts/login')
 def final_pattern(request):
     username_logged_in = request.user.username
+    user_logged_in = request.user
+    very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
+    
     if request.method == 'POST':
-        memory_game = MemoryGame()
+        if very_hard_setting == "very_hard":
+            memory_game = MemoryGameHigh()
+        else:
+            memory_game = MemoryGame()
         # if I can retrieve anything then the request should be true
         # if not then it should be false
         user_logged_in = request.user
@@ -69,72 +90,21 @@ def final_pattern(request):
         if request.POST.get('box_9') == "True":
             memory_game.box_9 = True
 
-        memory_game.initial_or_final = 'final'
-        memory_game.save()
-
-        trial_number = trial_existing.number_of_trial
-        if trial_number >= TRIAL_LIMIT - 1:
-            return redirect('/user/' + username_logged_in + '/final_survey_one')
-
-        return redirect('/trial_completed')
-
-    else:
-        print("final_pattern_step has NOT registered post request")
-    return redirect('/user/' + username_logged_in)
-
-
-@login_required(login_url='accounts/login')
-def final_pattern_high(request):
-    username_logged_in = request.user.username
-    if request.method == 'POST':
-        memory_game = MemoryGame()
-        # if I can retrieve anything then the request should be true
-        # if not then it should be false
-        user_logged_in = request.user
-        username_logged_in = user_logged_in.username
-
-        # find the trials by this user
-        trial_existing_objects = Trial.objects.filter(
-            user=request.user
-        )
-        trial_existing = trial_existing_objects.last()
-        memory_game.trial = trial_existing
-        # if I can retrieve anything then the request should be true
-        # if not then it should be false
-
-        if request.POST.get('box_1') == "True":
-            memory_game.box_1 = True
-        if request.POST.get('box_2') == "True":
-            memory_game.box_2 = True
-        if request.POST.get('box_3') == "True":
-            memory_game.box_3 = True
-        if request.POST.get('box_4') == "True":
-            memory_game.box_4 = True
-        if request.POST.get('box_5') == "True":
-            memory_game.box_5 = True
-        if request.POST.get('box_6') == "True":
-            memory_game.box_6 = True
-        if request.POST.get('box_7') == "True":
-            memory_game.box_7 = True
-        if request.POST.get('box_8') == "True":
-            memory_game.box_8 = True
-        if request.POST.get('box_9') == "True":
-            memory_game.box_9 = True
-        if request.POST.get('box_10') == "True":
-            memory_game.box_10 = True
-        if request.POST.get('box_11') == "True":
-            memory_game.box_11 = True
-        if request.POST.get('box_12') == "True":
-            memory_game.box_12 = True
-        if request.POST.get('box_13') == "True":
-            memory_game.box_13 = True
-        if request.POST.get('box_14') == "True":
-            memory_game.box_14 = True
-        if request.POST.get('box_15') == "True":
-            memory_game.box_15 = True
-        if request.POST.get('box_16') == "True":
-            memory_game.box_16 = True
-
+        if very_hard_setting == "very_hard":
+            if request.POST.get('box_10') == "True":
+                memory_game.box_10 = True
+            if request.POST.get('box_11') == "True":
+                memory_game.box_11 = True
+            if request.POST.get('box_12') == "True":
+                memory_game.box_12 = True
+            if request.POST.get('box_13') == "True":
+                memory_game.box_13 = True
+            if request.POST.get('box_14') == "True":
+                memory_game.box_14 = True
+            if request.POST.get('box_15') == "True":
+                memory_game.box_15 = True
+            if request.POST.get('box_16') == "True":
+                memory_game.box_16 = True
 
         memory_game.initial_or_final = 'final'
         memory_game.save()
@@ -148,6 +118,9 @@ def final_pattern_high(request):
     else:
         print("final_pattern_step has NOT registered post request")
     return redirect('/user/' + username_logged_in)
+
+
+
 
 @login_required(login_url='accounts/login')
 def trial_completed(request):
@@ -327,16 +300,33 @@ def memory_game_start(request, trial_completed):
     new_trial.number_of_trial = number_of_trial
     new_trial.save()
 
+
+    very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
+    
+    if very_hard_setting == "very_hard":
+        MemoryGameToGet = MemoryGameHigh
+    else:
+        MemoryGameToGet = MemoryGame
+
     memory_game_list_from_setup = MemoryGameList.objects.get(
         user=user_logged_in)
-    memory_game = MemoryGame.objects.get(
+    
+    memory_game = MemoryGameToGet.objects.get(
         memory_game_list=memory_game_list_from_setup,
         number_of_trial=number_of_trial
     )
     memory_game.trial = new_trial
     memory_game.save()
+    
 
-    return render(request, 'home.html', {
+    if very_hard_setting == "very_hard":
+        home_page_string = 'home_four_by_four.html'
+
+    else:
+        home_page_string = 'home.html'
+
+
+    return render(request, home_page_string, {
         "username": username_logged_in,
         "number_of_trial": number_of_trial,
         "memory_game": memory_game,

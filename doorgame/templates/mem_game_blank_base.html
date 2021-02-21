@@ -29,35 +29,28 @@ label {
 {% block form_start_html_tag %}
 {% endblock %}
 <div class="row no-gutters">
-    {% for i in '123'|make_list %}
-        <div class="col-sm-1">
-        	
-        	<label for="box_{{ i }}"><div id="div_box_{{ i }}"><img src="{% static 'doorgame/box_empty.png' %}" id="box_{{ i }}_image" alt="box_{{ i }}">
-            </div></label>
-        </div>
-    {% endfor %}
+    {% block first_row_for_loop_start %}
+    {% endblock %}
+
 </div>
 <div class="row no-gutters">
-    {% for i in '456'|make_list %}
-        <div class="col-sm-1">
-            
-            <label for="box_{{ i }}"><div id="div_box_{{ i }}"><img src="{% static 'doorgame/box_empty.png' %}" id="box_{{ i }}_image" alt="box_{{ i }}">
-            </div></label>
-        </div>
-    {% endfor %}
+    {% block second_row_for_loop_start %}
+    {% endblock %}
+
 </div>
 <div class="row no-gutters">
-    {% for i in '789'|make_list %}
-        <div class="col-sm-1">
-            
-            <label for="box_{{ i }}"><div id="div_box_{{ i }}"><img src="{% static 'doorgame/box_empty.png' %}" id="box_{{ i }}_image" alt="box_{{ i }}">
-            </div></label>
-        </div>
-    {% endfor %}
+    {% block third_row_for_loop_start %}
+    {% endblock %}
+
 </div>
-	{% for i in '123456789'|make_list %}
-    <input type="checkbox" id="box_{{ i }}" value="True" name="box_{{ i }}" style="visibility: hidden"></input>
-{% endfor %}
+
+{% block forth_row %}
+{% endblock %}
+
+{% block checkbox_hidden_for_loop %}
+{% endblock %}
+
+
     {% block submit_button %}
 
     {% endblock %}
@@ -78,7 +71,7 @@ label {
 document.addEventListener("DOMContentLoaded", function (event) {
     
     var _selectors = [];
-    for (let i = 1; i <10; i++) {
+    for (let i = 1; i <{% block limit_of_event_listener %}{% endblock %}; i++) {
         _selectors[i] = document.querySelector('input[name=box_'+ i.toString() + ']')
         _selectors[i].addEventListener('change', function (event) {
             if (_selectors[i].checked) {

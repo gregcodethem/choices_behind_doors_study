@@ -1,0 +1,41 @@
+<!-- templates/registration/login.html -->
+{% extends 'mem_game_blank_base.html' %}
+{% load static %}
+
+{% block first_row_for_loop_start %}
+	{% for i in '123'|make_list %}
+	    <div class="col-sm-1">
+        	<label for="box_{{ i }}"><div id="div_box_{{ i }}"><img src="{% static 'doorgame/box_empty.png' %}" id="box_{{ i }}_image" alt="box_{{ i }}">
+            </div></label>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+
+{% block second_row_for_loop_start %}
+	{% for i in '456'|make_list %}
+		<div class="col-sm-1">
+        	<label for="box_{{ i }}"><div id="div_box_{{ i }}"><img src="{% static 'doorgame/box_empty.png' %}" id="box_{{ i }}_image" alt="box_{{ i }}">
+            </div></label>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block third_row_for_loop_start %}
+	{% for i in '789'|make_list %}
+		<div class="col-sm-1">
+        	<label for="box_{{ i }}"><div id="div_box_{{ i }}"><img src="{% static 'doorgame/box_empty.png' %}" id="box_{{ i }}_image" alt="box_{{ i }}">
+            </div></label>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+
+{% block checkbox_hidden_for_loop %}
+	{% for i in '123456789'|make_list %}
+	    <input type="checkbox" id="box_{{ i }}" value="True" name="box_{{ i }}" style="visibility: hidden"></input>
+{% endfor %}
+{% endblock %}
+
+{% block limit_of_event_listener %}10{% endblock %}
+	
