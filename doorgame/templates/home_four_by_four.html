@@ -1,0 +1,25 @@
+<!-- templates/registration/login.html -->
+{% extends 'mem_game_pattern_base_four_by_four.html' %}
+
+<!-- this block has been removed -->
+{% block trial_number_removed %}
+<p>Trial number {{ number_of_trial }}</p>
+{% endblock %}
+
+
+<!-- this block has been removed -->
+{% block go_to_form_game_removed %}
+
+<form id="form-go-to-door-game" action="/door_page_one" method="POST">
+	<input type="hidden" value="1" name="go_to_door_game">
+	<a id="go_to_door_game"><button>I remember the pattern, let's go to the door game.</button></a>
+{% csrf_token %}
+</form>
+
+{% endblock %}
+
+
+
+{% block auto_redirect_location %}
+"/door_page_one"
+{% endblock %}

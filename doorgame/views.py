@@ -5,11 +5,11 @@ from random import choice as randomchoice
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from doorgame.models import Choice, Trial, Result, MemoryGame, SurveyAnswers, MemoryGameList
+from doorgame.models import Choice, Trial, Result, MemoryGame, MemoryGameHigh, SurveyAnswers, MemoryGameList
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
-from .utils import memory_game_bool_matrix, add_memory_games
+from .utils import memory_game_bool_matrix, add_memory_games, add_four_by_four_memory_games
 from .all_dots import all_dots_list
 # Create your views here.
 
@@ -82,6 +82,72 @@ def final_pattern(request):
         print("final_pattern_step has NOT registered post request")
     return redirect('/user/' + username_logged_in)
 
+
+@login_required(login_url='accounts/login')
+def final_pattern_high(request):
+    username_logged_in = request.user.username
+    if request.method == 'POST':
+        memory_game = MemoryGame()
+        # if I can retrieve anything then the request should be true
+        # if not then it should be false
+        user_logged_in = request.user
+        username_logged_in = user_logged_in.username
+
+        # find the trials by this user
+        trial_existing_objects = Trial.objects.filter(
+            user=request.user
+        )
+        trial_existing = trial_existing_objects.last()
+        memory_game.trial = trial_existing
+        # if I can retrieve anything then the request should be true
+        # if not then it should be false
+
+        if request.POST.get('box_1') == "True":
+            memory_game.box_1 = True
+        if request.POST.get('box_2') == "True":
+            memory_game.box_2 = True
+        if request.POST.get('box_3') == "True":
+            memory_game.box_3 = True
+        if request.POST.get('box_4') == "True":
+            memory_game.box_4 = True
+        if request.POST.get('box_5') == "True":
+            memory_game.box_5 = True
+        if request.POST.get('box_6') == "True":
+            memory_game.box_6 = True
+        if request.POST.get('box_7') == "True":
+            memory_game.box_7 = True
+        if request.POST.get('box_8') == "True":
+            memory_game.box_8 = True
+        if request.POST.get('box_9') == "True":
+            memory_game.box_9 = True
+        if request.POST.get('box_10') == "True":
+            memory_game.box_10 = True
+        if request.POST.get('box_11') == "True":
+            memory_game.box_11 = True
+        if request.POST.get('box_12') == "True":
+            memory_game.box_12 = True
+        if request.POST.get('box_13') == "True":
+            memory_game.box_13 = True
+        if request.POST.get('box_14') == "True":
+            memory_game.box_14 = True
+        if request.POST.get('box_15') == "True":
+            memory_game.box_15 = True
+        if request.POST.get('box_16') == "True":
+            memory_game.box_16 = True
+
+
+        memory_game.initial_or_final = 'final'
+        memory_game.save()
+
+        trial_number = trial_existing.number_of_trial
+        if trial_number >= TRIAL_LIMIT - 1:
+            return redirect('/user/' + username_logged_in + '/final_survey_one')
+
+        return redirect('/trial_completed')
+
+    else:
+        print("final_pattern_step has NOT registered post request")
+    return redirect('/user/' + username_logged_in)
 
 @login_required(login_url='accounts/login')
 def trial_completed(request):
@@ -178,9 +244,15 @@ def memory_game_initial_turn(request):
         # find whether user is registered as easy or hard dot list
         if user_logged_in.profile:
             hard_or_easy_dot_list = user_logged_in.profile.hard_or_easy_dots
-            if hard_or_easy_dot_list == "easy":
+            very_hard_dot_list_setting = user_logged_in.profile.low_medium_or_high_dots_setting
+            print(f'setting:{very_hard_dot_list_setting}')
+            if very_hard_dot_list_setting == "very_hard":
+                print('very_hard_setting_activated')
+                add_four_by_four_memory_games(memory_game_list)
+            elif hard_or_easy_dot_list == "easy":
                 add_memory_games(memory_game_list, "easy")
             elif hard_or_easy_dot_list == "hard":
+                print("hard setting activated")
                 add_memory_games(memory_game_list, "hard")
             else:
                 print(
@@ -188,6 +260,7 @@ def memory_game_initial_turn(request):
                 print("Adding hard list")
                 add_memory_games(memory_game_list, dot_list="hard")
         else:
+            print("profile not logged in, so hard setting activated as backup")
             add_memory_games(memory_game_list, dot_list="hard")
         memory_game_list = [memory_game_list]
     else:
@@ -205,8 +278,18 @@ def memory_game_initial_turn(request):
     trial.number_of_trial = number_of_trial
     trial.save()
 
+    very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
+    
+    if very_hard_setting == "very_hard":
+        home_page_string = 'home_four_by_four.html'
+        MemoryGameToSave = MemoryGameHigh
+    else:
+        home_page_string = 'home.html'
+        MemoryGameToSave = MemoryGame
+
+
     if len(memory_game_list) != 0:
-        memory_game_list_end = MemoryGame.objects.filter(
+        memory_game_list_end = MemoryGameToSave.objects.filter(
             memory_game_list=memory_game_list[0],
             number_of_trial=number_of_trial
         )
@@ -214,7 +297,9 @@ def memory_game_initial_turn(request):
         memory_game.trial = trial
         memory_game.save()
 
-    return render(request, 'home.html', {
+
+
+    return render(request, home_page_string, {
         "username": username_logged_in,
         "number_of_trial": number_of_trial,
         "memory_game": memory_game,
@@ -297,7 +382,15 @@ def home_page_memory_game(request, username):
             # find whether user is registered as easy or hard dot list
             if user_logged_in.profile:
                 hard_or_easy_dot_list = user_logged_in.profile.hard_or_easy_dots
-                if hard_or_easy_dot_list == "easy":
+                very_hard_dot_list_setting = user_logged_in.profile.low_medium_or_high_dots_setting
+                
+                print(f'setting:{very_hard_dot_list_setting}')
+                
+                if very_hard_dot_list_setting == "very_hard":
+                    print('very_hard_setting_activated')
+                    add_four_by_four_memory_games(memory_game_list)
+
+                elif hard_or_easy_dot_list == "easy":
                     add_memory_games(memory_game_list, "easy")
                 elif hard_or_easy_dot_list == "hard":
                     add_memory_games(memory_game_list, "hard")
@@ -329,7 +422,15 @@ def home_page_memory_game(request, username):
         # insert some method here to generate the pattern
 
         if len(memory_game_list) != 0:
-            memory_game_list_end = MemoryGame.objects.filter(
+
+            very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
+    
+            if very_hard_setting == "very_hard":
+                MemoryGameToSave = MemoryGameHigh
+            else:
+                MemoryGameToSave = MemoryGame
+
+            memory_game_list_end = MemoryGameToSave.objects.filter(
                 memory_game_list=memory_game_list[0],
                 number_of_trial=number_of_trial
             )

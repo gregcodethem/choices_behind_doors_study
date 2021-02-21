@@ -6,8 +6,9 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 import django
 django.setup()
 
+from django.core import serializers
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, SurveyAnswers
 
 from extract import write_to_csv, results
 
@@ -97,6 +98,19 @@ def door_result(number_of_trials=30):
         'easy_grid': easy_grid
     }
     return grid_dic
+
+def other_data():
+    grid = []
+    user_list = User.objects.all()
+    for user in user_list:
+        username = user.username
+
+        SurveyAnswersForUser = SurveyAnswers.objects.filter(user=user)
+
+        user_data = 
+
+
+
 
 
 def write_to_csv_summary(grid_input, easy_or_hard, type_of_grid):

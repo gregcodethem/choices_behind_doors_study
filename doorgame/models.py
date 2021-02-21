@@ -7,6 +7,7 @@ from django.dispatch import receiver
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     hard_or_easy_dots = models.TextField(max_length=10, blank=True)
+    low_medium_or_high_dots_setting = models.TextField(max_length=10, blank=True)
     prelim_completed = models.BooleanField(default=False)
     memory_game_list_created = models.BooleanField(default=False)
     trials_completed = models.IntegerField(default=0)
@@ -88,6 +89,14 @@ class MemoryGame(models.Model):
         null=True
     )
 
+class MemoryGameHigh(MemoryGame):
+    box_10 = models.BooleanField(default=False)
+    box_11 = models.BooleanField(default=False)
+    box_12 = models.BooleanField(default=False)
+    box_13 = models.BooleanField(default=False)
+    box_14 = models.BooleanField(default=False)
+    box_15 = models.BooleanField(default=False)
+    box_16 = models.BooleanField(default=False)
 
 
 
