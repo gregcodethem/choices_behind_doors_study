@@ -115,7 +115,7 @@ def number_of_dots_correct_calculator(memory_game_one, memory_game_two):
 
     return number_correct
 
-def number_of_dots_correct_four_by_four_calculator(memory_game_one, memory_game_two):
+def number_of_dots_correct_calculator_four_by_four(memory_game_one, memory_game_two):
     number_correct = 0
     if memory_game_one.box_1 == True:
         if memory_game_two.box_1 == True:
@@ -191,6 +191,43 @@ def number_of_dots_selected_calculator(memory_game):
     if memory_game.box_8 == True:
         total_selected += 1
     if memory_game.box_9 == True:
+        total_selected += 1
+    return total_selected
+
+
+def number_of_dots_selected_calculator_four_by_four(memory_game):
+    total_selected = 0
+    if memory_game.box_1 == True:
+        total_selected += 1
+    if memory_game.box_2 == True:
+        total_selected += 1
+    if memory_game.box_3 == True:
+        total_selected += 1
+    if memory_game.box_4 == True:
+        total_selected += 1
+    if memory_game.box_5 == True:
+        total_selected += 1
+    if memory_game.box_6 == True:
+        total_selected += 1
+    if memory_game.box_7 == True:
+        total_selected += 1
+    if memory_game.box_8 == True:
+        total_selected += 1
+    if memory_game.box_9 == True:
+        total_selected += 1
+    if memory_game.box_10 == True:
+        total_selected += 1
+    if memory_game.box_11 == True:
+        total_selected += 1
+    if memory_game.box_12 == True:
+        total_selected += 1
+    if memory_game.box_13 == True:
+        total_selected += 1
+    if memory_game.box_14 == True:
+        total_selected += 1
+    if memory_game.box_15 == True:
+        total_selected += 1
+    if memory_game.box_16 == True:
         total_selected += 1
     return total_selected
 

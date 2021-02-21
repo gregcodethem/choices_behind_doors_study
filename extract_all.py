@@ -8,7 +8,9 @@ django.setup()
 
 from django.core import serializers
 
-from django.contrib.auth.models import User, SurveyAnswers
+from django.contrib.auth.models import User
+
+from doorgame.models import SurveyAnswers
 
 from extract import write_to_csv, results
 
@@ -16,6 +18,7 @@ from extract import write_to_csv, results
 def dots_remembered(number_of_trials=30):
     easy_grid = []
     hard_grid = []
+    very_hard_grid = []
     user_list = User.objects.all()
 
     column_headings = ['']
@@ -24,6 +27,7 @@ def dots_remembered(number_of_trials=30):
 
     easy_grid.append(column_headings)
     hard_grid.append(column_headings)
+    very_hard_grid.append(column_headings)
 
     for user in user_list:
         username = user.username
@@ -42,6 +46,8 @@ def dots_remembered(number_of_trials=30):
                 hard_grid.append(user_result)
             elif hard_or_easy_setting == 'easy':
                 easy_grid.append(user_result)
+            elif hard_or_easy_setting == 'very_hard':
+                very_hard_gid.append(user_result)
             else:
                 print(f'hard_or_easy_setting not defined correctly in extract_all.py')
 
@@ -50,13 +56,15 @@ def dots_remembered(number_of_trials=30):
             print(e)
     grid_dic = {
         'hard_grid': hard_grid,
-        'easy_grid': easy_grid
+        'easy_grid': easy_grid,
+        'very_hard_grid': very_hard_grid
     }
     return grid_dic
 
 def door_result(number_of_trials=30):
     easy_grid = []
     hard_grid = []
+    very_hard_grid = []
     user_list = User.objects.all()
 
     column_headings = ['']
@@ -65,6 +73,7 @@ def door_result(number_of_trials=30):
 
     easy_grid.append(column_headings)
     hard_grid.append(column_headings)
+    very_hard_grid.append(column_headings)
 
     for user in user_list:
         username = user.username
@@ -85,6 +94,8 @@ def door_result(number_of_trials=30):
                 hard_grid.append(user_result)
             elif hard_or_easy_setting == 'easy':
                 easy_grid.append(user_result)
+            elif hard_or_easy_setting == 'very_hard':
+                very_hard_grid.append(user_result)
             else:
                 print(f'hard_or_easy_setting not defined correctly in extract_all.py door_result method')
 
@@ -95,7 +106,8 @@ def door_result(number_of_trials=30):
 
     grid_dic = {
         'hard_grid': hard_grid,
-        'easy_grid': easy_grid
+        'easy_grid': easy_grid,
+        'very_hard_grid': very_hard_grid
     }
     return grid_dic
 
@@ -107,7 +119,7 @@ def other_data():
 
         SurveyAnswersForUser = SurveyAnswers.objects.filter(user=user)
 
-        user_data = 
+        #user_data = 
 
 
 
@@ -140,12 +152,16 @@ if __name__ == "__main__":
     dots_remembered_result = dots_remembered()
     easy_grid_dots = dots_remembered_result['easy_grid']
     hard_grid_dots = dots_remembered_result['hard_grid']
+    very_hard_grid_dots = dots_remembered_result['very_hard_grid']
     write_to_csv_summary(easy_grid_dots, 'easy', 'dots_remembered')
     write_to_csv_summary(hard_grid_dots, 'hard', 'dots_remembered')
+    write_to_csv_summary(very_hard_grid_dots, 'very_hard', 'dots_remembered')
 
     door_result = door_result()
     easy_grid_door = door_result['easy_grid']
     hard_grid_door = door_result['hard_grid']
+    very_hard_grid_door = door_result['very_hard_grid']
     write_to_csv_summary(easy_grid_door, 'easy', 'door_strategy')
     write_to_csv_summary(hard_grid_door, 'hard', 'door_strategy')
+    write_to_csv_summary(very_hard_grid_door, 'very_hard', 'door_strategy')
 

@@ -6,13 +6,19 @@ django.setup()
 
 from django.contrib.auth.models import User
 
-from doorgame.models import Trial, Choice, MemoryGame, Result
+from doorgame.models import Trial, Choice, MemoryGame, MemoryGameHigh, Result
 
-from doorgame.utils import number_of_dots_correct_calculator, number_of_dots_selected_calculator
+from doorgame.utils import (
+    number_of_dots_correct_calculator,
+    number_of_dots_selected_calculator,
+    number_of_dots_correct_calculator_four_by_four,
+    number_of_dots_selected_calculator_four_by_four
+    )
 
 
 def results(username,row_format="list"):
     user = User.objects.get(username=username)
+    very_hard_setting = user.profile.low_medium_or_high_dots_setting
     trials = Trial.objects.filter(user=user)
     result_table = []
     result_dic_table = []
@@ -42,23 +48,38 @@ def results(username,row_format="list"):
             win_or_lose = 'lose'
 
         # memory game
-        memory_games = MemoryGame.objects.filter(trial=trial)
+        if very_hard_setting == 'very_hard':
+            memory_games = MemoryGameHigh.objects.filter(trial=trial)
+        else:
+            memory_games = MemoryGame.objects.filter(trial=trial)
+
 
         memory_game_initial = memory_games.get(initial_or_final='initial')
         memory_game_final_list = memory_games.filter(initial_or_final='final')
         if len(memory_game_final_list) != 0:
             memory_game_final = memory_games.get(initial_or_final='final')
-            number_of_dots_correct = number_of_dots_correct_calculator(
-                memory_game_initial, memory_game_final
-            )
-            number_of_dots_selected = number_of_dots_selected_calculator(
-                memory_game_final
-            )
+            
+            if very_hard_setting == 'very_hard':
+                number_of_dots_correct = number_of_dots_correct_calculator_four_by_four(
+                    memory_game_initial, memory_game_final
+                )
+                number_of_dots_selected = number_of_dots_selected_calculator_four_by_four(
+                    memory_game_final
+                )
+            else:
+                number_of_dots_correct = number_of_dots_correct_calculator(
+                    memory_game_initial, memory_game_final
+                )
+                number_of_dots_selected = number_of_dots_selected_calculator(
+                    memory_game_final
+                )
         else:
             number_of_dots_selected = ""
 
         hard_or_easy_setting = user.profile.hard_or_easy_dots
-        if hard_or_easy_setting == '':
+        if very_hard_setting == 'very_hard':
+            hard_or_easy = 'very_hard'
+        elif hard_or_easy_setting == '':
             hard_or_easy = 'hard'
         elif hard_or_easy_setting == 'easy':
             hard_or_easy = hard_or_easy_setting
