@@ -25,6 +25,29 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', views.home_page_user, name='home'),
     #path('door-result', views.door_result_page, name='door_result_page'),
+    # terms page - only first time they log in
+
+    # consent questionnaire - only first time they log in
+
+    # Welcome page 1
+
+    # Welcome page 2
+
+    # Memory game practise
+
+    # Memory game feedback - new page
+
+
+    # Monty Hall introduction
+
+    # Other memory game
+
+    # Monty Hall game - already done, but needs reformatting etc
+
+    # Regret page - rank 1 - 7
+
+    # Then remember the dots page
+
     path('choose_door', views.choose_door, name='choose-door'),
     path('choose_final_door', views.choose_final_door, name='choose_final_door'),
     path('door_page_one', views.door_page_one, name="door-page-one"),

@@ -62,7 +62,7 @@ def add_four_by_four_memory_games(MemoryGameList, dot_list):
         bool_matrix = memory_game_bool_matrix(four_by_four_dots_list_hard)
     elif dot_list == "medium":
         bool_matrix = memory_game_bool_matrix(four_by_four_dots_list_medium)
-    elif dot_list == "easy":
+    elif dot_list == "very_easy":
         bool_matrix = memory_game_bool_matrix(four_by_four_dots_list_easy)
 
     for i in range(0, TRIAL_LIMIT):
