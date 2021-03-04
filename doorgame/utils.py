@@ -2,7 +2,11 @@ from random import shuffle
 
 from .all_dots import all_dots_list
 from .easy_dots import easy_dots_list
-from .four_by_four_dots import four_by_four_dots_list
+from .four_by_four_dots import (
+    four_by_four_dots_list_hard, 
+    four_by_four_dots_list_medium,
+    four_by_four_dots_list_easy
+    )
 from config.settings import TRIAL_LIMIT
 from .models import MemoryGame, MemoryGameHigh
 
@@ -53,8 +57,13 @@ def add_memory_games(MemoryGameList, dot_list="hard"):
 
         _MemoryGame.save()
 
-def add_four_by_four_memory_games(MemoryGameList):
-    bool_matrix = memory_game_bool_matrix(four_by_four_dots_list)
+def add_four_by_four_memory_games(MemoryGameList, dot_list):
+    if dot_list == "very_hard":
+        bool_matrix = memory_game_bool_matrix(four_by_four_dots_list_hard)
+    elif dot_list == "medium":
+        bool_matrix = memory_game_bool_matrix(four_by_four_dots_list_medium)
+    elif dot_list == "easy":
+        bool_matrix = memory_game_bool_matrix(four_by_four_dots_list_easy)
 
     for i in range(0, TRIAL_LIMIT):
         _MemoryGame = MemoryGameHigh()

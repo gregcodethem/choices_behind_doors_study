@@ -16,6 +16,8 @@ from .all_dots import all_dots_list
 from config.settings import TRIAL_LIMIT
 
 display_trial_limit = TRIAL_LIMIT - 1
+four_by_four_setting_list = ["very_hard", "medium", "very_easy"]
+
 
 
 def final_completion(request):
@@ -31,7 +33,7 @@ def remember_memory_game(request):
     user_logged_in = request.user
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
     
-    if very_hard_setting == "very_hard":
+    if very_hard_setting in four_by_four_setting_list:
         remember_memory_game_page_string = 'remember_memory_game_four_by_four.html'
         third_row_number_list = ['9','10','11','12']
         fourth_row_number_list = ['13','14','15','16']
@@ -53,7 +55,7 @@ def final_pattern(request):
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
     
     if request.method == 'POST':
-        if very_hard_setting == "very_hard":
+        if very_hard_setting in four_by_four_setting_list:
             memory_game = MemoryGameHigh()
         else:
             memory_game = MemoryGame()
@@ -90,7 +92,7 @@ def final_pattern(request):
         if request.POST.get('box_9') == "True":
             memory_game.box_9 = True
 
-        if very_hard_setting == "very_hard":
+        if very_hard_setting in four_by_four_setting_list:
             if request.POST.get('box_10') == "True":
                 memory_game.box_10 = True
             if request.POST.get('box_11') == "True":
@@ -219,9 +221,16 @@ def memory_game_initial_turn(request):
             hard_or_easy_dot_list = user_logged_in.profile.hard_or_easy_dots
             very_hard_dot_list_setting = user_logged_in.profile.low_medium_or_high_dots_setting
             print(f'setting:{very_hard_dot_list_setting}')
+            
             if very_hard_dot_list_setting == "very_hard":
-                print('very_hard_setting_activated')
-                add_four_by_four_memory_games(memory_game_list)
+                print('very_hard_setting_activated in memory_game_initial_turn')
+                add_four_by_four_memory_games(memory_game_list,dot_list=="very_hard")
+            elif very_hard_dot_list_setting == "medium":
+                print('4 by 4 medium setting activated in memory_game_initial_turn')
+                add_four_by_four_memory_games(memory_game_list,dot_list=="medium")
+            elif very_hard_dot_list_setting == "very_easy":
+                print('4 by 4 very_easy setting activated in memory_game_initial_turn')
+                add_four_by_four_memory_games(memory_game_list,dot_list=="very_easy")
             elif hard_or_easy_dot_list == "easy":
                 add_memory_games(memory_game_list, "easy")
             elif hard_or_easy_dot_list == "hard":
@@ -253,7 +262,7 @@ def memory_game_initial_turn(request):
 
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
     
-    if very_hard_setting == "very_hard":
+    if very_hard_setting in four_by_four_setting_list:
         home_page_string = 'home_four_by_four.html'
         MemoryGameToSave = MemoryGameHigh
     else:
@@ -303,7 +312,7 @@ def memory_game_start(request, trial_completed):
 
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
     
-    if very_hard_setting == "very_hard":
+    if very_hard_setting in four_by_four_setting_list:
         MemoryGameToGet = MemoryGameHigh
     else:
         MemoryGameToGet = MemoryGame
@@ -319,7 +328,7 @@ def memory_game_start(request, trial_completed):
     memory_game.save()
     
 
-    if very_hard_setting == "very_hard":
+    if very_hard_setting in four_by_four_setting_list:
         home_page_string = 'home_four_by_four.html'
 
     else:
@@ -377,8 +386,14 @@ def home_page_memory_game(request, username):
                 print(f'setting:{very_hard_dot_list_setting}')
                 
                 if very_hard_dot_list_setting == "very_hard":
-                    print('very_hard_setting_activated')
-                    add_four_by_four_memory_games(memory_game_list)
+                    print('very_hard_setting_activated in home_page_memory_game')
+                    add_four_by_four_memory_games(memory_game_list, dot_list="very_hard")
+                elif very_hard_dot_list_setting == "medium":
+                    print('4 by 4 medium setting activated in home_page_memory_game')
+                    add_four_by_four_memory_games(memory_game_list, dot_list="medium")
+                elif very_hard_dot_list_setting == "very_easy":
+                    print('4 by 4 very_easy setting activated in home_page_memory_game')
+                    add_four_by_four_memory_games(memory_game_list, dot_list="very_easy")
 
                 elif hard_or_easy_dot_list == "easy":
                     add_memory_games(memory_game_list, "easy")
@@ -415,7 +430,7 @@ def home_page_memory_game(request, username):
 
             very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
     
-            if very_hard_setting == "very_hard":
+            if very_hard_setting in four_by_four_setting_list:
                 MemoryGameToSave = MemoryGameHigh
             else:
                 MemoryGameToSave = MemoryGame
