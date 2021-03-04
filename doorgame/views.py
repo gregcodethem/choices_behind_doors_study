@@ -481,6 +481,7 @@ def prelim_two(request):
         pass
     MemoryGamePrelim = MemoryGamePrelimClass()
     user_logged_in = request.user
+    very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
     if user_logged_in.profile.hard_or_easy_dots == 'easy':
         MemoryGamePrelim.box_1 = True
         MemoryGamePrelim.box_2 = True
@@ -491,7 +492,7 @@ def prelim_two(request):
         MemoryGamePrelim.box_7 = False
         MemoryGamePrelim.box_8 = False
         MemoryGamePrelim.box_9 = False
-    else:
+    elif user_logged_in.profile.hard_or_easy_dots == 'hard':
         MemoryGamePrelim.box_1 = True
         MemoryGamePrelim.box_2 = False
         MemoryGamePrelim.box_3 = False
@@ -501,6 +502,64 @@ def prelim_two(request):
         MemoryGamePrelim.box_7 = False
         MemoryGamePrelim.box_8 = True
         MemoryGamePrelim.box_9 = False
+    else:
+        if very_hard_setting == "very_easy":
+            MemoryGamePrelim.box_1 = True
+            MemoryGamePrelim.box_2 = True
+            MemoryGamePrelim.box_3 = True
+            MemoryGamePrelim.box_4 = True
+            MemoryGamePrelim.box_5 = False
+            MemoryGamePrelim.box_6 = False
+            MemoryGamePrelim.box_7 = False
+            MemoryGamePrelim.box_8 = False
+            MemoryGamePrelim.box_9 = False
+            MemoryGamePrelim.box_10 = False
+            MemoryGamePrelim.box_11 = False
+            MemoryGamePrelim.box_12 = False
+            MemoryGamePrelim.box_13 = False
+            MemoryGamePrelim.box_14 = False
+            MemoryGamePrelim.box_15 = False
+            MemoryGamePrelim.box_16 = False
+        elif very_hard_setting == "medium":
+            MemoryGamePrelim.box_1 = False
+            MemoryGamePrelim.box_2 = False
+            MemoryGamePrelim.box_3 = True
+            MemoryGamePrelim.box_4 = True
+            MemoryGamePrelim.box_5 = False
+            MemoryGamePrelim.box_6 = False
+            MemoryGamePrelim.box_7 = False
+            MemoryGamePrelim.box_8 = False
+            MemoryGamePrelim.box_9 = True
+            MemoryGamePrelim.box_10 = False
+            MemoryGamePrelim.box_11 = False
+            MemoryGamePrelim.box_12 = False
+            MemoryGamePrelim.box_13 = False
+            MemoryGamePrelim.box_14 = True
+            MemoryGamePrelim.box_15 = False
+            MemoryGamePrelim.box_16 = False
+        elif very_hard_setting == "very_hard":
+            MemoryGamePrelim.box_1 = False
+            MemoryGamePrelim.box_2 = False
+            MemoryGamePrelim.box_3 = True
+            MemoryGamePrelim.box_4 = True
+            MemoryGamePrelim.box_5 = False
+            MemoryGamePrelim.box_6 = True
+            MemoryGamePrelim.box_7 = False
+            MemoryGamePrelim.box_8 = False
+            MemoryGamePrelim.box_9 = True
+            MemoryGamePrelim.box_10 = False
+            MemoryGamePrelim.box_11 = True
+            MemoryGamePrelim.box_12 = False
+            MemoryGamePrelim.box_13 = False
+            MemoryGamePrelim.box_14 = True
+            MemoryGamePrelim.box_15 = False
+            MemoryGamePrelim.box_16 = False
+        return render(request, 'prelim_two_four_by_four.html', {
+            "memory_game": MemoryGamePrelim,
+            "first_go": True
+    })
+
+
     return render(request, 'prelim_two.html', {
         "memory_game": MemoryGamePrelim,
         "first_go": True

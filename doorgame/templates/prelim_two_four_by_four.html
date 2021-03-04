@@ -1,0 +1,13 @@
+<!-- templates/registration/login.html -->
+{% extends 'mem_game_pattern_base_four_by_four.html' %}
+
+
+{% block auto_redirect_location %}
+
+{% if first_go == True %}
+"/prelim_three"
+{% else %}
+"/prelim_three_second_go"
+{% endif %}
+
+{% endblock %}
