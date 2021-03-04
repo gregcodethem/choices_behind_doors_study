@@ -449,7 +449,7 @@ def home_page_memory_game(request, username):
             memory_game.save()
 
     if number_of_trial == 0:
-        return render(request, 'prelim_one.html', {
+        return render(request, 'terms_and_conditions.html', {
             "username": username_logged_in,
             "number_of_trial": number_of_trial,
             "memory_game": memory_game,
@@ -461,6 +461,14 @@ def home_page_memory_game(request, username):
         "memory_game": memory_game,
     })
 
+
+@login_required(login_url='accounts/login')
+def consent_questions(request):
+    return render(request, 'consent_questions.html')
+
+@login_required(login_url='accounts/login')
+def prelim_one(request):
+    return render(request, 'prelim_one.html')
 
 @login_required(login_url='accounts/login')
 def prelim_one_part_b(request):

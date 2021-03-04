@@ -1,0 +1,28 @@
+<!-- templates/registration/login.html -->
+{% extends 'base.html' %}
+
+{% block title %}Door Game{% endblock %}
+
+{% block content %}
+
+<p> Here are the terms and conditions, by selecting below you are consenting to these terms</p>
+
+
+<form id="form-go-to-consent-questions" action="/consent_questions" method="POST">
+
+  <input type="hidden" value="1" name="go_to_consent_questions">
+  <a id="go_to_consent_questions"><button>I consent to the above terms.</button></a>
+{% csrf_token %}
+</form>
+
+
+{% if user.is_authenticated %}
+
+
+{% load static %}
+
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}" id="login_link_anchor">login</a>
+{% endif %}
+{% endblock %}

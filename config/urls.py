@@ -29,9 +29,9 @@ urlpatterns = [
 
     # consent questionnaire - only first time they log in
 
-    # Welcome page 1
+    # Welcome page 1 - General explanation
 
-    # Welcome page 2
+    # Welcome page 2 - Memory game explanation
 
     # Memory game practise
 
@@ -48,9 +48,17 @@ urlpatterns = [
 
     # Then remember the dots page
 
+    # Give decision of the outcome to the particpant -
+    #### lost or won the Monty Hall game
+
+    # Final questionnaire - streamed down version of existing questionnaire pages.
+
+
     path('choose_door', views.choose_door, name='choose-door'),
     path('choose_final_door', views.choose_final_door, name='choose_final_door'),
     path('door_page_one', views.door_page_one, name="door-page-one"),
+    path('consent_questions',views.consent_questions, name="consent_questions"),
+    path('prelim_one', views.prelim_one, name="prelim_one"),
     path('prelim_one_part_b',
         views.prelim_one_part_b,
         name='prelim_one_part_b'),

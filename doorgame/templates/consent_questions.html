@@ -1,0 +1,30 @@
+<!-- templates/registration/login.html -->
+{% extends 'base.html' %}
+
+{% block title %}Door Game{% endblock %}
+
+{% block content %}
+
+<p> Here are a list of terms which you need to agree to to be able to participate:</p>
+
+<ol> Number 1:</ol>
+
+
+<form id="form-go-to-prelim_one" action="/prelim_one" method="POST">
+
+  <input type="hidden" value="1" name="go_to_prelim_one">
+  <a id="go_to_prelim_one"><button>I consent to the above terms.</button></a>
+{% csrf_token %}
+</form>
+
+
+{% if user.is_authenticated %}
+
+
+{% load static %}
+
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}" id="login_link_anchor">login</a>
+{% endif %}
+{% endblock %}
