@@ -674,7 +674,14 @@ def prelim_three(request):
                   {'repeat_example': True
                    })
 
-    
+@login_required(login_url='accounts/login')
+def prelim_three_part_b_feedback(request):
+    user_logged_in = request.user
+    very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
+    return render(request, 'prelim_three_part_b_feedback.html',
+        {'repeat_example': True
+        })
+  
 @login_required(login_url='accounts/login')
 def prelim_three_second_go(request):
     user_logged_in = request.user
@@ -690,6 +697,14 @@ def prelim_three_second_go(request):
     return render(request, 'prelim_three.html',
                   {'repeat_example': False
                    })
+
+@login_required(login_url='accounts/login')
+def prelim_three_part_b_feedback_second_go(request):
+    user_logged_in = request.user
+    very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
+    return render(request, 'prelim_three_part_b_feedback.html',
+        {'repeat_example': False
+        })
 
 
 def prelim_four(request):
