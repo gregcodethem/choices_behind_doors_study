@@ -7,21 +7,43 @@
 <p>1 = not at all    7 = extremely</p>
 
 <form id="form-final-survey_one" action="/regret_completed" method="POST" name="formfinalsurveyone" onsubmit="checkform(event)">
-	
-		<input type="radio" id="regret_one" name="regret_value" value="1">
-		<label for="regret_one">1</label></br>
-		<input type="radio" id="regret_two" name="regret_value" value="2">
-		<label for="switch">2</label></br>
-        <input type="radio" id="regret_three" name="regret_value" value="3">
-        <label for="regret_one">3</label></br>
-        <input type="radio" id="regret_four" name="regret_value" value="4">
-        <label for="switch">4</label></br>
-        <input type="radio" id="regret_five" name="regret_value" value="5">
-        <label for="regret_one">5</label></br>
-        <input type="radio" id="regret_six" name="regret_value" value="6">
-        <label for="switch">6</label></br>
-        <input type="radio" id="regret_seven" name="regret_value" value="7">
-        <label for="switch">7</label></br>
+	<div class="row">
+        <div class="col-sm-2">
+        </div>
+
+        <div class="col-sm-1">
+    		<input type="radio" id="regret_one" name="regret_value" value="1">
+    		<label for="regret_one">1</label>
+        </div>
+
+        <div class="col-sm-1">
+    		<input type="radio" id="regret_two" name="regret_value" value="2">
+    		<label for="switch">2</label>
+        </div>
+        <div class="col-sm-1">
+            <input type="radio" id="regret_three" name="regret_value" value="3">
+            <label for="regret_one">3</label>
+        </div>
+
+        <div class="col-sm-1">
+            <input type="radio" id="regret_four" name="regret_value" value="4">
+            <label for="switch">4</label>
+        </div>
+
+        <div class="col-sm-1">
+            <input type="radio" id="regret_five" name="regret_value" value="5">
+            <label for="regret_one">5</label>
+        </div>
+
+        <div class="col-sm-1">
+            <input type="radio" id="regret_six" name="regret_value" value="6">
+            <label for="switch">6</label>
+        </div>
+        <div>
+            <input type="radio" id="regret_seven" name="regret_value" value="7">
+            <label for="switch">7</label>
+        </div>
+    </div>
 
         <div id="div_best_strategy_warning"></div>
 	
@@ -49,7 +71,7 @@
     function checkform(evt) {
     	var myForm = document.formfinalsurveyone;
     	var condition = true;
-    	if(myForm.best_strategy.value.length == 0) {
+    	if(myForm.regret_value.value.length == 0) {
     		document.getElementById("div_best_strategy_warning").innerHTML = '<p><font color="red">Warning: this can\'t be blank</font></p>';
     		condition = false;
     	};
