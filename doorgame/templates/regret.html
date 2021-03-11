@@ -10,39 +10,76 @@
 	<div class="row">
         <div class="col-sm-2">
         </div>
+        {% if regret_forwards_setting %}
+            <div class="col-sm-1">
+        		<input type="radio" id="regret_one" name="regret_value" value="1">
+        		<label for="regret_one">1</label>
+            </div>
 
-        <div class="col-sm-1">
-    		<input type="radio" id="regret_one" name="regret_value" value="1">
-    		<label for="regret_one">1</label>
-        </div>
+            <div class="col-sm-1">
+        		<input type="radio" id="regret_two" name="regret_value" value="2">
+        		<label for="switch">2</label>
+            </div>
+            <div class="col-sm-1">
+                <input type="radio" id="regret_three" name="regret_value" value="3">
+                <label for="regret_one">3</label>
+            </div>
 
-        <div class="col-sm-1">
-    		<input type="radio" id="regret_two" name="regret_value" value="2">
-    		<label for="switch">2</label>
-        </div>
-        <div class="col-sm-1">
-            <input type="radio" id="regret_three" name="regret_value" value="3">
-            <label for="regret_one">3</label>
-        </div>
+            <div class="col-sm-1">
+                <input type="radio" id="regret_four" name="regret_value" value="4">
+                <label for="switch">4</label>
+            </div>
 
-        <div class="col-sm-1">
-            <input type="radio" id="regret_four" name="regret_value" value="4">
-            <label for="switch">4</label>
-        </div>
+            <div class="col-sm-1">
+                <input type="radio" id="regret_five" name="regret_value" value="5">
+                <label for="regret_one">5</label>
+            </div>
 
-        <div class="col-sm-1">
-            <input type="radio" id="regret_five" name="regret_value" value="5">
-            <label for="regret_one">5</label>
-        </div>
+            <div class="col-sm-1">
+                <input type="radio" id="regret_six" name="regret_value" value="6">
+                <label for="switch">6</label>
+            </div>
+            <div>
+                <input type="radio" id="regret_seven" name="regret_value" value="7">
+                <label for="switch">7</label>
+            </div>
+        {% else %}
+            
+            <div class="col-sm-1">
+                <input type="radio" id="regret_seven" name="regret_value" value="7">
+                <label for="switch">7</label>
+            </div>
 
-        <div class="col-sm-1">
-            <input type="radio" id="regret_six" name="regret_value" value="6">
-            <label for="switch">6</label>
-        </div>
-        <div>
-            <input type="radio" id="regret_seven" name="regret_value" value="7">
-            <label for="switch">7</label>
-        </div>
+            <div class="col-sm-1">
+                <input type="radio" id="regret_six" name="regret_value" value="6">
+                <label for="switch">6</label>
+            </div>
+
+            <div class="col-sm-1">
+                <input type="radio" id="regret_five" name="regret_value" value="5">
+                <label for="regret_one">5</label>
+            </div>
+
+            <div class="col-sm-1">
+                <input type="radio" id="regret_four" name="regret_value" value="4">
+                <label for="switch">4</label>
+            </div>
+
+            <div class="col-sm-1">
+                <input type="radio" id="regret_three" name="regret_value" value="3">
+                <label for="regret_one">3</label>
+            </div>
+
+            <div class="col-sm-1">
+                <input type="radio" id="regret_two" name="regret_value" value="2">
+                <label for="switch">2</label>
+            </div>
+            
+            <div class="col-sm-1">
+                <input type="radio" id="regret_one" name="regret_value" value="1">
+                <label for="regret_one">1</label>
+            </div>
+        {% endif %}
     </div>
 
         <div id="div_best_strategy_warning"></div>

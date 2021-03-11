@@ -867,9 +867,12 @@ def final_door_result_page(request, username):
 
 @login_required(login_url='accounts/login')
 def regret(request):
-    username_logged_in = request.user.username
+    user_logged_in = request.user
+    regret_forwards_setting = user_logged_in.profile.regret_forwards
 
-    return render(request, 'regret.html')
+    return render(request, 'regret.html',{
+        'regret_forwards_setting':regret_forwards_setting
+        })
 
 @login_required(login_url='accounts/login')
 def regret_completed(request):

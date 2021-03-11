@@ -11,6 +11,7 @@ class Profile(models.Model):
     prelim_completed = models.BooleanField(default=False)
     memory_game_list_created = models.BooleanField(default=False)
     trials_completed = models.IntegerField(default=0)
+    regret_forwards = models.BooleanField(default=True)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
