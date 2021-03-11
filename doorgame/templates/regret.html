@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>To what extent would you experience regret if you lose.</h2>
+
+<p>1 = not at all    7 = extremely</p>
+
+<form id="form-final-survey_one" action="/regret_completed" method="POST" name="formfinalsurveyone" onsubmit="checkform(event)">
+	
+		<input type="radio" id="stick" name="best_strategy" value="stick">
+		<label for="stick">Stick</label></br>
+		<input type="radio" id="switch" name="best_strategy" value="switch">
+		<label for="switch">Switch</label></br>
+		<input type="radio" id="even" name="best_strategy" value="even">
+		<label for="even">Even</label></br>
+        <div id="div_best_strategy_warning"></div>
+	
+	<input type="submit" id="complete-the-survey" value="Submit answer"><div id="div_genenal_warning"></div>
+{% csrf_token %}
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js "></script>
+ 
+
+<script>
+
+
+    $('form input').keydown(function (e) {
+        if (e.keyCode == 13) {
+            var inputs = $(this).parents("form").eq(0).find(":input");
+            if (inputs[inputs.index(this) + 1] != null) {                    
+                inputs[inputs.index(this) + 1].focus();
+            }
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    function checkform(evt) {
+    	var myForm = document.formfinalsurveyone;
+    	var condition = true;
+    	if(myForm.best_strategy.value.length == 0) {
+    		document.getElementById("div_best_strategy_warning").innerHTML = '<p><font color="red">Warning: this can\'t be blank</font></p>';
+    		condition = false;
+    	};
+    	
+
+        if(!condition) {
+            if(evt.preventDefault) { event.preventDefault(); }    
+            else if(evt.returnValue) { evt.returnValue = false; }    
+            else { return false; }
+        }
+    };
+
+</script>
+
+{% endblock %}

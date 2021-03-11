@@ -678,6 +678,7 @@ def prelim_three(request):
 def prelim_three_part_b_feedback(request):
     user_logged_in = request.user
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
+
     return render(request, 'prelim_three_part_b_feedback.html',
         {'repeat_example': True
         })
@@ -818,6 +819,11 @@ def final_door_result_page(request, username):
         user=request.user
     )
     trial_existing = trial_existing_objects.last()
+    trial_number = trial_existing.number_of_trial
+    if trial_number >= TRIAL_LIMIT - 1:
+        return redirect('/regret')
+
+    
     choices_from_this_trial = Choice.objects.filter(
         trial=trial_existing
     )
@@ -854,6 +860,29 @@ def final_door_result_page(request, username):
     else:
         return render(request, 'final_door_result.html')
 
+@login_required(login_url='accounts/login')
+def regret(request):
+    username_logged_in = request.user.username
+
+    return render(request, 'regret.html')
+
+@login_required(login_url='accounts/login')
+def regret_completed(request):
+    username_logged_in = request.user.username
+    user = request.user
+
+    survey_answers = SurveyAnswers()
+    survey_answers.user = user
+
+    #extract the regret value from the post submission
+    # regret_value = request.POST.get('regret_value')
+    #assign to survey_answers the regret value
+    # survey_answers.regret_value = regret_value
+    survey_answers.save()
+
+    return redirect('/remember_memory_game')
+
+
 
 @login_required(login_url='accounts/login')
 def final_survey_one(request, username):
@@ -869,8 +898,11 @@ def final_survey_one_completed(request):
     username_logged_in = request.user.username
     user = request.user
     if request.method == "POST":
-        survey_answers = SurveyAnswers()
-        survey_answers.user = user
+        user_logged_in = request.user
+        survey_answers_for_user = SurveyAnswers.objects.filter(
+            user=user_logged_in
+        )
+        survey_answers = survey_answers_for_user.last()
         best_strategy = request.POST.get('best_strategy')
         survey_answers.best_strategy = best_strategy
         survey_answers.save()

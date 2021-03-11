@@ -80,6 +80,8 @@ urlpatterns = [
          views.final_door_result_page,
          name='final_door_result_page'
          ),
+    path('regret', views.regret, name='regret'),
+    path('regret_completed', views.regret_completed, name='regret_completed'),
     path('remember_memory_game',
          views.remember_memory_game,
          name='remember_memory_game'
