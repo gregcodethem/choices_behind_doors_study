@@ -114,7 +114,7 @@ def final_pattern(request):
 
         trial_number = trial_existing.number_of_trial
         if trial_number >= TRIAL_LIMIT - 1:
-            return redirect('/user/' + username_logged_in + '/final_survey_one')
+            return redirect('/outcome_of_doorgame')
 
         return redirect('/trial_completed')
 
@@ -122,8 +122,49 @@ def final_pattern(request):
         print("final_pattern_step has NOT registered post request")
     return redirect('/user/' + username_logged_in)
 
+@login_required(login_url='accounts/login')
+def outcome_of_doorgame(request):
+    # find the trials by this user
+    trial_existing_objects = Trial.objects.filter(
+        user=request.user
+    )
+    trial_existing = trial_existing_objects.last()
+    
+    choices_from_this_trial = Choice.objects.filter(
+        trial=trial_existing
+    )
+    choice = choices_from_this_trial.last()
+    if choice:
+        final_chosen_number = choice.door_number
+        trial = choice.trial
+        result = Result.objects.get(trial=trial)
+        result_number = result.door_number
+        if final_chosen_number == result_number:
+            sucessfully_chose_right_door = True
+        else:
+            sucessfully_chose_right_door = False
+        if 1 == result_number:
+            door_one_bool = True
+        else:
+            door_one_bool = False
+        if 2 == result_number:
+            door_two_bool = True
+        else:
+            door_two_bool = False
+        if 3 == result_number:
+            door_three_bool = True
+        else:
+            door_three_bool = False
 
-
+        return render(request, 'final_door_result.html', {
+            'final_door_chosen_number': str(final_chosen_number),
+            'sucessfully_chose_right_door': sucessfully_chose_right_door,
+            'door_one_bool': door_one_bool,
+            'door_two_bool': door_two_bool,
+            'door_three_bool': door_three_bool,
+        })
+    else:
+        return render(request, 'final_door_result.html')
 
 @login_required(login_url='accounts/login')
 def trial_completed(request):
@@ -823,42 +864,6 @@ def final_door_result_page(request, username):
     if trial_number >= TRIAL_LIMIT - 1:
         return redirect('/regret')
 
-    
-    choices_from_this_trial = Choice.objects.filter(
-        trial=trial_existing
-    )
-    choice = choices_from_this_trial.last()
-    if choice:
-        final_chosen_number = choice.door_number
-        trial = choice.trial
-        result = Result.objects.get(trial=trial)
-        result_number = result.door_number
-        if final_chosen_number == result_number:
-            sucessfully_chose_right_door = True
-        else:
-            sucessfully_chose_right_door = False
-        if 1 == result_number:
-            door_one_bool = True
-        else:
-            door_one_bool = False
-        if 2 == result_number:
-            door_two_bool = True
-        else:
-            door_two_bool = False
-        if 3 == result_number:
-            door_three_bool = True
-        else:
-            door_three_bool = False
-
-        return render(request, 'final_door_result.html', {
-            'final_door_chosen_number': str(final_chosen_number),
-            'sucessfully_chose_right_door': sucessfully_chose_right_door,
-            'door_one_bool': door_one_bool,
-            'door_two_bool': door_two_bool,
-            'door_three_bool': door_three_bool,
-        })
-    else:
-        return render(request, 'final_door_result.html')
 
 @login_required(login_url='accounts/login')
 def regret(request):
@@ -885,7 +890,7 @@ def regret_completed(request):
 
 
 @login_required(login_url='accounts/login')
-def final_survey_one(request, username):
+def final_survey_one(request):
     username_logged_in = request.user.username
 
     return render(request, 'final_survey_one.html',
@@ -906,8 +911,10 @@ def final_survey_one_completed(request):
         best_strategy = request.POST.get('best_strategy')
         survey_answers.best_strategy = best_strategy
         survey_answers.save()
+        # changed the redirect page to final_survey_three.html
+        # missing out the no longer needed final_survey_two.html
         return render(request,
-                      'final_survey_two.html', {
+                      'final_survey_three.html', {
                           "username": username_logged_in,
                           "display_trial_limit": display_trial_limit,
                       })

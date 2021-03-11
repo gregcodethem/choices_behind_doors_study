@@ -101,10 +101,14 @@ urlpatterns = [
          views.final_pattern,
          name='final_pattern'
          ),
+    path('outcome_of_doorgame',
+        views.outcome_of_doorgame,
+        name='outcome_of_doorgame'
+        ),
     path('trial_completed',
         views.trial_completed,
         name='trial_completed'),
-    path('user/<username>/final_survey_one',
+    path('final_survey_one',
          views.final_survey_one,
          name='final_survey_one'),
     path('final_survey_one_completed',
