@@ -875,9 +875,9 @@ def regret_completed(request):
     survey_answers.user = user
 
     #extract the regret value from the post submission
-    # regret_value = request.POST.get('regret_value')
+    regret_value = request.POST.get('regret_value')
     #assign to survey_answers the regret value
-    # survey_answers.regret_value = regret_value
+    survey_answers.regret_value = regret_value
     survey_answers.save()
 
     return redirect('/remember_memory_game')

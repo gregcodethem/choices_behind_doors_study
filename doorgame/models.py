@@ -30,6 +30,7 @@ class SurveyAnswers(models.Model):
         default=None,
         null=True
     )
+    regret_value = models.IntegerField(default=0)
     best_strategy = models.TextField(default="blank")
     estimate_stayed_lost = models.IntegerField(default=0)
     estimate_stayed_won = models.IntegerField(default=0)
