@@ -22,6 +22,9 @@ img {
 </div>
 
 {% load static %}
+
+<p id="demo"></p>
+
 <div class="row no-gutters">
   <div class="col-sm-4">
     </div>
@@ -161,7 +164,25 @@ img {
        window.location.href = {% block auto_redirect_location %}{% endblock %};
     }
 
-    setTimeout(redirect, 1000); //2000 is equivalent to 2 seconds
+    setTimeout(redirect, 7000); //2000 is equivalent to 2 seconds
+</script>
+<script>
+// Set the date we're counting down to
+var countDown = 6;
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+  // Take away one from the countdown number
+  countDown--;
+  // Display the result in the element with id="demo"
+  document.getElementById("demo").innerHTML = countDown;
+  // If the count down is finished, write some text
+  if (countDown < 0) {
+    clearInterval(x);
+    document.getElementById("demo").innerHTML = "EXPIRED";
+  }
+}, 1000);
+
 </script>
 
 
