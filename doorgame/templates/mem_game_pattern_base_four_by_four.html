@@ -23,7 +23,14 @@ img {
 
 {% load static %}
 
-<p id="demo"></p>
+
+<div class="row no-gutters">
+  <div class="col-sm-5">
+  </div>
+  <div class="col-sm-2" id="countdown_display">
+    <p id="demo"></p>
+  </div>
+</div>
 
 <div class="row no-gutters">
   <div class="col-sm-4">
@@ -177,9 +184,9 @@ var x = setInterval(function() {
   // Display the result in the element with id="demo"
   document.getElementById("demo").innerHTML = countDown;
   // If the count down is finished, write some text
-  if (countDown < 0) {
+  if (countDown < 1) {
     clearInterval(x);
-    document.getElementById("demo").innerHTML = "EXPIRED";
+    document.getElementById("countdown_display").innerHTML = '<img src ="{% static 'doorgame/red_cross.png' %}" id="red_cross" alt="red_cross">';
   }
 }, 1000);
 
