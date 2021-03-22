@@ -23,12 +23,13 @@ img {
 
 {% load static %}
 
-
-<div class="row no-gutters">
-  <div class="col-sm-5">
-  </div>
-  <div class="col-sm-2" id="countdown_display">
-    <p id="demo"></p>
+<div id="countdown_display_block">
+  <div class="row no-gutters">
+    <div class="col-sm-5">
+    </div>
+    <div class="col-sm-2" id="countdown_display">
+      <p id="demo"></p>
+    </div>
   </div>
 </div>
 
@@ -168,12 +169,23 @@ img {
 
 <br>
 
+
+<script>
+    function show_memory_game(){
+       var countdown = document.getElementById("countdown_display_block");
+       var memory_game = document.getElementById("memory_game");
+       countdown.style.display = "none";
+       memory_game.style.display = "block";
+    }
+
+    setTimeout(show_memory_game, 7000); //2000 is equivalent to 2 seconds
+</script>
 <script>
     function redirect(){
        window.location.href = {% block auto_redirect_location %}{% endblock %};
     }
 
-    setTimeout(redirect, 7000); //2000 is equivalent to 2 seconds
+    setTimeout(redirect, 8000); //2000 is equivalent to 2 seconds
 </script>
 <script>
 // Set the date we're counting down to
