@@ -1,6 +1,8 @@
 <!-- templates/registration/login.html -->
 {% extends 'base.html' %}
 {% load static %}
+
+
 {% block content %}
 
 
@@ -30,29 +32,31 @@ label {
 {% endblock %}
 <div class="col-sm-4">
 </div>
-<div class="row no-gutters">
-    <div class="col-sm-4">
+<div id="memory_game">
+    <div class="row no-gutters">
+        <div class="col-sm-4">
+        </div>
+        {% block first_row_for_loop_start %}
+        {% endblock %}
     </div>
-    {% block first_row_for_loop_start %}
+
+    <div class="row no-gutters">
+        <div class="col-sm-4">
+        </div>
+        {% block second_row_for_loop_start %}
+        {% endblock %}
+    </div>
+
+    <div class="row no-gutters">
+        <div class="col-sm-4">
+        </div>
+        {% block third_row_for_loop_start %}
+        {% endblock %}
+    </div>
+
+    {% block forth_row %}
     {% endblock %}
 </div>
-
-<div class="row no-gutters">
-    <div class="col-sm-4">
-    </div>
-    {% block second_row_for_loop_start %}
-    {% endblock %}
-</div>
-
-<div class="row no-gutters">
-    <div class="col-sm-4">
-    </div>
-    {% block third_row_for_loop_start %}
-    {% endblock %}
-</div>
-
-{% block forth_row %}
-{% endblock %}
 
 {% block checkbox_hidden_for_loop %}
 {% endblock %}
@@ -94,5 +98,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 
 </script>
+
+{% block delay_for_prelims_script %}
+{% endblock %}
 
 {% endblock %}

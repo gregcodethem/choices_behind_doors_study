@@ -17,8 +17,10 @@
 <body>
   <main>
   	<div style="margin:20px">
-	    {% block content %}
-	    {% endblock %}
+      <div id="all_content" {% block prelims_do_not_display %}{% endblock %}>
+  	    {% block content %}
+  	    {% endblock %}
+      </div>
 	</div>
   </main>
 </body>

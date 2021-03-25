@@ -1,8 +1,9 @@
 {% extends 'mem_game_blank_base_four_by_four.html' %}
+{% block prelims_do_not_display %}
+style="display:none"
+{% endblock %}
 
 {% block title %}Remembering the pattern{% endblock %}
-
-
 
 {% block submit_button %}
 
@@ -15,4 +16,15 @@
 
 {% endif %}
 
+{% endblock %}
+
+{% block delay_for_prelims_script %}
+<script>
+    function show_all_content(){
+       var all_content = document.getElementById("all_content");
+       all_content.style.display = "block";
+    }
+
+    setTimeout(show_all_content, 2000); //2000 is equivalent to 2 seconds
+</script>
 {% endblock %}
