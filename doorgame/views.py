@@ -5,12 +5,24 @@ from random import choice as randomchoice
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from doorgame.models import Choice, Trial, Result, MemoryGame, MemoryGameHigh, SurveyAnswers, MemoryGameList
+from doorgame.models import (
+    Choice,
+    Trial,
+    Result,
+    MemoryGame,
+    MemoryGameHigh,
+    SurveyAnswers,
+    MemoryGameList,
+    MemoryGameHighPrelim,
+    TrialPrelim
+    )
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
 from .utils import memory_game_bool_matrix, add_memory_games, add_four_by_four_memory_games
 from .all_dots import all_dots_list
+from .dummy_memory_game import MemoryGamePrelimClass
 # Create your views here.
 
 from config.settings import TRIAL_LIMIT
@@ -519,11 +531,12 @@ def prelim_one_part_b(request):
 
 @login_required(login_url='accounts/login')
 def prelim_two(request):
-    class MemoryGamePrelimClass:
-        pass
-    MemoryGamePrelim = MemoryGamePrelimClass()
     user_logged_in = request.user
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
+    if not very_hard_setting:
+        class MemoryGamePrelimClassDummy:
+            pass
+        MemoryGamePrelim = MemoryGamePrelimClassDummy()
     if user_logged_in.profile.hard_or_easy_dots == 'easy':
         MemoryGamePrelim.box_1 = True
         MemoryGamePrelim.box_2 = True
@@ -545,57 +558,9 @@ def prelim_two(request):
         MemoryGamePrelim.box_8 = True
         MemoryGamePrelim.box_9 = False
     else:
-        if very_hard_setting == "very_easy":
-            MemoryGamePrelim.box_1 = True
-            MemoryGamePrelim.box_2 = True
-            MemoryGamePrelim.box_3 = True
-            MemoryGamePrelim.box_4 = True
-            MemoryGamePrelim.box_5 = False
-            MemoryGamePrelim.box_6 = False
-            MemoryGamePrelim.box_7 = False
-            MemoryGamePrelim.box_8 = False
-            MemoryGamePrelim.box_9 = False
-            MemoryGamePrelim.box_10 = False
-            MemoryGamePrelim.box_11 = False
-            MemoryGamePrelim.box_12 = False
-            MemoryGamePrelim.box_13 = False
-            MemoryGamePrelim.box_14 = False
-            MemoryGamePrelim.box_15 = False
-            MemoryGamePrelim.box_16 = False
-        elif very_hard_setting == "medium":
-            MemoryGamePrelim.box_1 = False
-            MemoryGamePrelim.box_2 = False
-            MemoryGamePrelim.box_3 = True
-            MemoryGamePrelim.box_4 = True
-            MemoryGamePrelim.box_5 = False
-            MemoryGamePrelim.box_6 = False
-            MemoryGamePrelim.box_7 = False
-            MemoryGamePrelim.box_8 = False
-            MemoryGamePrelim.box_9 = True
-            MemoryGamePrelim.box_10 = False
-            MemoryGamePrelim.box_11 = False
-            MemoryGamePrelim.box_12 = False
-            MemoryGamePrelim.box_13 = False
-            MemoryGamePrelim.box_14 = True
-            MemoryGamePrelim.box_15 = False
-            MemoryGamePrelim.box_16 = False
-        elif very_hard_setting == "very_hard":
-            MemoryGamePrelim.box_1 = False
-            MemoryGamePrelim.box_2 = False
-            MemoryGamePrelim.box_3 = True
-            MemoryGamePrelim.box_4 = True
-            MemoryGamePrelim.box_5 = False
-            MemoryGamePrelim.box_6 = True
-            MemoryGamePrelim.box_7 = False
-            MemoryGamePrelim.box_8 = False
-            MemoryGamePrelim.box_9 = True
-            MemoryGamePrelim.box_10 = False
-            MemoryGamePrelim.box_11 = True
-            MemoryGamePrelim.box_12 = False
-            MemoryGamePrelim.box_13 = False
-            MemoryGamePrelim.box_14 = True
-            MemoryGamePrelim.box_15 = False
-            MemoryGamePrelim.box_16 = False
+        if very_hard_setting:
+            MemoryGamePrelim = MemoryGamePrelimClass(1,very_hard_setting)
+        
         return render(request, 'prelim_two_four_by_four.html', {
             "memory_game": MemoryGamePrelim,
             "first_go": True
@@ -610,11 +575,14 @@ def prelim_two(request):
 
 @login_required(login_url='accounts/login')
 def prelim_two_second_go(request):
-    class MemoryGamePrelimClass:
-        pass
-    MemoryGamePrelim = MemoryGamePrelimClass()
+
     user_logged_in = request.user
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
+    if not very_hard_setting:
+        class MemoryGamePrelimClassDummy:
+            pass
+        MemoryGamePrelim = MemoryGamePrelimClassDummy()
+    
     if user_logged_in.profile.hard_or_easy_dots == 'easy':
         MemoryGamePrelim.box_1 = False
         MemoryGamePrelim.box_2 = False
@@ -636,57 +604,8 @@ def prelim_two_second_go(request):
         MemoryGamePrelim.box_8 = False
         MemoryGamePrelim.box_9 = True
     else:
-        if very_hard_setting == "very_easy":
-            MemoryGamePrelim.box_1 = False
-            MemoryGamePrelim.box_2 = False
-            MemoryGamePrelim.box_3 = False
-            MemoryGamePrelim.box_4 = False
-            MemoryGamePrelim.box_5 = True
-            MemoryGamePrelim.box_6 = True
-            MemoryGamePrelim.box_7 = True
-            MemoryGamePrelim.box_8 = True
-            MemoryGamePrelim.box_9 = False
-            MemoryGamePrelim.box_10 = False
-            MemoryGamePrelim.box_11 = False
-            MemoryGamePrelim.box_12 = False
-            MemoryGamePrelim.box_13 = False
-            MemoryGamePrelim.box_14 = False
-            MemoryGamePrelim.box_15 = False
-            MemoryGamePrelim.box_16 = False
-        elif very_hard_setting == "medium":
-            MemoryGamePrelim.box_1 = False
-            MemoryGamePrelim.box_2 = False
-            MemoryGamePrelim.box_3 = True
-            MemoryGamePrelim.box_4 = False
-            MemoryGamePrelim.box_5 = False
-            MemoryGamePrelim.box_6 = False
-            MemoryGamePrelim.box_7 = False
-            MemoryGamePrelim.box_8 = False
-            MemoryGamePrelim.box_9 = True
-            MemoryGamePrelim.box_10 = False
-            MemoryGamePrelim.box_11 = False
-            MemoryGamePrelim.box_12 = False
-            MemoryGamePrelim.box_13 = False
-            MemoryGamePrelim.box_14 = True
-            MemoryGamePrelim.box_15 = True
-            MemoryGamePrelim.box_16 = False
-        elif very_hard_setting == "very_hard":
-            MemoryGamePrelim.box_1 = False
-            MemoryGamePrelim.box_2 = False
-            MemoryGamePrelim.box_3 = True
-            MemoryGamePrelim.box_4 = False
-            MemoryGamePrelim.box_5 = False
-            MemoryGamePrelim.box_6 = True
-            MemoryGamePrelim.box_7 = False
-            MemoryGamePrelim.box_8 = False
-            MemoryGamePrelim.box_9 = True
-            MemoryGamePrelim.box_10 = False
-            MemoryGamePrelim.box_11 = True
-            MemoryGamePrelim.box_12 = False
-            MemoryGamePrelim.box_13 = False
-            MemoryGamePrelim.box_14 = False
-            MemoryGamePrelim.box_15 = False
-            MemoryGamePrelim.box_16 = True
+        if very_hard_setting:
+            MemoryGamePrelim = MemoryGamePrelimClass(2,very_hard_setting)
         return render(request, 'prelim_two_four_by_four.html', {
             "memory_game": MemoryGamePrelim,
             "first_go": False
@@ -701,6 +620,7 @@ def prelim_three(request):
     # create two way choice, so that it will go to 3x3 or 4x4
     user_logged_in = request.user
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
+    
     # if 4 by 4 
     if very_hard_setting in four_by_four_setting_list:
         return render(request, 'prelim_three_four_by_four.html',
@@ -720,8 +640,69 @@ def prelim_three_part_b_feedback(request):
     user_logged_in = request.user
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
 
+    if request.method == 'POST':
+        if very_hard_setting in four_by_four_setting_list:
+            memory_game = MemoryGameHighPrelim()
+            memory_game_original = MemoryGamePrelimClass(1,very_hard_setting)
+        else:
+            print("very_hard_setting not given")
+        # if I can retrieve anything then the request should be true
+        # if not then it should be false
+        user_logged_in = request.user
+        username_logged_in = user_logged_in.username
+
+        # find the trials by this user
+
+        trial_existing = TrialPrelim()
+        trial_existing.save()
+        memory_game.trial = trial_existing
+        # if I can retrieve anything then the request should be true
+        # if not then it should be false
+
+        if request.POST.get('box_1') == "True":
+            memory_game.box_1 = True
+        if request.POST.get('box_2') == "True":
+            memory_game.box_2 = True
+        if request.POST.get('box_3') == "True":
+            memory_game.box_3 = True
+        if request.POST.get('box_4') == "True":
+            memory_game.box_4 = True
+        if request.POST.get('box_5') == "True":
+            memory_game.box_5 = True
+        if request.POST.get('box_6') == "True":
+            memory_game.box_6 = True
+        if request.POST.get('box_7') == "True":
+            memory_game.box_7 = True
+        if request.POST.get('box_8') == "True":
+            memory_game.box_8 = True
+        if request.POST.get('box_9') == "True":
+            memory_game.box_9 = True
+
+        if very_hard_setting in four_by_four_setting_list:
+            if request.POST.get('box_10') == "True":
+                memory_game.box_10 = True
+            if request.POST.get('box_11') == "True":
+                memory_game.box_11 = True
+            if request.POST.get('box_12') == "True":
+                memory_game.box_12 = True
+            if request.POST.get('box_13') == "True":
+                memory_game.box_13 = True
+            if request.POST.get('box_14') == "True":
+                memory_game.box_14 = True
+            if request.POST.get('box_15') == "True":
+                memory_game.box_15 = True
+            if request.POST.get('box_16') == "True":
+                memory_game.box_16 = True
+
+        memory_game.initial_or_final = 'initial'
+        memory_game.save()
+        
+
+
     return render(request, 'prelim_three_part_b_feedback.html',
-        {'repeat_example': True
+        {'repeat_example': True,
+            'memory_game_chosen':memory_game,
+            'memory_game_original': memory_game_original
         })
   
 @login_required(login_url='accounts/login')
@@ -744,8 +725,69 @@ def prelim_three_second_go(request):
 def prelim_three_part_b_feedback_second_go(request):
     user_logged_in = request.user
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
+    memory_game_original = MemoryGamePrelimClass(2,very_hard_setting)
+
+    if request.method == 'POST':
+        if very_hard_setting in four_by_four_setting_list:
+            memory_game = MemoryGameHighPrelim()
+            memory_game_original = MemoryGamePrelimClass(1,very_hard_setting)
+        else:
+            print("very_hard_setting not given")
+        # if I can retrieve anything then the request should be true
+        # if not then it should be false
+        user_logged_in = request.user
+        username_logged_in = user_logged_in.username
+
+        # find the trials by this user
+
+        trial_existing = TrialPrelim()
+        trial_existing.save()
+        memory_game.trial = trial_existing
+        # if I can retrieve anything then the request should be true
+        # if not then it should be false
+
+        if request.POST.get('box_1') == "True":
+            memory_game.box_1 = True
+        if request.POST.get('box_2') == "True":
+            memory_game.box_2 = True
+        if request.POST.get('box_3') == "True":
+            memory_game.box_3 = True
+        if request.POST.get('box_4') == "True":
+            memory_game.box_4 = True
+        if request.POST.get('box_5') == "True":
+            memory_game.box_5 = True
+        if request.POST.get('box_6') == "True":
+            memory_game.box_6 = True
+        if request.POST.get('box_7') == "True":
+            memory_game.box_7 = True
+        if request.POST.get('box_8') == "True":
+            memory_game.box_8 = True
+        if request.POST.get('box_9') == "True":
+            memory_game.box_9 = True
+
+        if very_hard_setting in four_by_four_setting_list:
+            if request.POST.get('box_10') == "True":
+                memory_game.box_10 = True
+            if request.POST.get('box_11') == "True":
+                memory_game.box_11 = True
+            if request.POST.get('box_12') == "True":
+                memory_game.box_12 = True
+            if request.POST.get('box_13') == "True":
+                memory_game.box_13 = True
+            if request.POST.get('box_14') == "True":
+                memory_game.box_14 = True
+            if request.POST.get('box_15') == "True":
+                memory_game.box_15 = True
+            if request.POST.get('box_16') == "True":
+                memory_game.box_16 = True
+
+        memory_game.initial_or_final = 'initial'
+        memory_game.save()
+
     return render(request, 'prelim_three_part_b_feedback.html',
-        {'repeat_example': False
+        {'repeat_example': False,
+        'memory_game_chosen': memory_game,
+        'memory_game_original': memory_game_original
         })
 
 

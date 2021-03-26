@@ -5,16 +5,24 @@ style="display:none"
 
 {% block title %}Remembering the pattern{% endblock %}
 
+{% block form_start_html_tag %}
+{% if repeat_example == True %}
+<form id="form_prelim_memory_game_first_go" action="/prelim_three_part_b_feedback" method="POST">
+{% else %}
+<form id="form_prelim_memory_game_second_go" action="/prelim_three_part_b_feedback_second_go" method="POST">
+{% endif %}
+{% endblock %}
+
+
 {% block submit_button_memory_game %}
 
-{% if repeat_example == True %}
-<p><a href="{% url 'prelim_three_part_b_feedback' %}" id="go_to_prelim_two_again">Have another go at remembering the pattern</a></p>
+<input type="submit" id="play_again_link" value="This is the pattern as best as I remember, let's go.">
 
-{% else %}
-<p><a href="{% url 'prelim_three_part_b_feedback_second_go' %}">Go to next page</a></p>
+{% endblock %}
 
-{% endif %}
-
+{% block close_form_tag %}
+{% csrf_token %}
+</form>
 {% endblock %}
 
 {% block delay_for_prelims_script %}

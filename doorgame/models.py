@@ -52,7 +52,8 @@ class Trial(models.Model):
     )
     number_of_trial = models.IntegerField(default=0)
 
-
+class TrialPrelim(Trial):
+    pass
 
 class MemoryGameList(models.Model):
 
@@ -101,6 +102,15 @@ class MemoryGameHigh(MemoryGame):
     box_16 = models.BooleanField(default=False)
 
 
+# Have gone with this inheritence structure as 
+# I'm not user how this will affect the memory_game_list
+class MemoryGameHighPrelim(MemoryGameHigh):
+    trial_prelim = models.ForeignKey(
+        TrialPrelim,
+        on_delete=models.CASCADE,
+        default=None,
+        null=True
+    )
 
 
 class Choice(models.Model):
