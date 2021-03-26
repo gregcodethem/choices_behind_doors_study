@@ -20,6 +20,18 @@
       <div id="all_content" {% block prelims_do_not_display %}{% endblock %}>
   	    {% block content %}
   	    {% endblock %}
+        </br>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-7">
+                </div>
+                <div class="col-sm-5">
+                    {% block submit_button_general %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+        </br>
       </div>
 	</div>
   </main>

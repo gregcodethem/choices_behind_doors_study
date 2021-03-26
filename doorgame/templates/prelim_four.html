@@ -29,19 +29,17 @@
 	<li>Monty always reveals one of the goats.</li>
 	<li>Monty always offers switch/stick options to the guests.</li>
 	
-	
 </ul>
 {% load static %}
-<p><a href= {% url 'prelim_five' %}>Let's first do a practice.</a></p>
-
 
 {% if user.is_authenticated %}
-
-
-
 
 {% else %}
   <p>You are not logged in</p>
   <a href="{% url 'login' %}" id="login_link_anchor">login</a>
 {% endif %}
+{% endblock %}
+
+{% block submit_button_general %}
+	<p><a href= {% url 'prelim_five' %}>Let's first do a practice.</a></p>
 {% endblock %}

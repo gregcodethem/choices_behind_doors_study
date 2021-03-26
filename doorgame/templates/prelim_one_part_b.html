@@ -17,22 +17,18 @@
 <br>
 <p>When you are ready go to the next page.  You will see a countdown from 5 before starting the <u><b>practice memory task</u></b>.  When the countdown finishes you will see a fixation cross (+) on the centre of the screen for 2 seconds before the <u><b>practice memory task starts.</u></b></p>
 
-
-<form id="form-go-to-prelim-two" action="/prelim_two" method="POST">
-
-  <input type="hidden" value="1" name="go_to_prelim_two">
-  <a id="go_to_prelim_two"><button>Continue to next page</button></a>
-{% csrf_token %}
-</form>
-
-
 {% if user.is_authenticated %}
-
-
-{% load static %}
-
+	{% load static %}
 {% else %}
   <p>You are not logged in</p>
   <a href="{% url 'login' %}" id="login_link_anchor">login</a>
 {% endif %}
+{% endblock %}
+
+{% block submit_button_general %}
+	<form id="form-go-to-prelim-two" action="/prelim_two" method="POST">
+	  <input type="hidden" value="1" name="go_to_prelim_two">
+	  <a id="go_to_prelim_two"><button>Continue to next page</button></a>
+	{% csrf_token %}
+	</form>
 {% endblock %}
