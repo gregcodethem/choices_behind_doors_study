@@ -725,12 +725,12 @@ def prelim_three_second_go(request):
 def prelim_three_part_b_feedback_second_go(request):
     user_logged_in = request.user
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
-    memory_game_original = MemoryGamePrelimClass(2,very_hard_setting)
+    
 
     if request.method == 'POST':
         if very_hard_setting in four_by_four_setting_list:
             memory_game = MemoryGameHighPrelim()
-            memory_game_original = MemoryGamePrelimClass(1,very_hard_setting)
+            memory_game_original = MemoryGamePrelimClass(2,very_hard_setting)
         else:
             print("very_hard_setting not given")
         # if I can retrieve anything then the request should be true
