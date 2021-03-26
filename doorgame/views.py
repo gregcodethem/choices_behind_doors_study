@@ -701,7 +701,7 @@ def prelim_three_part_b_feedback(request):
 
     return render(request, 'prelim_three_part_b_feedback.html',
         {'repeat_example': True,
-            'memory_game_chosen':memory_game,
+            'memory_game':memory_game,
             'memory_game_original': memory_game_original
         })
   
@@ -786,7 +786,7 @@ def prelim_three_part_b_feedback_second_go(request):
 
     return render(request, 'prelim_three_part_b_feedback.html',
         {'repeat_example': False,
-        'memory_game_chosen': memory_game,
+        'memory_game': memory_game,
         'memory_game_original': memory_game_original
         })
 
