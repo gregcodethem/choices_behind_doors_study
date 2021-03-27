@@ -307,8 +307,8 @@ img {
 
 {% block submit_button_general %}
 {% if repeat_example == True %}
-<p><a href="{% url 'prelim_two_second_go' %}" id="go_to_prelim_two_again">Have another go at remembering the pattern</a></p>
+<p><a href="{% url 'prelim_two_second_go' %}" id="go_to_prelim_two_again">Continue to next page</a></p>
 {% else %}
-<p><a href="{% url 'prelim_four' %}">Go to next page</a></p>
+<p><a href="{% url 'prelim_four' %}">Continue to next page</a></p>
 {% endif %}
 {% endblock %}
