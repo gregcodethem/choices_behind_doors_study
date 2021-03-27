@@ -15,12 +15,18 @@ from doorgame.models import (
     MemoryGameList,
     MemoryGameHighPrelim,
     TrialPrelim
-    )
+)
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
-from .utils import memory_game_bool_matrix, add_memory_games, add_four_by_four_memory_games
+from .utils import (
+    memory_game_bool_matrix,
+    add_memory_games,
+    add_four_by_four_memory_games,
+    number_of_dots_selected_calculator_four_by_four,
+    number_of_dots_correct_calculator_four_by_four
+)
 from .all_dots import all_dots_list
 from .dummy_memory_game import MemoryGamePrelimClass
 # Create your views here.
@@ -30,9 +36,10 @@ from config.settings import TRIAL_LIMIT
 display_trial_limit = TRIAL_LIMIT - 1
 four_by_four_setting_list = ["very_hard", "medium", "very_easy"]
 
-third_row_number_list = ['9','10','11','12']
-fourth_row_number_list = ['13','14','15','16']
-all_number_row_list = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16']
+third_row_number_list = ['9', '10', '11', '12']
+fourth_row_number_list = ['13', '14', '15', '16']
+all_number_row_list = ['1', '2', '3', '4', '5', '6', '7',
+                       '8', '9', '10', '11', '12', '13', '14', '15', '16']
 
 
 def final_completion(request):
@@ -47,15 +54,16 @@ def home_page(request, user=None):
 def remember_memory_game(request):
     user_logged_in = request.user
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
-    
+
     if very_hard_setting in four_by_four_setting_list:
         remember_memory_game_page_string = 'remember_memory_game_four_by_four.html'
-        all_number_row_list = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16']
-        return render(request, remember_memory_game_page_string,{
-            'third_row_number_list' : third_row_number_list,
+        all_number_row_list = ['1', '2', '3', '4', '5', '6', '7',
+                               '8', '9', '10', '11', '12', '13', '14', '15', '16']
+        return render(request, remember_memory_game_page_string, {
+            'third_row_number_list': third_row_number_list,
             'fourth_row_number_list': fourth_row_number_list,
             'all_number_row_list': all_number_row_list,
-            })
+        })
     else:
         remember_memory_game_page_string = 'remember_memory_game.html'
         return render(request, remember_memory_game_page_string)
@@ -66,7 +74,7 @@ def final_pattern(request):
     username_logged_in = request.user.username
     user_logged_in = request.user
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
-    
+
     if request.method == 'POST':
         if very_hard_setting in four_by_four_setting_list:
             memory_game = MemoryGameHigh()
@@ -134,6 +142,7 @@ def final_pattern(request):
         print("final_pattern_step has NOT registered post request")
     return redirect('/user/' + username_logged_in)
 
+
 @login_required(login_url='accounts/login')
 def outcome_of_doorgame(request):
     # find the trials by this user
@@ -141,7 +150,7 @@ def outcome_of_doorgame(request):
         user=request.user
     )
     trial_existing = trial_existing_objects.last()
-    
+
     choices_from_this_trial = Choice.objects.filter(
         trial=trial_existing
     )
@@ -177,6 +186,7 @@ def outcome_of_doorgame(request):
         })
     else:
         return render(request, 'final_door_result.html')
+
 
 @login_required(login_url='accounts/login')
 def trial_completed(request):
@@ -275,16 +285,19 @@ def memory_game_initial_turn(request):
             hard_or_easy_dot_list = user_logged_in.profile.hard_or_easy_dots
             very_hard_dot_list_setting = user_logged_in.profile.low_medium_or_high_dots_setting
             print(f'setting:{very_hard_dot_list_setting}')
-            
+
             if very_hard_dot_list_setting == "very_hard":
                 print('very_hard_setting_activated in memory_game_initial_turn')
-                add_four_by_four_memory_games(memory_game_list,dot_list=="very_hard")
+                add_four_by_four_memory_games(
+                    memory_game_list, dot_list == "very_hard")
             elif very_hard_dot_list_setting == "medium":
                 print('4 by 4 medium setting activated in memory_game_initial_turn')
-                add_four_by_four_memory_games(memory_game_list,dot_list=="medium")
+                add_four_by_four_memory_games(
+                    memory_game_list, dot_list == "medium")
             elif very_hard_dot_list_setting == "very_easy":
                 print('4 by 4 very_easy setting activated in memory_game_initial_turn')
-                add_four_by_four_memory_games(memory_game_list,dot_list=="very_easy")
+                add_four_by_four_memory_games(
+                    memory_game_list, dot_list == "very_easy")
             elif hard_or_easy_dot_list == "easy":
                 add_memory_games(memory_game_list, "easy")
             elif hard_or_easy_dot_list == "hard":
@@ -315,14 +328,13 @@ def memory_game_initial_turn(request):
     trial.save()
 
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
-    
+
     if very_hard_setting in four_by_four_setting_list:
         home_page_string = 'home_four_by_four.html'
         MemoryGameToSave = MemoryGameHigh
     else:
         home_page_string = 'home.html'
         MemoryGameToSave = MemoryGame
-
 
     if len(memory_game_list) != 0:
         memory_game_list_end = MemoryGameToSave.objects.filter(
@@ -332,8 +344,6 @@ def memory_game_initial_turn(request):
         memory_game = memory_game_list_end[0]
         memory_game.trial = trial
         memory_game.save()
-
-
 
     return render(request, home_page_string, {
         "username": username_logged_in,
@@ -363,9 +373,8 @@ def memory_game_start(request, trial_completed):
     new_trial.number_of_trial = number_of_trial
     new_trial.save()
 
-
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
-    
+
     if very_hard_setting in four_by_four_setting_list:
         MemoryGameToGet = MemoryGameHigh
     else:
@@ -373,21 +382,19 @@ def memory_game_start(request, trial_completed):
 
     memory_game_list_from_setup = MemoryGameList.objects.get(
         user=user_logged_in)
-    
+
     memory_game = MemoryGameToGet.objects.get(
         memory_game_list=memory_game_list_from_setup,
         number_of_trial=number_of_trial
     )
     memory_game.trial = new_trial
     memory_game.save()
-    
 
     if very_hard_setting in four_by_four_setting_list:
         home_page_string = 'home_four_by_four.html'
 
     else:
         home_page_string = 'home.html'
-
 
     return render(request, home_page_string, {
         "username": username_logged_in,
@@ -436,18 +443,21 @@ def home_page_memory_game(request, username):
             if user_logged_in.profile:
                 hard_or_easy_dot_list = user_logged_in.profile.hard_or_easy_dots
                 very_hard_dot_list_setting = user_logged_in.profile.low_medium_or_high_dots_setting
-                
+
                 print(f'setting:{very_hard_dot_list_setting}')
-                
+
                 if very_hard_dot_list_setting == "very_hard":
                     print('very_hard_setting_activated in home_page_memory_game')
-                    add_four_by_four_memory_games(memory_game_list, dot_list="very_hard")
+                    add_four_by_four_memory_games(
+                        memory_game_list, dot_list="very_hard")
                 elif very_hard_dot_list_setting == "medium":
                     print('4 by 4 medium setting activated in home_page_memory_game')
-                    add_four_by_four_memory_games(memory_game_list, dot_list="medium")
+                    add_four_by_four_memory_games(
+                        memory_game_list, dot_list="medium")
                 elif very_hard_dot_list_setting == "very_easy":
                     print('4 by 4 very_easy setting activated in home_page_memory_game')
-                    add_four_by_four_memory_games(memory_game_list, dot_list="very_easy")
+                    add_four_by_four_memory_games(
+                        memory_game_list, dot_list="very_easy")
 
                 elif hard_or_easy_dot_list == "easy":
                     add_memory_games(memory_game_list, "easy")
@@ -483,7 +493,7 @@ def home_page_memory_game(request, username):
         if len(memory_game_list) != 0:
 
             very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
-    
+
             if very_hard_setting in four_by_four_setting_list:
                 MemoryGameToSave = MemoryGameHigh
             else:
@@ -520,9 +530,11 @@ def home_page_memory_game(request, username):
 def consent_questions(request):
     return render(request, 'consent_questions.html')
 
+
 @login_required(login_url='accounts/login')
 def prelim_one(request):
     return render(request, 'prelim_one.html')
+
 
 @login_required(login_url='accounts/login')
 def prelim_one_part_b(request):
@@ -559,13 +571,12 @@ def prelim_two(request):
         MemoryGamePrelim.box_9 = False
     else:
         if very_hard_setting:
-            MemoryGamePrelim = MemoryGamePrelimClass(1,very_hard_setting)
-        
+            MemoryGamePrelim = MemoryGamePrelimClass(1, very_hard_setting)
+
         return render(request, 'prelim_two_four_by_four.html', {
             "memory_game": MemoryGamePrelim,
             "first_go": True
-    })
-
+        })
 
     return render(request, 'prelim_two.html', {
         "memory_game": MemoryGamePrelim,
@@ -582,7 +593,7 @@ def prelim_two_second_go(request):
         class MemoryGamePrelimClassDummy:
             pass
         MemoryGamePrelim = MemoryGamePrelimClassDummy()
-    
+
     if user_logged_in.profile.hard_or_easy_dots == 'easy':
         MemoryGamePrelim.box_1 = False
         MemoryGamePrelim.box_2 = False
@@ -605,35 +616,37 @@ def prelim_two_second_go(request):
         MemoryGamePrelim.box_9 = True
     else:
         if very_hard_setting:
-            MemoryGamePrelim = MemoryGamePrelimClass(2,very_hard_setting)
+            MemoryGamePrelim = MemoryGamePrelimClass(2, very_hard_setting)
         return render(request, 'prelim_two_four_by_four.html', {
             "memory_game": MemoryGamePrelim,
             "first_go": False
-    })
+        })
     return render(request, 'prelim_two.html', {
         "memory_game": MemoryGamePrelim,
         "first_go": False
     })
+
 
 @login_required(login_url='accounts/login')
 def prelim_three(request):
     # create two way choice, so that it will go to 3x3 or 4x4
     user_logged_in = request.user
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
-    
-    # if 4 by 4 
+
+    # if 4 by 4
     if very_hard_setting in four_by_four_setting_list:
         return render(request, 'prelim_three_four_by_four.html',
-                {'repeat_example': True,
-                'third_row_number_list': third_row_number_list,
-                'fourth_row_number_list': fourth_row_number_list,
-                'all_number_row_list': all_number_row_list,
-                   }
-            )
+                      {'repeat_example': True,
+                       'third_row_number_list': third_row_number_list,
+                       'fourth_row_number_list': fourth_row_number_list,
+                       'all_number_row_list': all_number_row_list,
+                       }
+                      )
     # if 3 by 3:
     return render(request, 'prelim_three.html',
                   {'repeat_example': True
                    })
+
 
 @login_required(login_url='accounts/login')
 def prelim_three_part_b_feedback(request):
@@ -643,7 +656,7 @@ def prelim_three_part_b_feedback(request):
     if request.method == 'POST':
         if very_hard_setting in four_by_four_setting_list:
             memory_game = MemoryGameHighPrelim()
-            memory_game_original = MemoryGamePrelimClass(1,very_hard_setting)
+            memory_game_original = MemoryGamePrelimClass(1, very_hard_setting)
         else:
             print("very_hard_setting not given")
         # if I can retrieve anything then the request should be true
@@ -696,41 +709,47 @@ def prelim_three_part_b_feedback(request):
 
         memory_game.initial_or_final = 'initial'
         memory_game.save()
-        
 
+        number_of_dots_in_original_memory_game = number_of_dots_selected_calculator_four_by_four(
+            memory_game_original)
+        number_of_dots_correct = number_of_dots_correct_calculator_four_by_four(
+            memory_game_original, memory_game)
 
     return render(request, 'prelim_three_part_b_feedback.html',
-        {'repeat_example': True,
-            'memory_game':memory_game,
-            'memory_game_original': memory_game_original
-        })
-  
+                  {'repeat_example': True,
+                   'memory_game': memory_game,
+                   'memory_game_original': memory_game_original,
+                   'number_of_dots_total': number_of_dots_in_original_memory_game,
+                   'number_of_dots_correct': number_of_dots_correct,
+                   })
+
+
 @login_required(login_url='accounts/login')
 def prelim_three_second_go(request):
     user_logged_in = request.user
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
     if very_hard_setting in four_by_four_setting_list:
         return render(request, 'prelim_three_four_by_four.html',
-                {'repeat_example': False,
-                'third_row_number_list': third_row_number_list,
-                'fourth_row_number_list': fourth_row_number_list,
-                'all_number_row_list': all_number_row_list,
-                   }
-            )
+                      {'repeat_example': False,
+                       'third_row_number_list': third_row_number_list,
+                       'fourth_row_number_list': fourth_row_number_list,
+                       'all_number_row_list': all_number_row_list,
+                       }
+                      )
     return render(request, 'prelim_three.html',
                   {'repeat_example': False
                    })
+
 
 @login_required(login_url='accounts/login')
 def prelim_three_part_b_feedback_second_go(request):
     user_logged_in = request.user
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
-    
 
     if request.method == 'POST':
         if very_hard_setting in four_by_four_setting_list:
             memory_game = MemoryGameHighPrelim()
-            memory_game_original = MemoryGamePrelimClass(2,very_hard_setting)
+            memory_game_original = MemoryGamePrelimClass(2, very_hard_setting)
         else:
             print("very_hard_setting not given")
         # if I can retrieve anything then the request should be true
@@ -784,11 +803,18 @@ def prelim_three_part_b_feedback_second_go(request):
         memory_game.initial_or_final = 'initial'
         memory_game.save()
 
+        number_of_dots_in_original_memory_game = number_of_dots_selected_calculator_four_by_four(
+            memory_game_original)
+        number_of_dots_correct = number_of_dots_correct_calculator_four_by_four(
+            memory_game_original, memory_game)
+
     return render(request, 'prelim_three_part_b_feedback.html',
-        {'repeat_example': False,
-        'memory_game': memory_game,
-        'memory_game_original': memory_game_original
-        })
+                  {'repeat_example': False,
+                   'memory_game': memory_game,
+                   'memory_game_original': memory_game_original,
+                   'number_of_dots_total': number_of_dots_in_original_memory_game,
+                   'number_of_dots_correct': number_of_dots_correct,
+                   })
 
 
 def prelim_four(request):
@@ -912,9 +938,10 @@ def regret(request):
     user_logged_in = request.user
     regret_forwards_setting = user_logged_in.profile.regret_forwards
 
-    return render(request, 'regret.html',{
-        'regret_forwards_setting':regret_forwards_setting
-        })
+    return render(request, 'regret.html', {
+        'regret_forwards_setting': regret_forwards_setting
+    })
+
 
 @login_required(login_url='accounts/login')
 def regret_completed(request):
@@ -924,14 +951,13 @@ def regret_completed(request):
     survey_answers = SurveyAnswers()
     survey_answers.user = user
 
-    #extract the regret value from the post submission
+    # extract the regret value from the post submission
     regret_value = request.POST.get('regret_value')
-    #assign to survey_answers the regret value
+    # assign to survey_answers the regret value
     survey_answers.regret_value = regret_value
     survey_answers.save()
 
     return redirect('/remember_memory_game')
-
 
 
 @login_required(login_url='accounts/login')

@@ -240,3 +240,7 @@ def number_of_dots_selected_calculator_four_by_four(memory_game):
         total_selected += 1
     return total_selected
 
+
+def compare_two_memory_game_classes(MemoryGameOriginal, MemoryGameChosen):
+    total_dots_in_original = number_of_dots_selected_calculator_four_by_four(MemoryGameOriginal)
+
