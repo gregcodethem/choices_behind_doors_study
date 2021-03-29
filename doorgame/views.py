@@ -714,6 +714,18 @@ def prelim_three_part_b_feedback(request):
             memory_game_original)
         number_of_dots_correct = number_of_dots_correct_calculator_four_by_four(
             memory_game_original, memory_game)
+        # To address bug where they score more than possible:
+        if number_of_dots_correct > number_of_dots_in_original_memory_game:
+            number_of_dots_correct = number_of_dots_in_original_memory_game
+
+        number_of_dots_selected = number_of_dots_selected_calculator_four_by_four(
+            memory_game)
+        if number_of_dots_selected <= number_of_dots_in_original_memory_game:
+            excess_dots_message = False
+        elif number_of_dots_selected > number_of_dots_in_original_memory_game:
+            excess_dots_message = True
+        else:
+            print("Error: Number of dots have not been compared correctly, is the data in the right format")
 
     return render(request, 'prelim_three_part_b_feedback.html',
                   {'repeat_example': True,
@@ -721,6 +733,7 @@ def prelim_three_part_b_feedback(request):
                    'memory_game_original': memory_game_original,
                    'number_of_dots_total': number_of_dots_in_original_memory_game,
                    'number_of_dots_correct': number_of_dots_correct,
+                   'excess_dots_message': excess_dots_message,
                    })
 
 
@@ -807,6 +820,19 @@ def prelim_three_part_b_feedback_second_go(request):
             memory_game_original)
         number_of_dots_correct = number_of_dots_correct_calculator_four_by_four(
             memory_game_original, memory_game)
+                # To address bug where they score more than possible:
+        if number_of_dots_correct > number_of_dots_in_original_memory_game:
+            number_of_dots_correct = number_of_dots_in_original_memory_game
+
+        number_of_dots_selected = number_of_dots_selected_calculator_four_by_four(
+            memory_game)
+        if number_of_dots_selected <= number_of_dots_in_original_memory_game:
+            excess_dots_message = False
+        elif number_of_dots_selected > number_of_dots_in_original_memory_game:
+            excess_dots_message = True
+        else:
+            print("Error: Number of dots have not been compared correctly, is the data in the right format")
+
 
     return render(request, 'prelim_three_part_b_feedback.html',
                   {'repeat_example': False,
@@ -814,6 +840,7 @@ def prelim_three_part_b_feedback_second_go(request):
                    'memory_game_original': memory_game_original,
                    'number_of_dots_total': number_of_dots_in_original_memory_game,
                    'number_of_dots_correct': number_of_dots_correct,
+                   'excess_dots_message': excess_dots_message,
                    })
 
 

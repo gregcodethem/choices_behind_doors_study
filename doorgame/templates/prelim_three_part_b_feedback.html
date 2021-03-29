@@ -295,7 +295,9 @@ img {
 		<div class="col-sm-1">
 		</div>
 		<div class="col-sm-4">
-			<p>You got {{ number_of_dots_correct }} out of {{ number_of_dots_total }}.</p>
+			<p>You got {{ number_of_dots_correct }} out of {{ number_of_dots_total }} correct.{% if excess_dots_message == True %}  You selected too many dots.{% endif %}
+      </p>
+
 		</div>
 
 	</div>
