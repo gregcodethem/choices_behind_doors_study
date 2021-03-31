@@ -27,7 +27,7 @@ img {
 	<div class="col-sm-2">
 		<form id="form-id-door1" action="/choose_door" method="POST">
 			<input type="hidden" value="1" name="door_chosen">
-			<a href="#" onclick="document.forms['form-id-door1'].submit();">
+			<a href="#" onclick="select_wait_then_submit();">
 				<img src="{% static 'doorgame/door.png' %}" id="door1" alt="door1">
 			</a>
 			{% csrf_token %}
@@ -60,4 +60,18 @@ img {
   <p>You are not logged in</p>
   <a href="{% url 'login' %}" id="login_link_anchor">login</a>
 {% endif %}
+
+<script>
+function select_wait_then_submit() {
+	setTimeout(then_submit,door_click_delay)
+}
+
+function then_submit() {
+	document.forms['form-id-door1'].submit();
+}
+
+var door_click_delay = 2000
+
+</script>
+
 {% endblock %}
