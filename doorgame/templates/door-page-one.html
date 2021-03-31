@@ -27,8 +27,10 @@ img {
 	<div class="col-sm-2">
 		<form id="form-id-door1" action="/choose_door" method="POST">
 			<input type="hidden" value="1" name="door_chosen">
-			<a href="#" onclick="select_wait_then_submit();">
-				<img src="{% static 'doorgame/door.png' %}" id="door1" alt="door1">
+			<a href="#" onclick="select_wait_then_submit('1');">
+				<div id="div_door_1">
+					<img src="{% static 'doorgame/door.png' %}" id="door1" alt="door1">
+				</div>
 			</a>
 			{% csrf_token %}
 		</form>
@@ -37,8 +39,10 @@ img {
 		<form id="form-id-door2" action="/choose_door" method="POST">
 			{% csrf_token %}
 			<input type="hidden" value="2" name="door_chosen">
-			<a href="#" onclick="document.forms['form-id-door2'].submit();">
-				<img src="{% static 'doorgame/door.png' %}" id="door2" alt="door2">
+			<a href="#" onclick="select_wait_then_submit('2');">
+				<div id="div_door_2">
+					<img src="{% static 'doorgame/door.png' %}" id="door2" alt="door2">
+				</div>
 			</a>
 		</form>
 	</div>
@@ -48,8 +52,10 @@ img {
 
 			<input type="hidden" value="3" name="door_chosen">
 			{% csrf_token %}
-			<a href="#" onclick="document.forms['form-id-door3'].submit();">
-				<img src="{% static 'doorgame/door.png' %}" id="door3" alt="door3">
+			<a href="#" onclick="select_wait_then_submit('3');">
+				<div id="div_door_3">
+					<img src="{% static 'doorgame/door.png' %}" id="door3" alt="door3">
+				</div>
 			</a>
 		</form>
 	</div>
@@ -62,12 +68,15 @@ img {
 {% endif %}
 
 <script>
-function select_wait_then_submit() {
-	setTimeout(then_submit,door_click_delay)
+function select_wait_then_submit(door_number) {
+	
+	document.getElementById(
+		"div_door_"+door_number).innerHTML = '<img src="/static/doorgame/red_door.jpg" id="door'+door_number+'" alt="door'+door_number+'">';
+	setTimeout( function() {then_submit(door_number);},door_click_delay);
 }
 
-function then_submit() {
-	document.forms['form-id-door1'].submit();
+function then_submit(door_number) {
+	document.forms['form-id-door'+door_number].submit();
 }
 
 var door_click_delay = 2000
