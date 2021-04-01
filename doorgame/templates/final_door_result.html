@@ -28,6 +28,9 @@ img {
 	<div class="col-sm-3">
 	</div>
 	<div class="col-sm-2">
+		<div class="number_above_door">
+			<p>1</p>
+		</div>
 		{% if door_one_bool %}
 			
 			<img src="{% static 'doorgame/open_door_car.jpg' %}" id="door1" alt="door1">
@@ -36,23 +39,29 @@ img {
 
 		{% else %}
 			<img src="{% static 'doorgame/open_door_goat.png' %}" id="open_door_goat1" alt="open_door_goat1">
-			<p>It's not door one</p>
+			
 		{% endif %}
 	</div>
 	<div class="col-sm-2">
+		<div class="number_above_door">
+			<p>2</p>
+		</div>
 		{% if door_two_bool %}
 			<img src="{% static 'doorgame/open_door_car.jpg' %}" id="door2" alt="door2">
 			
 			<p>It was door two</p>
 		{% else %}
 			<img src="{% static 'doorgame/open_door_goat.png' %}" id="open_door_goat2" alt="open_door_goat2">
-			<p>It's not door two</p>
+			
 
 		{% endif %}
 
 	</div>
 
 	<div class="col-sm-2">
+		<div class="number_above_door">
+			<p>3</p>
+		</div>
 		{% if door_three_bool %}
 			
 			<img src="{% static 'doorgame/open_door_car.jpg' %}" id="door3" alt="door3">
@@ -60,11 +69,14 @@ img {
 			<p>It was door three</p>
 		{% else %}
 			<img src="{% static 'doorgame/open_door_goat.png' %}" id="open_door_goat3" alt="open_door_goat3">
-			<p>It's not door three</p>
+			
 		{% endif %}
 	</div>
 </div>
 
+{% endblock %}
+
+{% block submit_button_general %}
 <p><a href="{% url 'final_survey_one' %}">Go to next page</a><p>
 {% endblock %}
 
