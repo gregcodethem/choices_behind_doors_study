@@ -3,7 +3,8 @@
 {% block title %}Door Game{% endblock %}
 
 {% block content %}
-
+{% load static %}
+<div id="full_width_text">
 <h2>Well done</h2>
 
 <p>Now play the memory task with the Monty Hall Game.  In this study, you will play Monthy Hall Game consecutively {{ display_trial_limit }} times.</p>
@@ -13,9 +14,14 @@
 	
 <p>First, Monty will ask you to pick a door.  Then he will open one of the other two doors, that you did not pick, to reveal one of the goats</p>
 <p>Then, Monty will ask you to make a final choice between the remaining doors.  You can stick with your initial door or switch to the other one.</p>
+
+</div>
+
+<div id="text_with_image">
+	<div class="row">
+		<div class="col-sm-8">
+
 <p>You will win whatever is behind the door you finally select.</p>
-
-
 
 <p>The aim is winning the car.</p>
 	
@@ -30,6 +36,14 @@
 	<li>Monty always offers switch/stick options to the guests.</li>
 	
 </ul>
+</div>
+	<div class="col-sm-3">
+		<div id="monty_picture">
+			<img src="{% static 'doorgame/single_monty.jpg' %}" alt="Monty_image">
+		</div>
+	</div>
+</div>
+</div>
 {% load static %}
 
 {% if user.is_authenticated %}
