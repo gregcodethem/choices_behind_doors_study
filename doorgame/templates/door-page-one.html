@@ -10,73 +10,81 @@ img {
   height: auto;
 }
 </style>
-<div style="height:130px;">
-	<h2>Welcome to the door game</h2>
-
-
-	{% if user.is_authenticated %}
-
-	<p>Please make your initial choice by clicking on one of the three doors</p>
-
-</div>
-
 {% load static %}
 <div class="row">
-	<div class="col-sm-3">
-	</div>
-	<div class="col-sm-2">
-		<div class="number_above_door">
-			<p>1</p>
-		</div>
-		<form id="form-id-door1" action="/choose_door" method="POST">
-			<input type="hidden" value="1" name="door_chosen">
-			<a href="#" onclick="select_wait_then_submit('1');">
-				<div id="div_door_1">
-					<img src="{% static 'doorgame/door.png' %}" id="door1" alt="door1">
-				</div>
-			</a>
-			{% csrf_token %}
-		</form>
-	</div>
-	<div class="col-sm-2">
-		<div class="number_above_door">
-			<p>2</p>
-		</div>
-		<form id="form-id-door2" action="/choose_door" method="POST">
-			{% csrf_token %}
-			<input type="hidden" value="2" name="door_chosen">
-			<a href="#" onclick="select_wait_then_submit('2');">
-				<div id="div_door_2">
-					<img src="{% static 'doorgame/door.png' %}" id="door2" alt="door2">
-				</div>
-			</a>
-		</form>
-	</div>
+	<div class="col-sm-8">
+		<div style="height:130px;">
+			<h2>Welcome to the door game</h2>
 
-	<div class="col-sm-2">
-		<div class="number_above_door">
-			<p>3</p>
+
+			{% if user.is_authenticated %}
+
+			<p>Please make your initial choice by clicking on one of the three doors</p>
 		</div>
-		<form id="form-id-door3" action="/choose_door" method="POST">
-
-			<input type="hidden" value="3" name="door_chosen">
-			{% csrf_token %}
-			<a href="#" onclick="select_wait_then_submit('3');">
-				<div id="div_door_3">
-					<img src="{% static 'doorgame/door.png' %}" id="door3" alt="door3">
+		<div class="row">
+			<div class="col-sm-2">
+			</div>
+			<div class="col-sm-3">
+				<div class="number_above_door">
+					<p>1</p>
 				</div>
-			</a>
-		</form>
-	</div>
+				<form id="form-id-door1" action="/choose_door" method="POST">
+					<input type="hidden" value="1" name="door_chosen">
+					<a href="#" onclick="select_wait_then_submit('1');">
+						<div id="div_door_1">
+							<img src="{% static 'doorgame/door.png' %}" id="door1" alt="door1">
+						</div>
+					</a>
+					{% csrf_token %}
+				</form>
+			</div>
+			<div class="col-sm-3">
+				<div class="number_above_door">
+					<p>2</p>
+				</div>
+				<form id="form-id-door2" action="/choose_door" method="POST">
+					{% csrf_token %}
+					<input type="hidden" value="2" name="door_chosen">
+					<a href="#" onclick="select_wait_then_submit('2');">
+						<div id="div_door_2">
+							<img src="{% static 'doorgame/door.png' %}" id="door2" alt="door2">
+						</div>
+					</a>
+				</form>
+			</div>
 
-	<div class="col-sm-3">
+			<div class="col-sm-3">
+				<div class="number_above_door">
+					<p>3</p>
+				</div>
+				<form id="form-id-door3" action="/choose_door" method="POST">
+
+					<input type="hidden" value="3" name="door_chosen">
+					{% csrf_token %}
+					<a href="#" onclick="select_wait_then_submit('3');">
+						<div id="div_door_3">
+							<img src="{% static 'doorgame/door.png' %}" id="door3" alt="door3">
+						</div>
+					</a>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+<div class="col-sm-4">
 		<div id="monty_speech_bubble">
-			<img src="{% static 'doorgame/single_monty_01.png' %}" alt="Monty_image">
+			<p class="bubble speech">Hi, welcome to the Monty Hall Game.
+			Which door do you think hides the car?  Please make your initial choice.</p>
+			<img src="{% static 'doorgame/single_monty.jpg' %}" alt="Monty_image">
 		</div>
 	</div>
+</div>
+
+
+
+	
 
 </div>
-<br>
 
 {% else %}
   <p>You are not logged in</p>
