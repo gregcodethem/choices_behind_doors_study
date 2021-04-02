@@ -1115,9 +1115,11 @@ def final_survey_two_completed(request):
                       'final_survey_three.html')
 
 
+
 def final_survey_three_completed(request):
     if request.method == "POST":
         user_logged_in = request.user
+        username_logged_in = user_logged_in.username
         survey_answers_for_user = SurveyAnswers.objects.filter(
             user=user_logged_in
         )
@@ -1134,4 +1136,6 @@ def final_survey_three_completed(request):
         survey_answers.education_level = education_level
         survey_answers.save()
 
-        return render(request, 'thankyou.html')
+        return render(request, 'thankyou.html',{
+            'username':username_logged_in
+            })
