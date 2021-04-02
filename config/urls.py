@@ -22,6 +22,7 @@ from doorgame import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('new', views.create_new_user, name='create_new_user'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', views.home_page_user, name='home'),
     #path('door-result', views.door_result_page, name='door_result_page'),

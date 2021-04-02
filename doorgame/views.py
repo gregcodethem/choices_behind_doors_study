@@ -3,6 +3,8 @@ from random import randint
 # the choice model instance
 from random import choice as randomchoice
 
+from random_username.generate import generate_username
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from doorgame.models import (
@@ -14,11 +16,17 @@ from doorgame.models import (
     SurveyAnswers,
     MemoryGameList,
     MemoryGameHighPrelim,
-    TrialPrelim
+    TrialPrelim,
+    Profile
 )
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import get_user_model
+from django.contrib.auth import (
+    get_user_model,
+    authenticate,
+    login
+)
+from django.contrib.auth.models import User
 
 from .utils import (
     memory_game_bool_matrix,
@@ -205,6 +213,41 @@ def trial_completed(request):
                    })
 
 
+def create_new_user(request):
+
+    new_user_username = generate_username()[0]
+    new_user_password = generate_username()[0]
+    new_user = User.objects.create_user(
+        new_user_username,
+        'no_email@yahoo.co.uk',
+        new_user_password
+    )
+    new_user.save()
+
+    new_profile_list = Profile.objects.filter(user=new_user)
+    new_profile = new_profile_list.last()
+
+    new_difficulty = randomchoice(four_by_four_setting_list)
+    new_profile.low_medium_or_high_dots_setting = new_difficulty
+    regret_forwards_boolean = randomchoice([True, False])
+    new_profile.regret_forwards = regret_forwards_boolean
+    new_profile.save()
+
+    user_authenticated = authenticate(
+        request,
+        username=new_user_username,
+        password=new_user_password
+        )
+
+    
+    if user_authenticated is not None:
+        login(request, user_authenticated)
+        username_logged_in = user_authenticated.username
+        return redirect('/user/' + username_logged_in)
+
+    else:
+        pass
+
 @login_required(login_url='accounts/login')
 def home_page_user(request):
     username_logged_in = request.user.username
@@ -212,8 +255,38 @@ def home_page_user(request):
         return redirect('/user/' + username_logged_in)
 
     else:
-        return render(request, 'home.html')
+        new_user_username = generate_username()[0]
+        new_user_password = generate_username()[0]
+        new_user = User.objects.create_user(
+            new_user_username,
+            'no_email@yahoo.co.uk',
+            new_user_password
+        )
+        new_user.save()
 
+        new_profile_list = Profile.objects.filter(user=new_user)
+        new_profile = new_profile_list.last()
+
+        new_difficulty = randomchoice(four_by_four_setting_list)
+        new_profile.low_medium_or_high_dots_setting = new_difficulty
+        regret_forwards_boolean = randomchoice([True, False])
+        new_profile.regret_forwards = regret_forwards_boolean
+        new_profile.save()
+
+        user_authenticated = authenticate(
+            request,
+            username=new_user_username,
+            password=new_user_password
+            )
+
+        
+        if user_authenticated is not None:
+            login(request, user_authenticated)
+            username_logged_in = user_authenticated.username
+            return redirect('/user/' + username_logged_in)
+
+        else:
+            pass
 
 @login_required(login_url='accounts/login')
 def choose_door(request):
@@ -725,7 +798,8 @@ def prelim_three_part_b_feedback(request):
         elif number_of_dots_selected > number_of_dots_in_original_memory_game:
             excess_dots_message = True
         else:
-            print("Error: Number of dots have not been compared correctly, is the data in the right format")
+            print(
+                "Error: Number of dots have not been compared correctly, is the data in the right format")
 
     return render(request, 'prelim_three_part_b_feedback.html',
                   {'repeat_example': True,
@@ -820,7 +894,7 @@ def prelim_three_part_b_feedback_second_go(request):
             memory_game_original)
         number_of_dots_correct = number_of_dots_correct_calculator_four_by_four(
             memory_game_original, memory_game)
-                # To address bug where they score more than possible:
+        # To address bug where they score more than possible:
         if number_of_dots_correct > number_of_dots_in_original_memory_game:
             number_of_dots_correct = number_of_dots_in_original_memory_game
 
@@ -831,8 +905,8 @@ def prelim_three_part_b_feedback_second_go(request):
         elif number_of_dots_selected > number_of_dots_in_original_memory_game:
             excess_dots_message = True
         else:
-            print("Error: Number of dots have not been compared correctly, is the data in the right format")
-
+            print(
+                "Error: Number of dots have not been compared correctly, is the data in the right format")
 
     return render(request, 'prelim_three_part_b_feedback.html',
                   {'repeat_example': False,

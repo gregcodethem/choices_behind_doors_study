@@ -11,75 +11,81 @@ img {
   height: auto;
 }
 </style>
-<div style="height:130px;">
-	<h2>The result of your door choice</h2>
-
-	<p id="chosen_message">You chose door{{ door_chosen_number }} </p>
-
-	<p id="new_choice_message">It's not door{{ door_to_remove_number }}.  You can change your choice or keep your current choice</p>
-</div>
-
 {% load static %}
-
 <div class="row">
-	<div class="col-sm-3">
-	</div>
-	<div class="col-sm-2">
-		<div class="number_above_door">
-			<p>1</p>
+	<div class="col-sm-8">
+		<div style="height:130px;">
+			<h2>The result of your door choice</h2>
+
+			<p id="chosen_message">You chose door{{ door_chosen_number }} </p>
+
+			<p id="new_choice_message">It's not door{{ door_to_remove_number }}.  You can change your choice or keep your current choice</p>
 		</div>
-		{% if door_one_bool %}
-				
-			<a href="#" onclick="document.forms['form-id-door1'].submit();">
-				{% if door_chosen_number == "1" %}
-					<img src="{% static 'doorgame/red_door.png' %}" id="door1" alt="door 1 chosen">
-				{% else %}
-					<img src="{% static 'doorgame/door.png' %}" id="door1" alt="door1">
-				{% endif %}
-			</a>
 
-		{% else %}
-				<img src="{% static 'doorgame/open_door_goat.png' %}" id="open_door_goat1" alt="open_door_goat1">
-		{% endif %}
-	</div>
-	<div class="col-sm-2">
-		<div class="number_above_door">
-			<p>2</p>
+
+
+		<div class="row">
+			<div class="col-sm-3">
+			</div>
+			<div class="col-sm-3">
+				<div class="number_above_door">
+					<p>1</p>
+				</div>
+				{% if door_one_bool %}
+						
+					<a href="#" onclick="document.forms['form-id-door1'].submit();">
+						{% if door_chosen_number == "1" %}
+							<img src="{% static 'doorgame/red_door.png' %}" id="door1" alt="door 1 chosen">
+						{% else %}
+							<img src="{% static 'doorgame/door.png' %}" id="door1" alt="door1">
+						{% endif %}
+					</a>
+
+				{% else %}
+						<img src="{% static 'doorgame/open_door_goat.png' %}" id="open_door_goat1" alt="open_door_goat1">
+				{% endif %}
+			</div>
+			<div class="col-sm-3">
+				<div class="number_above_door">
+					<p>2</p>
+				</div>
+				{% if door_two_bool %}
+					<a href="#" onclick="document.forms['form-id-door2'].submit();">
+						{% if door_chosen_number == "2" %}
+							<img src="{% static 'doorgame/red_door.png' %}" id="door2" alt="door 2 chosen">
+						{% else %}
+							<img src="{% static 'doorgame/door.png' %}" id="door2" alt="door2">
+						{% endif %}
+						
+					</a>
+				{% else %}
+					<img src="{% static 'doorgame/open_door_goat.png' %}" id="open_door_goat2" alt="open_door_goat2">
+				{% endif %}
+
+			</div>
+
+			<div class="col-sm-3">
+				<div class="number_above_door">
+					<p>3</p>
+				</div>
+				{% if door_three_bool %}
+					<a href="#" onclick="document.forms['form-id-door3'].submit();">
+						{% if door_chosen_number == "3" %}
+							<img src="{% static 'doorgame/red_door.png' %}" id="door3" alt="door 3 chosen">
+						{% else %}
+							<img src="{% static 'doorgame/door.png' %}" id="door3" alt="door3">
+						{% endif %}
+					</a>
+				{% else %}
+					<img src="{% static 'doorgame/open_door_goat.png' %}" id="open_door_goat3" alt="open_door_goat3">
+				{% endif %}
+			</div>
 		</div>
-		{% if door_two_bool %}
-			<a href="#" onclick="document.forms['form-id-door2'].submit();">
-				{% if door_chosen_number == "2" %}
-					<img src="{% static 'doorgame/red_door.png' %}" id="door2" alt="door 2 chosen">
-				{% else %}
-					<img src="{% static 'doorgame/door.png' %}" id="door2" alt="door2">
-				{% endif %}
-				
-			</a>
-		{% else %}
-			<img src="{% static 'doorgame/open_door_goat.png' %}" id="open_door_goat2" alt="open_door_goat2">
-		{% endif %}
-
 	</div>
 
-	<div class="col-sm-2">
-		<div class="number_above_door">
-			<p>3</p>
-		</div>
-		{% if door_three_bool %}
-			<a href="#" onclick="document.forms['form-id-door3'].submit();">
-				{% if door_chosen_number == "3" %}
-					<img src="{% static 'doorgame/red_door.png' %}" id="door3" alt="door 3 chosen">
-				{% else %}
-					<img src="{% static 'doorgame/door.png' %}" id="door3" alt="door3">
-				{% endif %}
-			</a>
-		{% else %}
-			<img src="{% static 'doorgame/open_door_goat.png' %}" id="open_door_goat3" alt="open_door_goat3">
-		{% endif %}
-	</div>
-
-	<div class="col-sm-3">
+	<div class="col-sm-4">
 		<div id="monty_speech_bubble">
+			<p class="bubble speech">I am revealing one of the two goats.  Now, would you like to stick with your initial choice or switch to the other door?</p>
 			<img src="{% static 'doorgame/single_monty_02.png' %}" alt="Monty_image">
 		</div>
 	</div>
