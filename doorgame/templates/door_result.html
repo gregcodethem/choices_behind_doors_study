@@ -31,7 +31,11 @@ img {
 		{% if door_one_bool %}
 				
 			<a href="#" onclick="document.forms['form-id-door1'].submit();">
-				<img src="{% static 'doorgame/door.png' %}" id="door1" alt="door1">
+				{% if door_chosen_number == "1" %}
+					<img src="{% static 'doorgame/red_door.png' %}" id="door1" alt="door 1 chosen">
+				{% else %}
+					<img src="{% static 'doorgame/door.png' %}" id="door1" alt="door1">
+				{% endif %}
 			</a>
 
 		{% else %}
@@ -44,7 +48,12 @@ img {
 		</div>
 		{% if door_two_bool %}
 			<a href="#" onclick="document.forms['form-id-door2'].submit();">
-				<img src="{% static 'doorgame/door.png' %}" id="door2" alt="door2">
+				{% if door_chosen_number == "2" %}
+					<img src="{% static 'doorgame/red_door.png' %}" id="door2" alt="door 2 chosen">
+				{% else %}
+					<img src="{% static 'doorgame/door.png' %}" id="door2" alt="door2">
+				{% endif %}
+				
 			</a>
 		{% else %}
 			<img src="{% static 'doorgame/open_door_goat.png' %}" id="open_door_goat2" alt="open_door_goat2">
@@ -58,7 +67,11 @@ img {
 		</div>
 		{% if door_three_bool %}
 			<a href="#" onclick="document.forms['form-id-door3'].submit();">
-				<img src="{% static 'doorgame/door.png' %}" id="door3" alt="door3">
+				{% if door_chosen_number == "3" %}
+					<img src="{% static 'doorgame/red_door.png' %}" id="door3" alt="door 3 chosen">
+				{% else %}
+					<img src="{% static 'doorgame/door.png' %}" id="door3" alt="door3">
+				{% endif %}
 			</a>
 		{% else %}
 			<img src="{% static 'doorgame/open_door_goat.png' %}" id="open_door_goat3" alt="open_door_goat3">
