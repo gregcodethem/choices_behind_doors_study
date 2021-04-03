@@ -1,11 +1,22 @@
 <!-- templates/registration/login.html -->
 {% extends 'base.html' %}
 
-{% block title %}Door Game{% endblock %}
+{% block title %}Participant Information Sheet{% endblock %}
 
 {% block content %}
+{% load static %}
+<div class="row">
+	<div class="col-sm-4">
+		<img src="{% static 'doorgame/Manchester_Met_Image.png' %}" id="manchester_met_image" alt="Manchester Metropolitan Image">
+	</div>
+	<div class="col-sm-5">
+	</div>
+	<div class="col-sm-3">
+		<img src="{% static 'doorgame/Manchester_Met_Logo.png' %}" id="manchester_met_logo" alt="Manchester Metropolitan Logo">
+	</div>
+</div>
 
-<h2> Participant Information Sheet</h2>
+<h2 style="text-align:center"> Participant Information Sheet</h2>
 <h3>1. Invitation to research</h3> 
 <p>I would like to invite you to take part in a computer simulation of the Monty Hall Game and a memory test.  My name is Ozen Sengulen, and I am a MSc Psychology student at Manchester Metropolitan University. My research project will explore people’s decision making and emotions during a memory task.  It will be submitted as my Psychology MSc dissertation.  It may also be submitted for publication.</p>
 
