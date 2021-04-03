@@ -249,6 +249,11 @@ def create_new_user(request):
         pass
 
 @login_required(login_url='accounts/login')
+def terms_and_conditions(request):
+    username_logged_in = request.user.username
+
+
+@login_required(login_url='accounts/login')
 def home_page_user(request):
     username_logged_in = request.user.username
     if username_logged_in:
@@ -585,13 +590,18 @@ def home_page_memory_game(request, username):
             memory_game.trial = trial
             memory_game.save()
 
-    if number_of_trial == 0:
+    # find if prelim has been completed
+    prelim_completed_bool = user_logged_in.profile.prelim_completed 
+
+
+    if number_of_trial == 0 or prelim_completed_bool == False:
         return render(request, 'terms_and_conditions.html', {
             "username": username_logged_in,
             "number_of_trial": number_of_trial,
             "memory_game": memory_game,
         }
         )
+
     return render(request, 'home.html', {
         "username": username_logged_in,
         "number_of_trial": number_of_trial,
