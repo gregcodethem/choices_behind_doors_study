@@ -18,8 +18,6 @@ img {
 			<h2>The result of your door choice</h2>
 		</div>
 
-
-
 		<div class="row">
 			<div class="col-sm-3">
 			</div>
@@ -90,14 +88,14 @@ img {
 
 <form id="form-id-door{{door_chosen_number}}" action="/choose_final_door" method="POST">
 	<input type="hidden" value="{{door_chosen_number}}" name="final_door_chosen">
-	<a id="keep_door_link"><button>Keep door choice - keep door{{ door_chosen_number }}</button></a>
+	<a id="keep_door_link"><button>Stick with door {{ door_chosen_number }}</button></a>
 {% csrf_token %}
 </form>
 
 <form id = "form-id-door{{door_to_change_to_number}}" action="/choose_final_door" method="POST">
 	<input type="hidden" value="{{door_to_change_to_number}}" name="final_door_chosen">
 	<a id="change_door_link">
-		<button>Change door choice - change to door{{ door_to_change_to_number }}</button>
+		<button>Switch to door {{ door_to_change_to_number }}</button>
 	</a>
 {% csrf_token %}
 </form>
