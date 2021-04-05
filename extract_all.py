@@ -15,20 +15,29 @@ from doorgame.models import SurveyAnswers
 from extract import write_to_csv, results
 
 
-def dots_remembered(number_of_trials=30):
-    easy_grid = []
-    hard_grid = []
-    very_hard_grid = []
+def dots_remembered(number_of_trials=30,memory_game_size=4):
+    if memory_game_size == 3:
+        easy_grid = []
+        hard_grid = []
+        very_hard_grid = []
+    elif memory_game_size == 4:
+        very_easy_grid = []
+        medium_grid = []
+        very_hard_grid = []
     user_list = User.objects.all()
 
     column_headings = ['']
     for i in range(number_of_trials):
         column_headings.append(i + 1)
 
-    easy_grid.append(column_headings)
-    hard_grid.append(column_headings)
-    very_hard_grid.append(column_headings)
-
+    if memory_game_size == 3:
+        easy_grid.append(column_headings)
+        hard_grid.append(column_headings)
+        very_hard_grid.append(column_headings)
+    elif memory_game_size == 4:
+        very_easy_grid.append(column_headings)
+        medium_grid.append(column_headings)
+        very_hard_grid.append(column_headings)
     for user in user_list:
         username = user.username
 
@@ -36,44 +45,70 @@ def dots_remembered(number_of_trials=30):
             user_result_list_of_dics = results(username, row_format='dic')
             
             hard_or_easy_setting = user_result_list_of_dics[0]['hard_or_easy']
+            very_hard_medium_or_very_easy_setting = user_result_list_of_dics[0]['very_hard_medium_or_very_easy']
             user_result = []
             user_result.append(username)
 
             for user_trial_result_dic in user_result_list_of_dics:
                 number_of_dots_correct = user_trial_result_dic['number_of_dots_correct']
                 user_result.append(number_of_dots_correct)
-            if hard_or_easy_setting == 'hard':
-                hard_grid.append(user_result)
-            elif hard_or_easy_setting == 'easy':
-                easy_grid.append(user_result)
-            elif hard_or_easy_setting == 'very_hard':
-                very_hard_gid.append(user_result)
-            else:
-                print(f'hard_or_easy_setting not defined correctly in extract_all.py')
-
+            if memory_game_size == 3:
+                if hard_or_easy_setting == 'hard':
+                    hard_grid.append(user_result)
+                elif hard_or_easy_setting == 'easy':
+                    easy_grid.append(user_result)
+                elif hard_or_easy_setting == 'very_hard':
+                    very_hard_grid.append(user_result)
+                else:
+                    print(f'hard_or_easy_setting not defined correctly in extract_all.py')
+            elif memory_game_size == 4:
+                if very_hard_medium_or_very_easy_setting == 'very_hard':
+                    very_hard_grid.append(user_result)
+                elif very_hard_medium_or_very_easy_setting == 'medium':
+                    medium_grid.append(user_result)
+                elif very_hard_medium_or_very_easy_setting == 'very_easy':
+                    very_easy_grid.append(user_result)
         except Exception as e:
             print(f'not worked for user: {username}')
             print(e)
-    grid_dic = {
-        'hard_grid': hard_grid,
-        'easy_grid': easy_grid,
-        'very_hard_grid': very_hard_grid
-    }
+    if memory_game_size == 3:
+        grid_dic = {
+            'hard_grid': hard_grid,
+            'easy_grid': easy_grid,
+            'very_hard_grid': very_hard_grid
+        }
+    elif memory_game_size == 4:
+        grid_dic = {
+            'very_hard_grid': very_hard_grid,
+            'medium_grid': medium_grid,
+            'very_easy_grid': very_easy_grid,
+        }
     return grid_dic
 
-def door_result(number_of_trials=30):
-    easy_grid = []
-    hard_grid = []
-    very_hard_grid = []
+def door_result(number_of_trials=30, memory_game_size=4):
+    if memory_game_size == 3:
+        easy_grid = []
+        hard_grid = []
+        very_hard_grid = []
+    elif memory_game_size == 4:
+        very_easy_grid = []
+        medium_grid = []
+        very_hard_grid = []
     user_list = User.objects.all()
 
     column_headings = ['']
     for i in range(number_of_trials):
         column_headings.append(i + 1)
 
-    easy_grid.append(column_headings)
-    hard_grid.append(column_headings)
-    very_hard_grid.append(column_headings)
+    if memory_game_size == 3:
+        easy_grid.append(column_headings)
+        hard_grid.append(column_headings)
+        very_hard_grid.append(column_headings)
+
+    if memory_game_size == 4:
+        very_easy_grid.append(column_headings)
+        medium_grid.append(column_headings)
+        very_hard_grid.append(column_headings)
 
     for user in user_list:
         username = user.username
@@ -82,6 +117,7 @@ def door_result(number_of_trials=30):
             user_result_list_of_dics = results(username, row_format='dic')
             
             hard_or_easy_setting = user_result_list_of_dics[0]['hard_or_easy']
+            very_hard_medium_or_very_easy_setting = user_result_list_of_dics[0]['very_hard_medium_or_very_easy']
             user_result = []
             user_result.append(username)
 
@@ -90,25 +126,40 @@ def door_result(number_of_trials=30):
                 win_or_lose = user_trial_result_dic['win_or_lose']
                 trial_result = switch_or_stick + '-' + win_or_lose
                 user_result.append(trial_result)
-            if hard_or_easy_setting == 'hard':
-                hard_grid.append(user_result)
-            elif hard_or_easy_setting == 'easy':
-                easy_grid.append(user_result)
-            elif hard_or_easy_setting == 'very_hard':
-                very_hard_grid.append(user_result)
-            else:
-                print(f'hard_or_easy_setting not defined correctly in extract_all.py door_result method')
-
+            if memory_game_size == 3:
+                if hard_or_easy_setting == 'hard':
+                    hard_grid.append(user_result)
+                elif hard_or_easy_setting == 'easy':
+                    easy_grid.append(user_result)
+                elif hard_or_easy_setting == 'very_hard':
+                    very_hard_grid.append(user_result)
+                else:
+                    print(f'hard_or_easy_setting not defined correctly in extract_all.py door_result method')
+            elif memory_game_size == 4:
+                if very_hard_medium_or_very_easy_setting == 'very_hard':
+                    very_hard_grid.append(user_result)
+                elif very_hard_medium_or_very_easy_setting == 'medium':
+                    medium_grid.append(user_result)
+                elif very_hard_medium_or_very_easy_setting == 'very_easy':
+                    very_easy_grid.append(user_result)
+                else:
+                    print(f'very_hard_medium_or_very_easy_setting not defined correctly in extract_all.py door_result method')
         except Exception as e:
             print(f'not worked for user: {username}')
             print(e)
 
-
-    grid_dic = {
-        'hard_grid': hard_grid,
-        'easy_grid': easy_grid,
-        'very_hard_grid': very_hard_grid
-    }
+    if memory_game_size == 3:
+        grid_dic = {
+            'hard_grid': hard_grid,
+            'easy_grid': easy_grid,
+            'very_hard_grid': very_hard_grid
+        }
+    elif memory_game_size == 4:
+        grid_dic = {
+            'very_hard_grid': very_hard_grid,
+            'medium_grid': medium_grid,
+            'very_easy_grid': very_easy_grid
+        }
     return grid_dic
 
 def other_data():
@@ -147,7 +198,7 @@ def write_all_to_csv():
 
 if __name__ == "__main__":
     # execute only if run as a script
-
+    '''
     # write_all_to_csv()
     dots_remembered_result = dots_remembered()
     easy_grid_dots = dots_remembered_result['easy_grid']
@@ -163,5 +214,22 @@ if __name__ == "__main__":
     very_hard_grid_door = door_result['very_hard_grid']
     write_to_csv_summary(easy_grid_door, 'easy', 'door_strategy')
     write_to_csv_summary(hard_grid_door, 'hard', 'door_strategy')
+    write_to_csv_summary(very_hard_grid_door, 'very_hard', 'door_strategy')
+    '''
+    # write_all_to_csv()
+    dots_remembered_result = dots_remembered()
+    very_easy_grid_dots = dots_remembered_result['very_easy_grid']
+    medium_grid_dots = dots_remembered_result['medium_grid']
+    very_hard_grid_dots = dots_remembered_result['very_hard_grid']
+    write_to_csv_summary(very_easy_grid_dots, 'very_easy', 'dots_remembered')
+    write_to_csv_summary(medium_grid_dots, 'medium', 'dots_remembered')
+    write_to_csv_summary(very_hard_grid_dots, 'very_hard', 'dots_remembered')
+
+    door_result = door_result()
+    very_easy_grid_door = door_result['very_easy_grid']
+    medium_grid_door = door_result['medium_grid']
+    very_hard_grid_door = door_result['very_hard_grid']
+    write_to_csv_summary(very_easy_grid_door, 'very_easy', 'door_strategy')
+    write_to_csv_summary(medium_grid_door, 'medium', 'door_strategy')
     write_to_csv_summary(very_hard_grid_door, 'very_hard', 'door_strategy')
 

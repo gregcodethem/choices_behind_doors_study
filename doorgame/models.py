@@ -39,6 +39,7 @@ class SurveyAnswers(models.Model):
     estimate_switched_won = models.IntegerField(default=0)
     age = models.IntegerField(default=0)
     familiar = models.TextField(default="blank")
+    english = models.TextField(default="blank")
     gender = models.TextField(default="blank")
     education_level = models.TextField(default="blank")
 

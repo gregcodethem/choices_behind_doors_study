@@ -15,8 +15,9 @@ from doorgame.utils import (
     number_of_dots_selected_calculator_four_by_four
     )
 
+very_hard_setting_list = ["very_hard", "medium", "very_easy"]
 
-def results(username,row_format="list"):
+def results(username,row_format="list",memory_game_size=4):
     user = User.objects.get(username=username)
     very_hard_setting = user.profile.low_medium_or_high_dots_setting
     trials = Trial.objects.filter(user=user)
@@ -48,7 +49,7 @@ def results(username,row_format="list"):
             win_or_lose = 'lose'
 
         # memory game
-        if very_hard_setting == 'very_hard':
+        if very_hard_setting in very_hard_setting_list:
             memory_games = MemoryGameHigh.objects.filter(trial=trial)
         else:
             memory_games = MemoryGame.objects.filter(trial=trial)
@@ -59,7 +60,7 @@ def results(username,row_format="list"):
         if len(memory_game_final_list) != 0:
             memory_game_final = memory_games.get(initial_or_final='final')
             
-            if very_hard_setting == 'very_hard':
+            if very_hard_setting in very_hard_setting_list:
                 number_of_dots_correct = number_of_dots_correct_calculator_four_by_four(
                     memory_game_initial, memory_game_final
                 )
@@ -88,6 +89,7 @@ def results(username,row_format="list"):
             print(f'username: {username}')
             print(f'hard_or_easy_setting: {hard_or_easy_setting}')
             print(f'type of hard_or_easy_setting: {type(hard_or_easy_setting)}')
+        very_hard_medium_or_very_easy = very_hard_setting
 
         result_row.append(number_of_trial)
         result_dic['number_of_trial'] = number_of_trial
@@ -97,6 +99,8 @@ def results(username,row_format="list"):
         result_dic['win_or_lose'] = win_or_lose
         result_row.append(hard_or_easy)
         result_dic['hard_or_easy'] = hard_or_easy
+        result_row.append(very_hard_medium_or_very_easy)
+        result_dic['very_hard_medium_or_very_easy'] = very_hard_medium_or_very_easy
         result_row.append(number_of_dots_correct)
         result_dic['number_of_dots_correct'] = number_of_dots_correct
         result_row.append(number_of_dots_selected)
