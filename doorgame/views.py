@@ -2,8 +2,8 @@ from random import randint
 # changed name of random.choice so as not to confuse with
 # the choice model instance
 from random import choice as randomchoice
-
-from random_username.generate import generate_username
+from secrets import choice as secretschoice
+from string import ascii_letters, digits
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -215,8 +215,13 @@ def trial_completed(request):
 
 def create_new_user(request):
 
-    new_user_username = generate_username()[0]
-    new_user_password = generate_username()[0]
+    alphabet = ascii_letters + digits
+    new_user_username = ''.join(
+        secretschoice(alphabet) for i in range(8)
+        )
+    new_user_password = ''.join(
+        secretschoice(alphabet) for i in range(14)
+        )
     new_user = User.objects.create_user(
         new_user_username,
         'no_email@yahoo.co.uk',

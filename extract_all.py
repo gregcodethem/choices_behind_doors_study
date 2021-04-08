@@ -170,7 +170,8 @@ def other_data():
 
         SurveyAnswersForUser = SurveyAnswers.objects.filter(user=user)
 
-        #user_data = 
+        user_data = []
+        #user_data.append(SurveyAnswersForUser.......)
 
 
 
