@@ -1142,6 +1142,10 @@ def final_survey_three_completed(request):
 
         familiar = request.POST.get('familiar')
         survey_answers.familiar = familiar
+
+        english = request.POST.get('english')
+        survey_answers.english = english
+
         age = request.POST.get('age')
         survey_answers.age = age
 
