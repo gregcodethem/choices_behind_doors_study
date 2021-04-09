@@ -4,10 +4,8 @@
 
 <h2>Well done!  Now please answer the following question.</h2>
 
-<p>Please complete the following questions</p>
 
 <form id="form-final-survey_one" action="/final_survey_one_completed" method="POST" name="formfinalsurveyone" onsubmit="checkform(event)">
-	<p>You played a total of {% if display_trial_limit > 1 %} {{ display_trial_limit }} games {% else %} {{ display_trial_limit }} game {% endif %}of the Monty Hall Dilemma.</p>
 	
 	<p> Which strategy has the highest chance of winning?  Please choose one.</p>
 		<input type="radio" id="stick" name="best_strategy" value="stick">
