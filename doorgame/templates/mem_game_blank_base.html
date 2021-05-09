@@ -79,7 +79,8 @@ label {
 
 {% endblock %}
 
-
+{% block error_message_wrong_number_of_dots %}
+{% endblock %}
 
 {% else %}
   <p>You are not logged in</p>
@@ -107,6 +108,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 
 </script>
+
 
 {% block delay_for_prelims_script %}
 {% endblock %}

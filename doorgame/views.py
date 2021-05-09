@@ -104,40 +104,81 @@ def final_pattern(request):
         # if I can retrieve anything then the request should be true
         # if not then it should be false
 
+        # Get total of trues, if greater than what it should be according
+        # to  the difficulty level then send it back to the previous page
+        # without saving and with an error message
+        if very_hard_setting == "very_hard":
+            number_of_dots_to_select = 6
+        else:
+            number_of_dots_to_select = 4
+
+        dots_selected_in_final_patttern = 0
+
         if request.POST.get('box_1') == "True":
             memory_game.box_1 = True
+            dots_selected_in_final_patttern += 1
         if request.POST.get('box_2') == "True":
             memory_game.box_2 = True
+            dots_selected_in_final_patttern += 1
         if request.POST.get('box_3') == "True":
             memory_game.box_3 = True
+            dots_selected_in_final_patttern += 1
         if request.POST.get('box_4') == "True":
             memory_game.box_4 = True
+            dots_selected_in_final_patttern += 1
         if request.POST.get('box_5') == "True":
             memory_game.box_5 = True
+            dots_selected_in_final_patttern += 1
         if request.POST.get('box_6') == "True":
             memory_game.box_6 = True
+            dots_selected_in_final_patttern += 1
         if request.POST.get('box_7') == "True":
             memory_game.box_7 = True
+            dots_selected_in_final_patttern += 1
         if request.POST.get('box_8') == "True":
             memory_game.box_8 = True
+            dots_selected_in_final_patttern += 1
         if request.POST.get('box_9') == "True":
             memory_game.box_9 = True
+            dots_selected_in_final_patttern += 1
 
         if very_hard_setting in four_by_four_setting_list:
             if request.POST.get('box_10') == "True":
                 memory_game.box_10 = True
+                dots_selected_in_final_patttern += 1
             if request.POST.get('box_11') == "True":
                 memory_game.box_11 = True
+                dots_selected_in_final_patttern += 1
             if request.POST.get('box_12') == "True":
                 memory_game.box_12 = True
+                dots_selected_in_final_patttern += 1
             if request.POST.get('box_13') == "True":
                 memory_game.box_13 = True
+                dots_selected_in_final_patttern += 1
             if request.POST.get('box_14') == "True":
                 memory_game.box_14 = True
+                dots_selected_in_final_patttern += 1
             if request.POST.get('box_15') == "True":
                 memory_game.box_15 = True
+                dots_selected_in_final_patttern += 1
             if request.POST.get('box_16') == "True":
                 memory_game.box_16 = True
+                dots_selected_in_final_patttern += 1
+
+        if dots_selected_in_final_patttern != number_of_dots_to_select:
+            remember_memory_game_page_string = 'remember_memory_game_four_by_four.html'
+            
+            if dots_selected_in_final_patttern < number_of_dots_to_select:
+                error_message_number_of_dots = f"There are not enough dots, there should be {str(number_of_dots_to_select)}"
+            elif dots_selected_in_final_patttern > number_of_dots_to_select:
+                error_message_number_of_dots = f"There are too many dots, there should be {str(number_of_dots_to_select)}"
+            return render(request, remember_memory_game_page_string, {
+                'third_row_number_list': third_row_number_list,
+                'fourth_row_number_list': fourth_row_number_list,
+                'all_number_row_list': all_number_row_list,
+                'error_message_number_of_dots': error_message_number_of_dots
+            })
+
 
         memory_game.initial_or_final = 'final'
         memory_game.save()
@@ -429,6 +470,7 @@ def memory_game_initial_turn(request):
         memory_game = memory_game_list_end[0]
         memory_game.trial = trial
         memory_game.save()
+
 
     return render(request, home_page_string, {
         "username": username_logged_in,
