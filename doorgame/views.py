@@ -49,6 +49,8 @@ fourth_row_number_list = ['13', '14', '15', '16']
 all_number_row_list = ['1', '2', '3', '4', '5', '6', '7',
                        '8', '9', '10', '11', '12', '13', '14', '15', '16']
 
+def site_maintenance(request):
+    return HttpResponse('<html><title>Site under maintenance</title><h1>Site under maintenance, we will be back online soon</h1></html>')
 
 def final_completion(request):
     return render(request, 'final_completion.html')
