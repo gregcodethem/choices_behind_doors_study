@@ -43,6 +43,7 @@ from config.settings import TRIAL_LIMIT
 
 display_trial_limit = TRIAL_LIMIT - 1
 four_by_four_setting_list = ["very_hard", "medium", "very_easy"]
+four_by_four_setting_list_two_options = ["medium", "very_easy"]
 
 third_row_number_list = ['9', '10', '11', '12']
 fourth_row_number_list = ['13', '14', '15', '16']
@@ -275,7 +276,10 @@ def create_new_user(request):
     new_profile_list = Profile.objects.filter(user=new_user)
     new_profile = new_profile_list.last()
 
-    new_difficulty = randomchoice(four_by_four_setting_list)
+    # change the difficulty here
+    #new_difficulty = randomchoice(four_by_four_setting_list)
+    new_difficulty = randomchoice(four_by_four_setting_list_two_options)
+
     new_profile.low_medium_or_high_dots_setting = new_difficulty
     regret_forwards_boolean = randomchoice([True, False])
     new_profile.regret_forwards = regret_forwards_boolean
