@@ -6,7 +6,7 @@
 
 
 {% block form_start_html_tag %}
-<form id="form-go-to-door-game" action="/final_pattern" method="POST">
+<form id="form-go-to-door-game" action="/final_pattern" method="POST" id="dots-selected-form" onsubmit="checkdotsselected(event)">
 {% endblock %}
 	
 {% block submit_button_memory_game %}
@@ -23,8 +23,8 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-10">
-        	<h2 style="color:red">
-	        	{{ error_message_number_of_dots }}
+        	<h2 style="color:red" id="wrong_number_of_dots_message">
+	        	
 	        </h2>
         </div>
 
@@ -33,5 +33,44 @@
 
 {% endblock %}
 
+{% block check_number_of_dots %}
+<script>
+	var sum_of_totals_dots = 0;
+	function checkdotsselected(evt) {
+		var condition = false;
+
+		$.('hidden-checkbox').each(function() {
+			checkbox_bool = $(this).val()
+			console.log(checkbox_bool)
+			console.log("script is running")
+			if (checkbox_bool = "True") {
+				
+				sum_of_totals_dots++
+			}
+		})
+
+		if (sum_of_totals_dots < 4) {
+			condition = false
+			document.getElementById("wrong_number_of_dots_message").innerHTML = 'There are not enough dots';
+
+		} else if (sum_of_totals_dots > 4) {
+			condition = false
+			document.getElementById("wrong_number_of_dots_message").innerHTML = 'There are too many dots';
+
+		} else if (sum_of_totals_dots = 4) {
+			condition = true
+		}
+
+		if (!condition) {
+			if(evt.preventDefault) {event.preventDefault();}
+			else if(evt.returnValue) { evt.returnValue = false; }    
+            else { return false; }
+
+		}
+
+	};
+</script>
+
+{% endblock %}
 
 
