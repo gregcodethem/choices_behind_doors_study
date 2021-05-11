@@ -39,33 +39,23 @@
 
 	function checkdotsselected(evt) {
 		var condition = false;
-		var sum_of_totals_dots = 0;
 
-		$('.hidden-checkbox').each(function() {
-			checkbox_bool = $(this).val();
-			if (this.checked) {
-				sum_of_totals_dots++
-			}
-			console.log("checked");
-			console.log(checked);
-			console.log(checkbox_bool);
-			console.log("starting sum:");
-			console.log(sum_of_totals_dots);
-			if (checkbox_bool = "True") {
-				sum_of_totals_dots++
-				console.log("changed sum:")
-				console.log(sum_of_totals_dots)
+		var inputElems = document.getElementsByClassName("hidden-checkbox"),
+		    count = 0;
+		for (var i=0; i<inputElems.length; i++) {
+		    if (inputElems[i].type === "checkbox" && inputElems[i].checked === true){
+		        count++;
+		    }
+		}
+		console.log(count)
 
-			}
-		})
-
-		if (sum_of_totals_dots < 4) {
+		if (count < 4) {
 			condition = false
 			document.getElementById("wrong_number_of_dots_message").innerHTML = 'There are not enough dots';
 
-		} else if (sum_of_totals_dots > 4) {
+		} else if (count > 4) {
 			condition = false
-			document.getElementById("wrong_number_of_dots_message").innerHTML = 'There should be 4 dots, you have selected either too many or too few';
+			document.getElementById("wrong_number_of_dots_message").innerHTML = 'There are too many dots';
 
 		} else if (sum_of_totals_dots = 4) {
 			condition = true
