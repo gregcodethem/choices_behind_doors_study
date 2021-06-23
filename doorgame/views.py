@@ -279,7 +279,7 @@ def create_new_user(request):
     # change the difficulty here
     #new_difficulty = randomchoice(four_by_four_setting_list)
     #new_difficulty = randomchoice(four_by_four_setting_list_two_options)
-    new_difficulty = "medium"
+    new_difficulty = "very_easy"
 
     new_profile.low_medium_or_high_dots_setting = new_difficulty
     regret_forwards_boolean = randomchoice([True, False])
