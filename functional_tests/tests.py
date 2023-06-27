@@ -3,7 +3,11 @@ from django.contrib.auth.models import User
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
+from doorgame.models import Profile
 
 import time
 
@@ -13,10 +17,30 @@ test_login_data = {
     "Bob": {"username": "bob", "password": "bobbob123"},
 }
 
+# A helper function to get the profile for a specific username
+# (Note: will want refactoring to another folder)
+def get_profile_by_username(username):
+    try:
+        # Retrieve the User instance by username
+        user = User.objects.get(username=username)
+
+        # Access the associated Profile instance
+        profile = user.profile
+
+        return profile
+
+    except User.DoesNotExist:
+        print(f"User with username {username} does not exist.")
+        return None
+
 
 class BaseTest(LiveServerTestCase):
 
-    def create_user(self,user_identifier="John"):
+    def create_user(
+            self,
+            user_identifier="John",
+            size="three_by_three",
+    ):
         # retrieve name from dictionary
         user_details_one = test_login_data[user_identifier]
         username_one = user_details_one['username']
@@ -26,6 +50,11 @@ class BaseTest(LiveServerTestCase):
             username=username_one,
             password=password_one
         )
+        profile = get_profile_by_username(username_one)
+        if size=="three_by_three":
+            profile.hard_or_easy_dots = "easy"
+            profile.save()
+
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -154,8 +183,40 @@ class VisitorClicksThroughFirstPages(BaseTest):
         self.assertIn("Welcome to the Monty Hall Game", welcome_message)
 
         # User sees the continue message and clicks on it
+        continue_message_on_third_page = self.browser.find_element_by_id(
+            "go_to_prelim_one_part_b"
+        ).text
+        self.assertIn("Continue", continue_message_on_third_page)
 
+        continue_link_on_third_page = self.browser.find_element_by_id(
+            "go_to_prelim_one_part_b"
+        )
+        continue_link_on_third_page.click()
 
+        # User sees the fourth page
+        first_line_on_fourth_page = self.browser.find_element_by_tag_name('p').text
+        self.assertIn("You will now have", first_line_on_fourth_page)
+
+        # User sees another continue message and clicks on it
+        continue_message_on_fourth_page = self.browser.find_element_by_id(
+            "go_to_prelim_two"
+        ).text
+        self.assertIn("Continue", continue_message_on_third_page)
+
+        continue_link_on_fourth_page = self.browser.find_element_by_id(
+            "go_to_prelim_two"
+        )
+        continue_link_on_fourth_page.click()
+
+        #user sees countdown, then 3 by 3 grid
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, 'col-sm-1'))
+        )
+        small_box_list = self.browser.find_elements_by_class_name(
+            "col-sm-1"
+        )
+        number_of_small_boxes = len(small_box_list)
+        self.assertEqual(number_of_small_boxes,9)
 
 
 
