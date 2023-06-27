@@ -6,6 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
 
 from doorgame.models import Profile
 
@@ -218,7 +219,33 @@ class VisitorClicksThroughFirstPages(BaseTest):
         number_of_small_boxes = len(small_box_list)
         self.assertEqual(number_of_small_boxes,9)
 
+        # User cannot see a message displayed saying: "Can you remember the pattern from before?"
+        try:
+            remember_pattern_message = self.browser.find_element_by_id(
+            "final_pattern_message"
+        )
+            remember_pattern_message_present = True
+        except NoSuchElementException:
+            remember_pattern_message_present = False
 
+        self.assertFalse(
+            remember_pattern_message_present,
+            "The message above the grid should not be present"
+        )
+
+        # User remembers the pattern and then a blank grid appears
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'final_pattern_message'))
+        )
+
+        # Above the grid should be a message
+        remember_pattern_message_actual = self.browser.find_element_by_id(
+            "final_pattern_message"
+        ).text
+        self.assertIn(
+            "Can you remember the pattern from before?",
+            remember_pattern_message_actual
+        )
 
 
 class NewVisitorTest(BaseTest):
@@ -257,6 +284,9 @@ class NewVisitorTest(BaseTest):
             100,
             delta=10
         )
+
+
+
         '''
         door2 = self.browser.find_element_by_id('door2')
         self.assertAlmostEqual(
