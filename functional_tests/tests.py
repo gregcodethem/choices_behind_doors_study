@@ -1,4 +1,6 @@
 from django.test import LiveServerTestCase
+from django.contrib.auth.models import User
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
@@ -6,22 +8,35 @@ from selenium.webdriver.common.keys import Keys
 import time
 
 test_login_data = {
-    "Greg": {"username": "greg", "password": "Spain"},
-    "Ozen": {"username": "ozen", "password": "Russia432"}
+    "John": {"username": "johndoe", "password": "bigfisharetasty3"},
+    "Ozen": {"username": "ozen", "password": "Russia432"},
+    "Bob": {"username": "bob", "password": "bobbob123"},
 }
 
 
 class BaseTest(LiveServerTestCase):
 
+    def create_user(self,user_identifier="John"):
+        # retrieve name from dictionary
+        user_details_one = test_login_data[user_identifier]
+        username_one = user_details_one['username']
+        password_one = user_details_one['password']
+
+        self.user = User.objects.create_user(
+            username=username_one,
+            password=password_one
+        )
+
     def setUp(self):
         self.browser = webdriver.Firefox()
+        self.create_user()
 
     def tearDown(self):
         self.browser.quit()
 
-    def login(self, user_identifier="Greg"):
+    def login(self, user_identifier="John"):
         # Enter username and password
-        time.sleep(10)
+        time.sleep(1)
         username_input_box = self.browser.find_element_by_id(
             'id_username')
         user_login_info = test_login_data[user_identifier]
@@ -32,6 +47,7 @@ class BaseTest(LiveServerTestCase):
         password_input_box = self.browser.find_element_by_id(
             'id_password')
         password_input_box.send_keys(password)
+        time.sleep(3)
         # click Login
         password_input_box.send_keys(Keys.ENTER)
         time.sleep(2)
@@ -69,19 +85,44 @@ class BaseTest(LiveServerTestCase):
             'chosen_message').text
         self.assertIn('You chose ' + door_number, chosen_message)
 
+class FunctionalTestUnitTests(BaseTest):
+
+    def test_user_created(self):
+        # User should be created from SetUp method in base test
+
+        # Retrieve the user from the database
+        user = User.objects.get(username='johndoe')
+
+        self.assertEqual(user.username, 'johndoe')
+
+    def test_created_user_can_login(self):
+        # Retrieve the user from the database
+        user = User.objects.get(username='johndoe')
+
+        # You can also check if you can authenticate the user
+        self.assertTrue(self.client.login(username='johndoe', password='bigfisharetasty3'))
 
 class VisitorClicksThroughFirstPages(BaseTest):
 
+
     def test_click_through(self):
         # user accesses website and logs in
-        self.browser.get('localhost:8000')
+        self.browser.get(self.live_server_url)
+
         # Login screen appears
-        time.sleep(10)
+        time.sleep(1)
         login_title = self.browser.find_element_by_tag_name(
             'h2').text
         self.assertIn('Login', login_title)
 
-        #self.login()
+        # User logs in
+        self.login()
+        time.sleep(5)
+
+        #sees first page: participant information sheet
+        page_one_title = self.browser.find_element_by_tag_name(
+            'h2').text
+        self.assertIn("Participant Information Sheet", page_one_title)
 
 class NewVisitorTest(BaseTest):
 
