@@ -138,6 +138,27 @@ class VisitorClicksThroughFirstPages(BaseTest):
         consent_form_title = self.browser.find_element_by_tag_name('h2').text
         self.assertIn("CONSENT FORM", consent_form_title)
 
+        # User clicks that they consent to the terms
+        consent_link_text = self.browser.find_element_by_id(
+            'go_to_prelim_one'
+        ).text
+        self.assertIn("I consent", consent_link_text)
+        consent_link = self.browser.find_element_by_id(
+            'go_to_prelim_one'
+        )
+        consent_link.click()
+        time.sleep(1)
+
+        # User sees the third page with a welcome message
+        welcome_message = self.browser.find_element_by_tag_name('p').text
+        self.assertIn("Welcome to the Monty Hall Game", welcome_message)
+
+        # User sees the continue message and clicks on it
+
+
+
+
+
 
 class NewVisitorTest(BaseTest):
 
