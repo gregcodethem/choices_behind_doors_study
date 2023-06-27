@@ -3,15 +3,11 @@
 {% block title %}Remembering the pattern{% endblock %}
 
 
-{% block submit_button %}
-
+{% block submit_button_memory_game %}
 {% if repeat_example == True %}
 <p><a href="{% url 'prelim_three_part_b_feedback' %}" id="go_to_prelim_two_again">Have another go at remembering the pattern</a></p>
-
-
 {% else %}
 <p><a href="{% url 'prelim_three_part_b_feedback_second_go' %}">Go to next page</a></p>
-
 {% endif %}
 
 {% endblock %}

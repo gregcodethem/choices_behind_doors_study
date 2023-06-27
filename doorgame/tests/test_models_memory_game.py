@@ -119,7 +119,7 @@ class MemoryGameModelTest(TestCase):
 
         first_memory_game = MemoryGame()
         first_memory_game.trial = trial
-        first_memory_game.inital_or_final = "initial"
+        first_memory_game.initial_or_final = "initial"
         first_memory_game.save()
 
         second_memory_game = MemoryGame()

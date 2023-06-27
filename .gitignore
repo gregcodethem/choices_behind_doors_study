@@ -6,3 +6,6 @@ env
 geckodriver.log
 __pycache__
 .python-version
+geckodriver
+env_old
+.idea

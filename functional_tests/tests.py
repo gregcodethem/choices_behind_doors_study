@@ -21,6 +21,7 @@ class BaseTest(LiveServerTestCase):
 
     def login(self, user_identifier="Greg"):
         # Enter username and password
+        time.sleep(10)
         username_input_box = self.browser.find_element_by_id(
             'id_username')
         user_login_info = test_login_data[user_identifier]
@@ -68,6 +69,19 @@ class BaseTest(LiveServerTestCase):
             'chosen_message').text
         self.assertIn('You chose ' + door_number, chosen_message)
 
+
+class VisitorClicksThroughFirstPages(BaseTest):
+
+    def test_click_through(self):
+        # user accesses website and logs in
+        self.browser.get('localhost:8000')
+        # Login screen appears
+        time.sleep(10)
+        login_title = self.browser.find_element_by_tag_name(
+            'h2').text
+        self.assertIn('Login', login_title)
+
+        #self.login()
 
 class NewVisitorTest(BaseTest):
 

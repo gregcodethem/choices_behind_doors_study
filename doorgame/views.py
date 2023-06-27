@@ -321,6 +321,37 @@ def home_page_user(request):
             new_user_password
         )
         new_user.save()
+        new_user_username = generate_username()[0]
+        new_user_password = generate_username()[0]
+        new_user = User.objects.create_user(
+            new_user_username,
+            'no_email@yahoo.co.uk',
+            new_user_password
+        )
+        new_user.save()
+
+        new_profile_list = Profile.objects.filter(user=new_user)
+        new_profile = new_profile_list.last()
+
+        new_difficulty = randomchoice(four_by_four_setting_list)
+        new_profile.low_medium_or_high_dots_setting = new_difficulty
+        regret_forwards_boolean = randomchoice([True, False])
+        new_profile.regret_forwards = regret_forwards_boolean
+        new_profile.save()
+
+        user_authenticated = authenticate(
+            request,
+            username=new_user_username,
+            password=new_user_password
+        )
+
+        if user_authenticated is not None:
+            login(request, user_authenticated)
+            username_logged_in = user_authenticated.username
+            return redirect('/user/' + username_logged_in)
+
+        else:
+            pass
 
         new_profile_list = Profile.objects.filter(user=new_user)
         new_profile = new_profile_list.last()
@@ -780,6 +811,8 @@ def prelim_three(request):
                        }
                       )
     # if 3 by 3:
+    #print("This should be a 3 by 3 and will now return"
+    #      "the prelim_three.html with the repeat_example variable set to True")
     return render(request, 'prelim_three.html',
                   {'repeat_example': True
                    })
