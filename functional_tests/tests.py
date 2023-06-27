@@ -117,12 +117,27 @@ class VisitorClicksThroughFirstPages(BaseTest):
 
         # User logs in
         self.login()
-        time.sleep(5)
+        time.sleep(1)
 
-        #sees first page: participant information sheet
+        # Sees first page: participant information sheet
         page_one_title = self.browser.find_element_by_tag_name(
             'h2').text
         self.assertIn("Participant Information Sheet", page_one_title)
+
+        # Sees continue to next page at bottom
+        continue_message = self.browser.find_element_by_id(
+            'go_to_consent_questions').text
+        self.assertIn("Continue to next page", continue_message)
+
+        # User clicks continue and sees second page:
+        continue_link = self.browser.find_element_by_id(
+            'go_to_consent_questions')
+        continue_link.click()
+        time.sleep(1)
+
+        consent_form_title = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn("CONSENT FORM", consent_form_title)
+
 
 class NewVisitorTest(BaseTest):
 
