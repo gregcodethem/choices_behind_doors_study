@@ -3,7 +3,7 @@ from doorgame.utils import memory_game_bool_matrix
 from doorgame.all_dots import all_dots_list
 from doorgame.easy_dots import easy_dots_list
 
-from .test_views_base import BaseTest
+from .views_base import BaseTest
 
 
 class MemoryGameTest(BaseTest):

@@ -19,7 +19,7 @@ from doorgame.models import Choice, Trial, Result, MemoryGame, Profile
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
-from .test_views_base import BaseTest
+from .views_base import BaseTest
 
 
 class SimpleTestFirstPageLoggedIn(BaseTest):
