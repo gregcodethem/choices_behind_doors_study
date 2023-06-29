@@ -14,7 +14,7 @@ from .base import (
 class NewVisitorTest(BaseTest):
 
     def test_layout(self):
-        self.browser.get('http://localhost:8000/accounts/login')
+        self.browser.get(self.live_server_url)
         # Login screen appears
         login_title = self.browser.find_element_by_tag_name(
             'h2').text
