@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 from doorgame.models import Profile
 
@@ -61,7 +64,9 @@ class BaseTest(LiveServerTestCase):
 
     def login(self, user_identifier="John"):
         # Enter username and password
-        time.sleep(1)
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'id_username'))
+        )
         username_input_box = self.browser.find_element_by_id(
             'id_username')
         user_login_info = test_login_data[user_identifier]
@@ -72,10 +77,10 @@ class BaseTest(LiveServerTestCase):
         password_input_box = self.browser.find_element_by_id(
             'id_password')
         password_input_box.send_keys(password)
-        time.sleep(3)
+
         # click Login
         password_input_box.send_keys(Keys.ENTER)
-        time.sleep(2)
+
 
     def logout(self):
         logout_link = self.browser.find_element_by_id('logout_link_anchor')

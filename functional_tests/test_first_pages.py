@@ -21,14 +21,19 @@ class VisitorClicksThroughFirstPages(BaseTest):
         self.browser.get(self.live_server_url)
 
         # Login screen appears
-        time.sleep(1)
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, 'h2'))
+        )
         login_title = self.browser.find_element_by_tag_name(
             'h2').text
         self.assertIn('Login', login_title)
 
         # User logs in
         self.login()
-        time.sleep(1)
+        time.sleep(0.5)
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, 'h2'))
+        )
 
         # Sees first page: participant information sheet
         page_one_title = self.browser.find_element_by_tag_name(
@@ -44,7 +49,9 @@ class VisitorClicksThroughFirstPages(BaseTest):
         continue_link = self.browser.find_element_by_id(
             'go_to_consent_questions')
         continue_link.click()
-        time.sleep(1)
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, 'h2'))
+        )
 
         consent_form_title = self.browser.find_element_by_tag_name('h2').text
         self.assertIn("CONSENT FORM", consent_form_title)
@@ -58,7 +65,9 @@ class VisitorClicksThroughFirstPages(BaseTest):
             'go_to_prelim_one'
         )
         consent_link.click()
-        time.sleep(1)
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, 'p'))
+        )
 
         # User sees the third page with a welcome message
         welcome_message = self.browser.find_element_by_tag_name('p').text
