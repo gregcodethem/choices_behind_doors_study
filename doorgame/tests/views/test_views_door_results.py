@@ -7,7 +7,7 @@ from doorgame.views import door_result_page, final_door_result_page
 from doorgame.models import Choice, Trial, Result, MemoryGame
 from django.contrib.auth.models import User
 
-from .views_base import BaseTest
+from .base import BaseTest
 
 from django.contrib.auth import get_user_model
 
