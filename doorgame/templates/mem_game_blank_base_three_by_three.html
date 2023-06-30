@@ -32,9 +32,12 @@
 
 
 {% block checkbox_hidden_for_loop %}
-	{% for i in '123456789'|make_list %}
-	    <input type="checkbox" id="box_{{ i }}" value="True" name="box_{{ i }}" style="visibility: hidden"></input>
-{% endfor %}
+	<form id="checkboxForm" action="{% url 'prelim_three_part_b_feedback' %}" method="post">
+		{% csrf_token %}
+		{% for i in '123456789'|make_list %}
+			<input type="checkbox" id="box_{{ i }}" value="True" name="box_{{ i }}" style="visibility: hidden"></input>
+		{% endfor %}
+	</form>
 {% endblock %}
 
 {% block limit_of_event_listener %}10{% endblock %}

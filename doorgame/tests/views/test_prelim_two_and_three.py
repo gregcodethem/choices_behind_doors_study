@@ -1,8 +1,12 @@
 from unittest import skip
 
-from django.urls import resolve
+from django.urls import (
+    resolve,
+    reverse,
+)
 from django.test import Client
 from django.http import HttpRequest
+
 
 from doorgame.views import (
     home_page,
@@ -128,6 +132,39 @@ class PrelimThreeTest(BaseTest):
         html = response.content.decode('utf8')
 
         self.assertIn('<a href="/prelim_three_part_b_feedback"', html)
+
+    def test_prelim_three_part_b_feedback_leads_to_correct_template(self):
+        self.login_temp()
+
+        response = self.client.get(
+            '/prelim_three_part_b_feedback',
+            follow=True,
+        )
+        self.assertTemplateUsed(response, 'prelim_three_part_b_feedback.html')
+
+    def test_prelim_three_link_returns_post_request(self):
+        pass
+
+
+
+
+    def test_post_request(self):
+        # Simulate POST data
+        post_data = {
+            'box_1': 'True',
+            'box_2': 'True',
+            # ... other data ...
+        }
+
+        # Send a POST request to the URL
+        response = self.client.post(reverse('prelim_three_part_b_feedback'), data=post_data)
+
+        # Check that the response is 200 OK.
+        self.assertEqual(response.status_code, 200)
+
+        # Optionally check that some expected data is in the response
+        # self.assertContains(response, 'expected content')
+
 
 class prelimThreeSecondGoTest(BaseTest):
 
