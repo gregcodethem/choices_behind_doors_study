@@ -127,7 +127,7 @@ class VisitorClicksThroughFirstPages(BaseTest):
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.ID, 'final_pattern_message'))
         )
-
+        time.sleep(2)
         # Above the grid should be a message
         remember_pattern_message_actual = self.browser.find_element_by_id(
             "final_pattern_message"
@@ -139,12 +139,13 @@ class VisitorClicksThroughFirstPages(BaseTest):
 
         # The user should see a message asking them to
         # have another go at remembering the pattern
-
+        time.sleep(2)
         link_to_do_practise_memory_game_again = self.browser.find_element_by_id(
-            "go_to_prelim_two_again"
+            "play_again_link"
         )
-        continue_message = link_to_do_practise_memory_game_again.text
-        self.assertIn("Have another go at remembering the pattern", continue_message)
+
+        continue_message = link_to_do_practise_memory_game_again.get_attribute("value")
+        self.assertIn("Continue to next page", continue_message)
 
         # The user clicks on the link
         link_to_do_practise_memory_game_again.click()
