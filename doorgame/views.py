@@ -15,6 +15,7 @@ from doorgame.models import (
     MemoryGameHigh,
     SurveyAnswers,
     MemoryGameList,
+    MemoryGamePrelim,
     MemoryGameHighPrelim,
     TrialPrelim,
     Profile
@@ -829,6 +830,9 @@ def prelim_three_part_b_feedback(request):
             memory_game_original = MemoryGamePrelimClass(1, very_hard_setting)
         else:
             print("very_hard_setting not given")
+            memory_game = MemoryGamePrelim()
+
+
         # if I can retrieve anything then the request should be true
         # if not then it should be false
         user_logged_in = request.user
@@ -898,14 +902,17 @@ def prelim_three_part_b_feedback(request):
             print(
                 "Error: Number of dots have not been compared correctly, is the data in the right format")
 
-    return render(request, 'prelim_three_part_b_feedback.html',
-                  {'repeat_example': True,
-                   'memory_game': memory_game,
-                   'memory_game_original': memory_game_original,
-                   'number_of_dots_total': number_of_dots_in_original_memory_game,
-                   'number_of_dots_correct': number_of_dots_correct,
-                   'excess_dots_message': excess_dots_message,
-                   })
+        return render(request, 'prelim_three_part_b_feedback.html',
+                      {'repeat_example': True,
+                       'memory_game': memory_game,
+                       'memory_game_original': memory_game_original,
+                       'number_of_dots_total': number_of_dots_in_original_memory_game,
+                       'number_of_dots_correct': number_of_dots_correct,
+                       'excess_dots_message': excess_dots_message,
+                       })
+
+    # If not a POST request then just return html
+    return render(request, 'prelim_three_part_b_feedback.html')
 
 
 @login_required(login_url='accounts/login')

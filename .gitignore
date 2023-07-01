@@ -9,3 +9,4 @@ __pycache__
 geckodriver
 env_old
 .idea
+doorgame/migrations

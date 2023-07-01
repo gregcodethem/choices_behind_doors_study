@@ -113,6 +113,13 @@ class MemoryGameHighPrelim(MemoryGameHigh):
         null=True
     )
 
+class MemoryGamePrelim(MemoryGame):
+    trial_prelim = models.ForeignKey(
+        TrialPrelim,
+        on_delete=models.CASCADE,
+        default=None,
+        null=True
+    )
 
 class Choice(models.Model):
     door_number = models.IntegerField(default=0)

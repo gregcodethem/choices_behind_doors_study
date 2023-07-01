@@ -1,4 +1,50 @@
 
+class MemoryGamePrelimClassNineByNine:
+
+	def __init__(self, prelim_turn, easy_setting):
+		if prelim_turn == 1:
+			if easy_setting == "easy":
+				self.box_1 = True
+				self.box_2 = True
+				self.box_3 = True
+				self.box_4 = False
+				self.box_5 = False
+				self.box_6 = False
+				self.box_7 = False
+				self.box_8 = False
+				self.box_9 = False
+			if easy_setting == "hard":
+				self.box_1 = True
+				self.box_2 = False
+				self.box_3 = True
+				self.box_4 = True
+				self.box_5 = False
+				self.box_6 = False
+				self.box_7 = False
+				self.box_8 = False
+				self.box_9 = True
+		if prelim_turn == 2:
+			if easy_setting == "easy":
+				self.box_1 = False
+				self.box_2 = False
+				self.box_3 = False
+				self.box_4 = True
+				self.box_5 = True
+				self.box_6 = True
+				self.box_7 = False
+				self.box_8 = False
+				self.box_9 = False
+			elif easy_setting == "hard":
+				self.box_1 = False
+				self.box_2 = True
+				self.box_3 = False
+				self.box_4 = True
+				self.box_5 = False
+				self.box_6 = True
+				self.box_7 = False
+				self.box_8 = False
+				self.box_9 = True
+
 
 class MemoryGamePrelimClass:
 
