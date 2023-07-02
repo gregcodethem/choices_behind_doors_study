@@ -1,10 +1,11 @@
 from unittest import skip
+from unittest.mock import patch
 
 from django.urls import (
     resolve,
     reverse,
 )
-from django.test import Client
+from django.test import Client, RequestFactory
 from django.http import HttpRequest
 
 
@@ -45,6 +46,33 @@ class PrelimTwoTest(BaseTest):
 
         response = self.client.get('/prelim_two', follow=True)
         self.assertTemplateUsed(response, 'prelim_two.html')
+
+
+    def test_prelim_two_returns_dot_in_grid(self):
+        self.login_temp()
+
+        response = self.client.get('/prelim_two', follow=True)
+        html = response.content.decode('utf8')
+
+        self.assertIn('<img src="/static/doorgame/box_with_dot.png"', html)
+
+    @patch('doorgame.dummy_memory_game.MemoryGamePrelimClassNineByNine')
+    def test_prelim_two_uses_memory_game_prelim_class(self, MockMemoryGamePrelimClassNineByNine):
+        self.factory = RequestFactory()
+        self.login_temp()
+
+        # Mock the constructor of MemoryGamePrelimClassNineByNine
+        mock_game = MockMemoryGamePrelimClassNineByNine.return_value
+
+        request = self.factory.get('/prelim_two')
+
+        # Manually add a user to the request
+        request.user = User.objects.create_user(username='testuser', password='testpassword')
+
+        response = prelim_two(request)
+
+        # Assert that MemoryGamePrelimClass was instantiated
+        self.assertTrue(MockMemoryGamePrelimClassNineByNine.called)
 
 
 class PrelimTwoFourByFourTest(BaseTest):
