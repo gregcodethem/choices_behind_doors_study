@@ -722,7 +722,6 @@ def prelim_two(request):
     easy_setting = user_logged_in.profile.hard_or_easy_dots
 
     if easy_setting:
-        print(f"easy_setting exists: {easy_setting}")
         MemoryGamePrelim = MemoryGamePrelimClassNineByNine(1, easy_setting)
 
         return render(request, 'prelim_two.html', {

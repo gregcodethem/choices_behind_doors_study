@@ -79,6 +79,7 @@ class PrelimTwoTest(BaseTest):
         self.assertTrue(MockMemoryGamePrelimClassNineByNine.called)
 
 
+
 class PrelimTwoFourByFourTest(BaseTest):
 
     def test_prelim_two_four_by_four_user_sees_prelim_two_four_by_four_page(self):
@@ -108,6 +109,20 @@ class PrelimTwoFourByFourTest(BaseTest):
         html = response.content.decode('utf8')
 
         self.assertIn('<img src="/static/doorgame/box_with_dot.png"', html)
+
+    @patch('doorgame.views.MemoryGamePrelimClass')
+    def test_prelim_two_four_by_four_uses_memory_game_prelim_class(self, MockMemoryGamePrelimClass):
+        self.login_temp()
+
+        # Mock the constructor of MemoryGamePrelimClassNineByNine
+        mock_game = MockMemoryGamePrelimClass.return_value
+
+        self.set_to_four_by_four()
+
+        response = self.client.get('/prelim_two', follow=True)
+
+        # Assert that MemoryGamePrelimClass was instantiated
+        self.assertTrue(MockMemoryGamePrelimClass.called)
 
 
 class PrelimThreeTest(BaseTest):
