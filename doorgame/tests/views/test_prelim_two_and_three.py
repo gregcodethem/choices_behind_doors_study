@@ -121,6 +121,27 @@ class PrelimTwoFourByFourTest(BaseTest):
         response = self.client.get('/prelim_two', follow=True)
         self.assertTemplateUsed(response, 'prelim_two_four_by_four.html')
 
+    def test_prelim_two_four_by_four_returns_dot_in_grid(self):
+        self.login_temp()
+
+        # Get the user
+        user = User.objects.get(username='temporary')
+
+        # Get or create the profile associated with the user
+        profile, created = Profile.objects.get_or_create(user=user)
+
+        # Update the profile fields
+        profile.hard_or_easy_dots = ""  # Reassigned as its default
+        profile.low_medium_or_high_dots_setting = "very_easy"
+
+        # Save the updated profile
+        profile.save()
+
+        response = self.client.get('/prelim_two', follow=True)
+        html = response.content.decode('utf8')
+
+        self.assertIn('<img src="/static/doorgame/box_with_dot.png"', html)
+
 
 class PrelimThreeTest(BaseTest):
     def test_prelim_three_url_resolves_to_prelim_three_view(self):
