@@ -56,20 +56,24 @@ class PrelimTwoTest(BaseTest):
 
         self.assertIn('<img src="/static/doorgame/box_with_dot.png"', html)
 
-    @patch('doorgame.dummy_memory_game.MemoryGamePrelimClassNineByNine')
+    @patch('doorgame.views.MemoryGamePrelimClassNineByNine')
     def test_prelim_two_uses_memory_game_prelim_class(self, MockMemoryGamePrelimClassNineByNine):
-        self.factory = RequestFactory()
         self.login_temp()
 
         # Mock the constructor of MemoryGamePrelimClassNineByNine
         mock_game = MockMemoryGamePrelimClassNineByNine.return_value
 
-        request = self.factory.get('/prelim_two')
+        # Get the user
+        user = User.objects.get(username='temporary')
 
-        # Manually add a user to the request
-        request.user = User.objects.create_user(username='testuser', password='testpassword')
+        # Get or create the profile associated with the user
+        profile, created = Profile.objects.get_or_create(user=user)
 
-        response = prelim_two(request)
+        # Update the profile fields
+        profile.hard_or_easy_dots = "easy"
+        profile.save()
+
+        response = self.client.get('/prelim_two', follow=True)
 
         # Assert that MemoryGamePrelimClass was instantiated
         self.assertTrue(MockMemoryGamePrelimClassNineByNine.called)

@@ -719,44 +719,28 @@ def prelim_one_part_b(request):
 def prelim_two(request):
     user_logged_in = request.user
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
-    if not very_hard_setting:
-        class MemoryGamePrelimClassDummy:
-            pass
-        MemoryGamePrelim = MemoryGamePrelimClassDummy()
-    if user_logged_in.profile.hard_or_easy_dots == 'easy':
-        MemoryGamePrelim.box_1 = True
-        MemoryGamePrelim.box_2 = True
-        MemoryGamePrelim.box_3 = True
-        MemoryGamePrelim.box_4 = False
-        MemoryGamePrelim.box_5 = False
-        MemoryGamePrelim.box_6 = False
-        MemoryGamePrelim.box_7 = False
-        MemoryGamePrelim.box_8 = False
-        MemoryGamePrelim.box_9 = False
-    elif user_logged_in.profile.hard_or_easy_dots == 'hard':
-        MemoryGamePrelim.box_1 = True
-        MemoryGamePrelim.box_2 = False
-        MemoryGamePrelim.box_3 = False
-        MemoryGamePrelim.box_4 = True
-        MemoryGamePrelim.box_5 = True
-        MemoryGamePrelim.box_6 = False
-        MemoryGamePrelim.box_7 = False
-        MemoryGamePrelim.box_8 = True
-        MemoryGamePrelim.box_9 = False
-    else:
-        if very_hard_setting:
-            MemoryGamePrelim = MemoryGamePrelimClass(1, very_hard_setting)
+    easy_setting = user_logged_in.profile.hard_or_easy_dots
+
+    if easy_setting:
+        print(f"easy_setting exists: {easy_setting}")
+        MemoryGamePrelim = MemoryGamePrelimClassNineByNine(1, easy_setting)
+
+        return render(request, 'prelim_two.html', {
+            "memory_game": MemoryGamePrelim,
+            "first_go": True
+        })
+
+    elif very_hard_setting:
+        MemoryGamePrelim = MemoryGamePrelimClass(1, very_hard_setting)
 
         return render(request, 'prelim_two_four_by_four.html', {
             "memory_game": MemoryGamePrelim,
             "first_go": True
         })
 
-    return render(request, 'prelim_two.html', {
-        "memory_game": MemoryGamePrelim,
-        "first_go": True
-    })
-
+    else:
+        print("Setting not assigned or other problem with setting!")
+        return render(request, 'prelim_two.html')
 
 @login_required(login_url='accounts/login')
 def prelim_two_second_go(request):
