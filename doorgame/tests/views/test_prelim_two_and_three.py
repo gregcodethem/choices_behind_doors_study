@@ -247,18 +247,7 @@ class PrelimThreeFourByFourTest(BaseTest):
     def test_prelim_three_four_by_four_user_sees_prelim_three_page(self):
         self.login_temp()
 
-        # Get the user
-        user = User.objects.get(username='temporary')
-
-        # Get or create the profile associated with the user
-        profile, created = Profile.objects.get_or_create(user=user)
-
-        # Update the profile fields
-        profile.hard_or_easy_dots = ""  # Reassigned as its default
-        profile.low_medium_or_high_dots_setting = "very_easy"
-
-        # Save the updated profile
-        profile.save()
+        self.set_to_four_by_four()
 
         response = self.client.get('/prelim_three', follow=True)
 
@@ -268,18 +257,7 @@ class PrelimThreeFourByFourTest(BaseTest):
     def test_prelim_three_returns_prelim_three_template(self):
         self.login_temp()
 
-        # Get the user
-        user = User.objects.get(username='temporary')
-
-        # Get or create the profile associated with the user
-        profile, created = Profile.objects.get_or_create(user=user)
-
-        # Update the profile fields
-        profile.hard_or_easy_dots = ""  # Reassigned as its default
-        profile.low_medium_or_high_dots_setting = "very_easy"
-
-        # Save the updated profile
-        profile.save()
+        self.set_to_four_by_four()
 
         response = self.client.get('/prelim_three', follow=True)
         self.assertTemplateUsed(response, 'prelim_three_four_by_four.html')
