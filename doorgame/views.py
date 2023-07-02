@@ -34,11 +34,16 @@ from .utils import (
     add_memory_games,
     add_four_by_four_memory_games,
     number_of_dots_selected_calculator_four_by_four,
-    number_of_dots_correct_calculator_four_by_four
+    number_of_dots_correct_calculator_four_by_four,
+    number_of_dots_selected_calculator,
+    number_of_dots_correct_calculator,
+
 )
 from .all_dots import all_dots_list
-from .dummy_memory_game import MemoryGamePrelimClass
-# Create your views here.
+from .dummy_memory_game import (
+    MemoryGamePrelimClass,
+    MemoryGamePrelimClassNineByNine
+)
 
 from config.settings import TRIAL_LIMIT
 
@@ -823,6 +828,7 @@ def prelim_three(request):
 def prelim_three_part_b_feedback(request):
     user_logged_in = request.user
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
+    easy_setting = user_logged_in.profile.hard_or_easy_dots
 
     if request.method == 'POST':
         if very_hard_setting in four_by_four_setting_list:
@@ -831,6 +837,7 @@ def prelim_three_part_b_feedback(request):
         else:
             print("very_hard_setting not given")
             memory_game = MemoryGamePrelim()
+            memory_game_original = MemoryGamePrelimClass(1, easy_setting)
 
 
         # if I can retrieve anything then the request should be true
@@ -884,10 +891,16 @@ def prelim_three_part_b_feedback(request):
         memory_game.initial_or_final = 'initial'
         memory_game.save()
 
-        number_of_dots_in_original_memory_game = number_of_dots_selected_calculator_four_by_four(
-            memory_game_original)
-        number_of_dots_correct = number_of_dots_correct_calculator_four_by_four(
-            memory_game_original, memory_game)
+        if very_hard_setting in four_by_four_setting_list:
+            number_of_dots_in_original_memory_game = number_of_dots_selected_calculator_four_by_four(
+                memory_game_original)
+            number_of_dots_correct = number_of_dots_correct_calculator_four_by_four(
+                memory_game_original, memory_game)
+        else:
+            number_of_dots_in_original_memory_game = number_of_dots_selected_calculator(
+                memory_game_original)
+            number_of_dots_correct = number_of_dots_correct_calculator(
+                memory_game_original, memory_game)
         # To address bug where they score more than possible:
         if number_of_dots_correct > number_of_dots_in_original_memory_game:
             number_of_dots_correct = number_of_dots_in_original_memory_game

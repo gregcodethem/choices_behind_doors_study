@@ -120,12 +120,11 @@ class PrelimThreeTest(BaseTest):
         html = response.content.decode('utf8')
 
         # test desired continue message is displayed:
-        self.assertIn('Have another go at remembering the pattern',html)
+        self.assertIn('Continue to next page',html)
 
     # javascript introduced has broken following test,
     # update or remove
-    @skip
-    def test_prelim_three_continue_message_links_to_correct_page(self):
+    def test_prelim_three_contains_links_to_correct_page(self):
         self.login_temp()
 
         response = self.client.get(
@@ -134,7 +133,7 @@ class PrelimThreeTest(BaseTest):
         )
         html = response.content.decode('utf8')
 
-        self.assertIn('<a href="/prelim_three_part_b_feedback"', html)
+        self.assertIn('action="/prelim_three_part_b_feedback"', html)
 
     def test_prelim_three_part_b_feedback_leads_to_correct_template(self):
         # !!!!! Look at again!!!
