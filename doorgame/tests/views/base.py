@@ -30,3 +30,18 @@ class BaseTest(TestCase):
         User = get_user_model()
         self.client.login(username='temporary', password='temporary')
 
+    def set_to_four_by_four(self):
+        # Note needs to have login_temp ran beforehand
+
+        # Get the user
+        user = User.objects.get(username='temporary')
+
+        # Get or create the profile associated with the user
+        profile, created = Profile.objects.get_or_create(user=user)
+
+        # Update the profile fields
+        profile.hard_or_easy_dots = ""  # Reassigned as its default
+        profile.low_medium_or_high_dots_setting = "very_easy"
+
+        # Save the updated profile
+        profile.save()
