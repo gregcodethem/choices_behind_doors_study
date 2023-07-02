@@ -99,7 +99,7 @@ class VisitorClicksThroughFirstPages(BaseTest):
         )
         continue_link_on_fourth_page.click()
 
-        #user sees countdown, then 3 by 3 grid
+        # User sees countdown, then 3 by 3 grid
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'col-sm-1'))
         )
@@ -108,6 +108,11 @@ class VisitorClicksThroughFirstPages(BaseTest):
         )
         number_of_small_boxes = len(small_box_list)
         self.assertEqual(number_of_small_boxes,9)
+
+        # In the 3 by 3 grid there should be 3 dots
+        dot_pics_with_dots = self.browser.find_elements_by_xpath('//img[@src="/static/doorgame/box_with_dot.png"]')
+        number_of_dots = len(dot_pics_with_dots)
+        self.assertEqual(number_of_dots,3)
 
         # User cannot see a message displayed saying: "Can you remember the pattern from before?"
         try:
