@@ -1,0 +1,316 @@
+{% extends 'base.html' %}
+{% block content %}
+{% block title %}Feedback{% endblock %}
+{% load static %}
+<style>
+img {
+  width: 100%;
+  height: auto;
+}
+
+</style>
+<div id="feedback_text">
+	<div class="row">
+		<div class="col-sm-1">
+		</div>
+		<div class="col-sm-4">
+			<p>This is what you chose:</p>
+		</div>
+		<div class="col-sm-2">
+		</div>
+		<div class="col-sm-4">
+			<p>This is what it should have been:</p>
+		</div>
+	</div>
+</div>
+<div id="memory_game">
+  <div class="row no-gutters">
+    <div class="col-sm-1">
+      </div>
+    <div class="col-sm-1">
+      {% if memory_game.box_1 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_1" alt="box_1">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_1" alt="box_1">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game.box_2 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_2" alt="box_2">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_2" alt="box_2">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game.box_3 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_3" alt="box_3">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_3" alt="box_3">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game.box_4 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_4" alt="box_4">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_4" alt="box_4">
+      {% endif %}
+    </div>
+
+    <div class="col-sm-2">
+    </div>
+	<!--This is the second display of the memory game-->
+
+    <div class="col-sm-1">
+      {% if memory_game_original.box_1 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_1" alt="box_1">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_1" alt="box_1">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game_original.box_2 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_2" alt="box_2">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_2" alt="box_2">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game_original.box_3 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_3" alt="box_3">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_3" alt="box_3">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game_original.box_4 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_4" alt="box_4">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_4" alt="box_4">
+      {% endif %}
+    </div>
+
+  </div>
+  <div class="row no-gutters">
+    <div class="col-sm-1">
+      </div>
+    <div class="col-sm-1">
+      {% if memory_game.box_5 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_5" alt="box_5">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_5" alt="box_5">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game.box_6 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_6" alt="box_6">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_6" alt="box_6">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game.box_7 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_7" alt="box_7">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_7" alt="box_7">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game.box_8 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_8" alt="box_8">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_8" alt="box_8">
+      {% endif %}
+    </div>
+
+    <div class="col-sm-2">
+    </div>
+
+    <div class="col-sm-1">
+      {% if memory_game_original.box_5 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_5" alt="box_5">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_5" alt="box_5">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game_original.box_6 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_6" alt="box_6">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_6" alt="box_6">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game_original.box_7 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_7" alt="box_7">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_7" alt="box_7">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game_original.box_8 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_8" alt="box_8">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_8" alt="box_8">
+      {% endif %}
+    </div>
+
+  </div>
+  <div class="row no-gutters">
+    <div class="col-sm-1">
+      </div>
+    <div class="col-sm-1">
+      {% if memory_game.box_9 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_9" alt="box_9">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_9" alt="box_9">
+      {% endif %}
+    </div>
+      <div class="col-sm-1">
+      {% if memory_game.box_10 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_10" alt="box_10">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_10" alt="box_10">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game.box_11 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_11" alt="box_11">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_11" alt="box_11">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game.box_12 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_12" alt="box_12">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_12" alt="box_12">
+      {% endif %}
+    </div>
+
+    <div class="col-sm-2">
+    </div>
+
+    <div class="col-sm-1">
+      {% if memory_game_original.box_9 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_9" alt="box_9">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_9" alt="box_9">
+      {% endif %}
+    </div>
+      <div class="col-sm-1">
+      {% if memory_game_original.box_10 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_10" alt="box_10">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_10" alt="box_10">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game_original.box_11 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_11" alt="box_11">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_11" alt="box_11">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game_original.box_12 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_12" alt="box_12">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_12" alt="box_12">
+      {% endif %}
+    </div>
+
+
+  </div>
+  <div class="row no-gutters">
+    <div class="col-sm-1">
+      </div>
+    <div class="col-sm-1">
+      {% if memory_game.box_13 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_13" alt="box_13">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_13" alt="box_13">
+      {% endif %}
+    </div>
+      <div class="col-sm-1">
+      {% if memory_game.box_14 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_14" alt="box_14">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_14" alt="box_14">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game.box_15 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_15" alt="box_15">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_15" alt="box_15">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game.box_16 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_16" alt="box_16">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_16" alt="box_16">
+      {% endif %}
+    </div>
+
+    <div class="col-sm-2">
+    </div>
+
+    <div class="col-sm-1">
+      {% if memory_game_original.box_13 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_13" alt="box_13">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_13" alt="box_13">
+      {% endif %}
+    </div>
+      <div class="col-sm-1">
+      {% if memory_game_original.box_14 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_14" alt="box_14">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_14" alt="box_14">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game_original.box_15 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_15" alt="box_15">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_15" alt="box_15">
+      {% endif %}
+    </div>
+    <div class="col-sm-1">
+      {% if memory_game_original.box_16 == True %}
+      <img src="{% static 'doorgame/box_with_dot.png' %}" id="box_16" alt="box_16">
+      {% else %}
+      <img src="{% static 'doorgame/box_empty.png' %}" id="box_16" alt="box_16">
+      {% endif %}
+    </div>
+
+
+  </div>
+</div>
+</br>
+
+<div id="score_text">
+	<div class="row">
+		<div class="col-sm-1">
+		</div>
+		<div class="col-sm-4">
+			<p>You got {{ number_of_dots_correct }} out of {{ number_of_dots_total }} correct.{% if excess_dots_message == True %}  You selected too many dots.{% endif %}
+      </p>
+
+		</div>
+
+	</div>
+</div>
+
+
+<br>
+{% endblock %}
+
+{% block submit_button_general %}
+{% if repeat_example == True %}
+<p><a href="{% url 'prelim_two_second_go' %}" id="go_to_prelim_two_again">Continue to next page</a></p>
+{% else %}
+<p><a href="{% url 'prelim_four' %}">Continue to next page</a></p>
+{% endif %}
+{% endblock %}
