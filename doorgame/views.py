@@ -820,7 +820,7 @@ def prelim_three_part_b_feedback(request):
         else:
             print("very_hard_setting not given")
             memory_game = MemoryGamePrelim()
-            memory_game_original = MemoryGamePrelimClass(1, easy_setting)
+            memory_game_original = MemoryGamePrelimClassNineByNine(1, easy_setting)
 
 
         # if I can retrieve anything then the request should be true
@@ -888,8 +888,13 @@ def prelim_three_part_b_feedback(request):
         if number_of_dots_correct > number_of_dots_in_original_memory_game:
             number_of_dots_correct = number_of_dots_in_original_memory_game
 
-        number_of_dots_selected = number_of_dots_selected_calculator_four_by_four(
-            memory_game)
+        if very_hard_setting in four_by_four_setting_list:
+            number_of_dots_selected = number_of_dots_selected_calculator_four_by_four(
+                memory_game)
+        else:
+            number_of_dots_selected = number_of_dots_selected_calculator(
+                memory_game
+            )
         if number_of_dots_selected <= number_of_dots_in_original_memory_game:
             excess_dots_message = False
         elif number_of_dots_selected > number_of_dots_in_original_memory_game:

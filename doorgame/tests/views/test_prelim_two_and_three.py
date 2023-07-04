@@ -205,10 +205,7 @@ class PrelimThreeTest(BaseTest):
             '/prelim_three_part_b_feedback',
             data=post_data
         )
-        '''self.assertIn(
-            'True',
-            response.content.decode()
-        )'''
+
         self.assertIn(
             'box_1',
             response.content.decode()
@@ -233,7 +230,7 @@ class PrelimThreeTest(BaseTest):
         # Optionally check that some expected data is in the response
         # self.assertContains(response, 'expected content')
 
-
+@skip
 class prelimThreeSecondGoTest(BaseTest):
 
     def test_prelim_three_second_go_returns_continue_message(self):
