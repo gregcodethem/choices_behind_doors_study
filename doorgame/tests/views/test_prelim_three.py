@@ -123,7 +123,7 @@ class PrelimThreeTest(BaseTest):
         # Optionally check that some expected data is in the response
         # self.assertContains(response, 'expected content')
 
-@skip
+
 class prelimThreeSecondGoTest(BaseTest):
 
     def test_prelim_three_second_go_returns_continue_message(self):

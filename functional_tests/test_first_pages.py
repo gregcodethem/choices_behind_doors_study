@@ -17,7 +17,7 @@ class VisitorClicksThroughFirstPages(BaseTest):
 
 
     def test_click_through(self):
-        # user accesses website and logs in
+        # James accesses website and logs in
         self.browser.get(self.live_server_url)
 
         # Login screen appears
@@ -28,7 +28,7 @@ class VisitorClicksThroughFirstPages(BaseTest):
             'h2').text
         self.assertIn('Login', login_title)
 
-        # User logs in
+        # James logs in
         self.login()
         time.sleep(0.5)
         WebDriverWait(self.browser, 10).until(
@@ -45,7 +45,7 @@ class VisitorClicksThroughFirstPages(BaseTest):
             'go_to_consent_questions').text
         self.assertIn("Continue to next page", continue_message)
 
-        # User clicks continue and sees second page:
+        # James clicks continue and sees second page:
         continue_link = self.browser.find_element_by_id(
             'go_to_consent_questions')
         continue_link.click()
@@ -69,11 +69,11 @@ class VisitorClicksThroughFirstPages(BaseTest):
             EC.presence_of_element_located((By.TAG_NAME, 'p'))
         )
 
-        # User sees the third page with a welcome message
+        # James sees the third page with a welcome message
         welcome_message = self.browser.find_element_by_tag_name('p').text
         self.assertIn("Welcome to the Monty Hall Game", welcome_message)
 
-        # User sees the continue message and clicks on it
+        # James sees the continue message and clicks on it
         continue_message_on_third_page = self.browser.find_element_by_id(
             "go_to_prelim_one_part_b"
         ).text
@@ -84,11 +84,11 @@ class VisitorClicksThroughFirstPages(BaseTest):
         )
         continue_link_on_third_page.click()
 
-        # User sees the fourth page
+        # James sees the fourth page
         first_line_on_fourth_page = self.browser.find_element_by_tag_name('p').text
         self.assertIn("You will now have", first_line_on_fourth_page)
 
-        # User sees another continue message and clicks on it
+        # James sees another continue message and clicks on it
         continue_message_on_fourth_page = self.browser.find_element_by_id(
             "go_to_prelim_two"
         ).text
@@ -99,7 +99,7 @@ class VisitorClicksThroughFirstPages(BaseTest):
         )
         continue_link_on_fourth_page.click()
 
-        # User sees countdown, then 3 by 3 grid
+        # James sees countdown, then 3 by 3 grid
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'col-sm-1'))
         )
@@ -114,7 +114,7 @@ class VisitorClicksThroughFirstPages(BaseTest):
         number_of_dots = len(dot_pics_with_dots)
         self.assertEqual(number_of_dots,3)
 
-        # User cannot see a message displayed saying: "Can you remember the pattern from before?"
+        # James cannot see a message displayed saying: "Can you remember the pattern from before?"
         try:
             remember_pattern_message = self.browser.find_element_by_id(
             "final_pattern_message"
@@ -128,7 +128,7 @@ class VisitorClicksThroughFirstPages(BaseTest):
             "The message above the grid should not be present"
         )
 
-        # User remembers the pattern and then a blank grid appears
+        # James remembers the pattern and then a blank grid appears
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.ID, 'final_pattern_message'))
         )
@@ -164,6 +164,8 @@ class VisitorClicksThroughFirstPages(BaseTest):
         ).text
 
         self.assertIn('This is what you chose:', feedback_text_message)
+
+        # As well as
 
 
 
