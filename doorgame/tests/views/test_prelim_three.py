@@ -167,7 +167,7 @@ class PrelimThreeFourByFourTest(BaseTest):
         response = self.client.get('/prelim_three', follow=True)
         self.assertTemplateUsed(response, 'prelim_three_four_by_four.html')
 
-    def test_prelim_three_part_b_returns_prelim_three_part_b_four_by_four_template(self):
+    def test_prelim_three_part_b_four_by_four_returns_correct_template(self):
         self.login_temp()
 
         self.set_to_four_by_four()
