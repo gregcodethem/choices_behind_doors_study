@@ -167,10 +167,37 @@ class PrelimThreeFourByFourTest(BaseTest):
         response = self.client.get('/prelim_three', follow=True)
         self.assertTemplateUsed(response, 'prelim_three_four_by_four.html')
 
-    def test_prelim_three_part_b_four_by_four_returns_correct_template(self):
+    def test_prelim_three_part_b_four_by_four_GET_request_returns_correct_template(self):
         self.login_temp()
 
         self.set_to_four_by_four()
 
         response = self.client.get('/prelim_three_part_b_feedback', follow=True)
+        self.assertTemplateUsed(response, 'prelim_three_part_b_feedback_four_by_four.html')
+
+    def test_prelim_three_part_b_four_by_four_POST_request_returns_correct_template(self):
+        self.login_temp()
+
+        self.set_to_four_by_four()
+
+        post_data = {
+            'box_1': 'True',
+            'box_2': 'True',
+            'box_3': 'True',
+            'box_4': 'False',
+            'box_5': 'False',
+            'box_6': 'False',
+            'box_7': 'False',
+            'box_8': 'False',
+            'box_9': 'False',
+            'box_10': 'False',
+            'box_11': 'False',
+            'box_12': 'False',
+            'box_13': 'False',
+            'box_14': 'False',
+            'box_15': 'False',
+            'box_16': 'False',
+        }
+
+        response = self.client.post('/prelim_three_part_b_feedback', data=post_data)
         self.assertTemplateUsed(response, 'prelim_three_part_b_feedback_four_by_four.html')

@@ -813,6 +813,11 @@ def prelim_three_part_b_feedback(request):
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
     easy_setting = user_logged_in.profile.hard_or_easy_dots
 
+    # designate correct template
+    if very_hard_setting in four_by_four_setting_list:
+        feedback_template = 'prelim_three_part_b_feedback_four_by_four.html'
+    else:
+        feedback_template = 'prelim_three_part_b_feedback.html'
 
     if request.method == 'POST':
         if very_hard_setting in four_by_four_setting_list:
@@ -904,7 +909,7 @@ def prelim_three_part_b_feedback(request):
             print(
                 "Error: Number of dots have not been compared correctly, is the data in the right format")
 
-        return render(request, 'prelim_three_part_b_feedback.html',
+        return render(request, feedback_template,
                       {'repeat_example': True,
                        'memory_game': memory_game,
                        'memory_game_original': memory_game_original,
@@ -912,11 +917,6 @@ def prelim_three_part_b_feedback(request):
                        'number_of_dots_correct': number_of_dots_correct,
                        'excess_dots_message': excess_dots_message,
                        })
-    # designate correct template
-    if very_hard_setting in four_by_four_setting_list:
-        feedback_template = 'prelim_three_part_b_feedback_four_by_four.html'
-    else:
-        feedback_template = 'prelim_three_part_b_feedback.html'
 
     # If not a POST request then just return html
     return render(request, feedback_template)
