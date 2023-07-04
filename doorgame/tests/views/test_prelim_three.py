@@ -1,128 +1,12 @@
 from unittest import skip
 from unittest.mock import patch
 
-from django.urls import (
-    resolve,
-    reverse,
-)
-from django.test import Client, RequestFactory
-from django.http import HttpRequest
+from django.urls import resolve
 
-
-from doorgame.views import (
-    home_page,
-    home_page_user,
-    home_page_user_unique,
-    consent_questions,
-    prelim_one,
-    prelim_one_part_b,
-    prelim_two,
-    prelim_three,
-)
-
-from doorgame.models import Choice, Trial, Result, MemoryGame, Profile
-from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
+from doorgame.views import prelim_three
+from doorgame.models import MemoryGame
 
 from .base import BaseTest
-
-
-class PrelimTwoTest(BaseTest):
-    def test_prelim_two_url_resolves_to_prelim_two_view(self):
-        self.login_temp()
-        found = resolve('/prelim_two')
-        self.assertEqual(found.func, prelim_two)
-
-    def test_prelim_two_user_sees_prelim_two_page(self):
-        self.login_temp()
-
-        response = self.client.get('/prelim_two', follow=True)
-
-        html = response.content.decode('utf8')
-        self.assertIn('<div class="row no-gutters">', html)
-
-    def test_prelim_two_returns_prelim_two_template(self):
-        self.login_temp()
-
-        response = self.client.get('/prelim_two', follow=True)
-        self.assertTemplateUsed(response, 'prelim_two.html')
-
-
-    def test_prelim_two_returns_dot_in_grid(self):
-        self.login_temp()
-
-        response = self.client.get('/prelim_two', follow=True)
-        html = response.content.decode('utf8')
-
-        self.assertIn('<img src="/static/doorgame/box_with_dot.png"', html)
-
-    @patch('doorgame.views.MemoryGamePrelimClassNineByNine')
-    def test_prelim_two_uses_memory_game_prelim_class(self, MockMemoryGamePrelimClassNineByNine):
-        self.login_temp()
-
-        # Mock the constructor of MemoryGamePrelimClassNineByNine
-        mock_game = MockMemoryGamePrelimClassNineByNine.return_value
-
-        # Get the user
-        user = User.objects.get(username='temporary')
-
-        # Get or create the profile associated with the user
-        profile, created = Profile.objects.get_or_create(user=user)
-
-        # Update the profile fields
-        profile.hard_or_easy_dots = "easy"
-        profile.save()
-
-        response = self.client.get('/prelim_two', follow=True)
-
-        # Assert that MemoryGamePrelimClass was instantiated
-        self.assertTrue(MockMemoryGamePrelimClassNineByNine.called)
-
-
-
-class PrelimTwoFourByFourTest(BaseTest):
-
-    def test_prelim_two_four_by_four_user_sees_prelim_two_four_by_four_page(self):
-        self.login_temp()
-
-        self.set_to_four_by_four()
-
-        response = self.client.get('/prelim_two', follow=True)
-
-        html = response.content.decode('utf8')
-        self.assertIn('<div class="row no-gutters">', html)
-
-    def test_prelim_two_four_by_four_returns_prelim_two_four_by_four_template(self):
-        self.login_temp()
-
-        self.set_to_four_by_four()
-
-        response = self.client.get('/prelim_two', follow=True)
-        self.assertTemplateUsed(response, 'prelim_two_four_by_four.html')
-
-    def test_prelim_two_four_by_four_returns_dot_in_grid(self):
-        self.login_temp()
-
-        self.set_to_four_by_four()
-
-        response = self.client.get('/prelim_two', follow=True)
-        html = response.content.decode('utf8')
-
-        self.assertIn('<img src="/static/doorgame/box_with_dot.png"', html)
-
-    @patch('doorgame.views.MemoryGamePrelimClass')
-    def test_prelim_two_four_by_four_uses_memory_game_prelim_class(self, MockMemoryGamePrelimClass):
-        self.login_temp()
-
-        # Mock the constructor of MemoryGamePrelimClassNineByNine
-        mock_game = MockMemoryGamePrelimClass.return_value
-
-        self.set_to_four_by_four()
-
-        response = self.client.get('/prelim_two', follow=True)
-
-        # Assert that MemoryGamePrelimClass was instantiated
-        self.assertTrue(MockMemoryGamePrelimClass.called)
 
 
 class PrelimThreeTest(BaseTest):
@@ -218,11 +102,20 @@ class PrelimThreeTest(BaseTest):
         post_data = {
             'box_1': 'True',
             'box_2': 'True',
-            # ... other data ...
+            'box_3': 'True',
+            'box_4': 'False',
+            'box_5': 'False',
+            'box_6': 'False',
+            'box_7': 'False',
+            'box_8': 'False',
+            'box_9': 'False',
         }
 
         # Send a POST request to the URL
-        response = self.client.post(reverse('prelim_three_part_b_feedback'), data=post_data)
+        response = self.client.post(
+            '/prelim_three_part_b_feedback',
+            data=post_data
+        )
 
         # Check that the response is 200 OK.
         self.assertEqual(response.status_code, 200)
