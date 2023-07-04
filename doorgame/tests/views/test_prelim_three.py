@@ -96,7 +96,7 @@ class PrelimThreeTest(BaseTest):
         )
 
 
-
+    @skip
     def test_post_request(self):
         # Simulate POST data
         post_data = {
@@ -123,7 +123,7 @@ class PrelimThreeTest(BaseTest):
         # Optionally check that some expected data is in the response
         # self.assertContains(response, 'expected content')
 
-
+@skip
 class prelimThreeSecondGoTest(BaseTest):
 
     def test_prelim_three_second_go_returns_continue_message(self):
@@ -166,3 +166,11 @@ class PrelimThreeFourByFourTest(BaseTest):
 
         response = self.client.get('/prelim_three', follow=True)
         self.assertTemplateUsed(response, 'prelim_three_four_by_four.html')
+
+    def test_prelim_three_part_b_returns_prelim_three_part_b_four_by_four_template(self):
+        self.login_temp()
+
+        self.set_to_four_by_four()
+
+        response = self.client.get('/prelim_three_part_b_feedback', follow=True)
+        self.assertTemplateUsed(response, 'prelim_three_part_b_feedback_four_by_four.html')

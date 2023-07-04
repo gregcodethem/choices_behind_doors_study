@@ -165,7 +165,17 @@ class VisitorClicksThroughFirstPages(BaseTest):
 
         self.assertIn('This is what you chose:', feedback_text_message)
 
-        # As well as
+        # James should also see two nine by nine grids
+        dot_pics_with_dots = self.browser.find_elements_by_xpath(
+            '//img[@src="/static/doorgame/box_with_dot.png"]'
+        )
+        dot_pics_with_blanks = self.browser.find_elements_by_xpath(
+            '//img[@src="/static/doorgame/box_empty.png"]'
+        )
+        number_of_pics_with_dots = len(dot_pics_with_dots)
+        number_of_pics_with_blanks = len(dot_pics_with_blanks)
+        number_of_small_boxes = number_of_pics_with_dots + number_of_pics_with_blanks
+        self.assertEqual(number_of_small_boxes, 18)
 
 
 
