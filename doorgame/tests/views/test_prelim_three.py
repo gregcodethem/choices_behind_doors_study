@@ -178,7 +178,7 @@ class prelimThreeSecondGoTest(BaseTest):
 
         self.assertIn('Continue to next page', html)
 
-    def test_prelim_three_second_go_returns_correct_link(self):
+    def test_prelim_three_second_go_contains_link_to_correct_page(self):
         self.login_temp()
 
         response = self.client.get(
@@ -186,7 +186,28 @@ class prelimThreeSecondGoTest(BaseTest):
         )
         html = response.content.decode('utf8')
 
-        self.assertIn('<a href="/prelim_three_part_b_feedback_second_go"', html)
+        self.assertIn('action="/prelim_three_part_b_feedback_second_go"', html)
+
+    def test_prelim_three_part_b_feedback_second_go_POST_leads_to_correct_template(self):
+        self.login_temp()
+
+        # Simulate POST data
+        post_data = {
+            'box_1': 'True',
+            'box_2': 'True',
+            'box_3': 'True',
+            'box_4': 'False',
+            'box_5': 'False',
+            'box_6': 'False',
+            'box_7': 'False',
+            'box_8': 'False',
+            'box_9': 'False',
+        }
+        response = self.client.post(
+            '/prelim_three_part_b_feedback_second_go',
+            data=post_data,
+        )
+        self.assertTemplateUsed(response, 'prelim_three_part_b_feedback.html')
 
 
 class PrelimThreeFourByFourTest(BaseTest):
