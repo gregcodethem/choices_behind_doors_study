@@ -132,7 +132,7 @@ class VisitorClicksThroughFirstPages(BaseTest):
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.ID, 'final_pattern_message'))
         )
-        time.sleep(2)
+        time.sleep(3)
         # Above the grid should be a message
         remember_pattern_message_actual = self.browser.find_element_by_id(
             "final_pattern_message"
@@ -270,13 +270,13 @@ class VisitorClicksThroughFirstPages(BaseTest):
 
         # James should see a continue message
         continue_message_on_feedback_page = self.browser.find_element_by_id(
-            "go_to_prelim_two_again"
+            "go_to_prelim_four"
         ).text
         self.assertIn("Continue", continue_message_on_feedback_page)
 
         # James clicks on the continue message link
         continue_link_on_feedback_page = self.browser.find_element_by_id(
-            "go_to_prelim_two_again"
+            "go_to_prelim_four"
         )
         continue_link_on_feedback_page.click()
 
