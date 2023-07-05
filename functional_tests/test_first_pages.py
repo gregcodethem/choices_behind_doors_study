@@ -281,6 +281,31 @@ class VisitorClicksThroughFirstPages(BaseTest):
         continue_link_on_feedback_page.click()
 
 
+        # James sees a well done message
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, 'h2'))
+        )
+
+        well_done_message = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn("Well done", well_done_message)
+
+
+        # James sees a continue message
+        continue_message_on_prelim_four = self.browser.find_element_by_id(
+            "go_to_prelim_five"
+        ).text
+        self.assertIn("Continue", continue_message_on_prelim_four)
+
+        # James clicks on link
+        continue_link_on_prelim_four = self.browser.find_element_by_id(
+            "go_to_prelim_five"
+        )
+        continue_link_on_prelim_four.click()
+
+        
+
+
+
 
 
 
