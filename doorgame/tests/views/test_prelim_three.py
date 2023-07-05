@@ -41,8 +41,7 @@ class PrelimThreeTest(BaseTest):
         # test desired continue message is displayed:
         self.assertIn('Continue to next page',html)
 
-    # javascript introduced has broken following test,
-    # update or remove
+
     def test_prelim_three_contains_links_to_correct_page(self):
         self.login_temp()
 
@@ -165,18 +164,19 @@ class PrelimThreeTest(BaseTest):
         # Optionally check that some expected data is in the response
         # self.assertContains(response, 'expected content')
 
-@skip
+
 class prelimThreeSecondGoTest(BaseTest):
 
     def test_prelim_three_second_go_returns_continue_message(self):
         self.login_temp()
 
         response = self.client.get(
-            '/prelim_three_second_go'
+            '/prelim_three_second_go',
+            follow=True,
         )
         html = response.content.decode('utf8')
 
-        self.assertIn('Go to next page', html)
+        self.assertIn('Continue to next page', html)
 
     def test_prelim_three_second_go_returns_correct_link(self):
         self.login_temp()
