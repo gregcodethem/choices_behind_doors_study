@@ -21,7 +21,7 @@ class PrelimFiveTest(BaseTest):
         response = self.client.get('/prelim_five', follow=True)
 
         html = response.content.decode('utf8')
-        self.assertIn('Now play the memory task', html)
+        self.assertIn('Example Monty Hall', html)
 
     def test_prelim_five_returns_prelim_five_template(self):
         self.login_temp()
