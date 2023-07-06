@@ -302,6 +302,8 @@ class VisitorClicksThroughFirstPages(BaseTest):
         )
         continue_link_on_prelim_four.click()
 
+        time.sleep(5)
+
 
 
 
