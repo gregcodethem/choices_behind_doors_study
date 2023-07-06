@@ -323,6 +323,40 @@ class VisitorClicksThroughFirstPages(BaseTest):
         continue_link_on_prelim_five.click()
 
 
+        # James sees the message "Welcome to the door game"
+        # sees memory game
+        memory_title = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('Can you remember these dots?', memory_title)
+
+        # user sees a box they can remember
+        box_1 = self.browser.find_element_by_id('box_1')
+        box_2 = self.browser.find_element_by_id('box_2')
+
+        # user can go to door game
+        go_to_door_game = self.browser.find_element_by_id('go_to_door_game')
+        go_to_door_game.click()
+
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, 'h2'))
+        )
+        # see text welcome page
+        game_title = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('Welcome to the door game', game_title)
+
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.id, 'door1'))
+        )
+        # user can see a door
+        door1 = self.browser.find_element_by_id('door1')
+        self.assertAlmostEqual(
+            door1.location['x'] + door1.size['width'] / 2,
+            100,
+            delta=10
+        )
+
+
+
+
 
 
 
