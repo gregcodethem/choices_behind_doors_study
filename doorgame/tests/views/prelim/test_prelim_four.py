@@ -5,7 +5,7 @@ from django.urls import resolve
 from doorgame.views import prelim_four
 from doorgame.models import MemoryGame
 
-from .base import BaseTest
+from doorgame.tests.views.base import BaseTest
 
 
 class PrelimFourTest(BaseTest):
