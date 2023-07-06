@@ -8,7 +8,7 @@ from doorgame.models import MemoryGame
 from .base import BaseTest
 
 
-class PrelimFourTest(BaseTest):
+class PrelimThreeTest(BaseTest):
     def test_prelim_four_url_resolves_to_prelim_four_view(self):
         self.login_temp()
         found = resolve('/prelim_four')

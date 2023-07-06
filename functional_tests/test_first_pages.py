@@ -302,8 +302,25 @@ class VisitorClicksThroughFirstPages(BaseTest):
         )
         continue_link_on_prelim_four.click()
 
-        time.sleep(5)
+        # James sees the text "Example Monty Hall"
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, 'h2'))
+        )
 
+        example_monty_hall_title = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn("Example Monty Hall", example_monty_hall_title)
+
+        # James sees a continue message
+        continue_message_on_prelim_five = self.browser.find_element_by_id(
+            "go_to_memory_game_initial_turn"
+        ).text
+        self.assertIn("Let's play the game", continue_message_on_prelim_five)
+
+        # James clicks on link
+        continue_link_on_prelim_five = self.browser.find_element_by_id(
+            "go_to_memory_game_initial_turn"
+        )
+        continue_link_on_prelim_five.click()
 
 
 
