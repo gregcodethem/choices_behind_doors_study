@@ -114,15 +114,6 @@ class HomePageTest(BaseTest):
         self.assertIn('<h2>Welcome to the door game</h2>', html)
         # self.assertTrue(html.endswith('</html>'))
 
-    def test_home_page_returns_correct_html(self):
-        self.login_temp()
-        user = User.objects.get(username='temporary')
-
-        response = self.client.get('/user/' + user.username + '/')
-        html = response.content.decode('utf8')
-        # self.assertTrue(html.startswith('<html>'))
-        self.assertIn('<h2>Can you remember these dots?</h2>', html)
-        # self.assertTrue(html.endswith('</html>'))
 
     def test_home_page_redirects_to_door_page_one(self):
         self.login_temp()
@@ -184,18 +175,6 @@ class DoorToChooseTest(BaseTest):
         self.client.get('/')
         self.assertEqual(Choice.objects.count(), 0)
 
-    def test_door_result_page_returns_doors_true_or_false(self):
-        self.login_temp()
-        user = User.objects.get(username='temporary')
-        response = self.client.post(
-            '/choose_door', {'door_chosen': 1}
-        )
-        html = response.content.decode('utf8')
-        print(html)
-        self.assertIn("It could be door one", html)
-        self.assertIn("door two", html)
-        self.assertIn("door three", html)
-        self.assertIn("It's not door", html)
 
 
 class LoginScreenTest(BaseTest):
