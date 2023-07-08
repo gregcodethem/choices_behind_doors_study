@@ -14,32 +14,71 @@ from .base import (
 class NewVisitorTest(BaseTest):
 
     def test_layout(self):
+        # James accesses website and logs in
         self.browser.get(self.live_server_url)
         # Login screen appears
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, 'h2'))
+        )
         login_title = self.browser.find_element_by_tag_name(
             'h2').text
         self.assertIn('Login', login_title)
 
+        # James logs in
         self.login()
+        time.sleep(0.5)
 
-        # sees memory game
-        memory_title = self.browser.find_element_by_tag_name('h2').text
-        self.assertIn('Can you remember these dots?', memory_title)
+        # James has completed all the prelims and sees memory game
+        # James sees countdown, then 3 by 3 grid
+
+        first_real_memory_game_url = self.live_server_url + '/memory_game_initial_turn'
+
+        self.browser.get(first_real_memory_game_url)
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, 'col-sm-1'))
+        )
+        small_box_list = self.browser.find_elements_by_class_name(
+            "col-sm-1"
+        )
+        number_of_small_boxes = len(small_box_list)
+        self.assertEqual(number_of_small_boxes, 9)
+
+        # In the 3 by 3 grid there should be 3 dots
+        dot_pics_with_dots = self.browser.find_elements_by_xpath('//img[@src="/static/doorgame/box_with_dot.png"]')
+        number_of_dots = len(dot_pics_with_dots)
+        self.assertEqual(number_of_dots, 3)
+
+        # James cannot see a message displayed saying: "Can you remember the pattern from before?"
+        try:
+            remember_pattern_message = self.browser.find_element_by_id(
+                "Welcome to the door game"
+            )
+            remember_pattern_message_present = True
+        except NoSuchElementException:
+            remember_pattern_message_present = False
+
+        self.assertFalse(
+            remember_pattern_message_present,
+            "The message above the grid should not be present"
+        )
 
         # user sees a box they can remember
         box_1 = self.browser.find_element_by_id('box_1')
         box_2 = self.browser.find_element_by_id('box_2')
 
-        # user can go to door game
-        go_to_door_game = self.browser.find_element_by_id('go_to_door_game')
-        go_to_door_game.click()
+        # James is automatically redirected to the door game
+        time.sleep(2)
 
-        time.sleep(1)
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, 'h2'))
+        )
         # see text welcome page
         game_title = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Welcome to the door game', game_title)
 
-        time.sleep(2)
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'door1'))
+        )
         # user can see a door
         door1 = self.browser.find_element_by_id('door1')
         self.assertAlmostEqual(
@@ -47,7 +86,6 @@ class NewVisitorTest(BaseTest):
             100,
             delta=10
         )
-
 
 
         '''
