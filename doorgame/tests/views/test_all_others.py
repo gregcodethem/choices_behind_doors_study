@@ -83,9 +83,9 @@ class MemoryGameTest(BaseTest):
         response = self.client.get(
             '/memory_game_initial_turn',
         )
-
         memory_game_list = MemoryGame.objects.all()
         number_of_trials = TRIAL_LIMIT
+
         self.assertEqual(len(memory_game_list), number_of_trials)
 
 
