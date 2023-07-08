@@ -143,7 +143,7 @@ class DoorToChooseTest(BaseTest):
         self.login_temp()
         user = User.objects.get(username='temporary')
         response = self.client.post(
-            '/user/temporary/door_page_one', {'door_chosen': 1}
+            '/choose_door', {'door_chosen': 1}
         )
 
         self.assertEqual(Choice.objects.count(), 1)
@@ -159,7 +159,7 @@ class DoorToChooseTest(BaseTest):
         trial.save()
 
         response = self.client.post(
-            '/user/temporary/door_page_one',
+            '/choose_door',
             {
                 'door_chosen': 2,
             })
@@ -174,7 +174,7 @@ class DoorToChooseTest(BaseTest):
         self.login_temp()
         user = User.objects.get(username='temporary')
         response = self.client.post(
-            '/user/temporary/door_page_one', {'door_chosen': 1}
+            '/choose_door', {'door_chosen': 1}
         )
 
         self.assertEqual(response.status_code, 302)
@@ -188,7 +188,7 @@ class DoorToChooseTest(BaseTest):
         self.login_temp()
         user = User.objects.get(username='temporary')
         response = self.client.post(
-            '/user/temporary/door_page_one', {'door_chosen': 1}
+            '/choose_door', {'door_chosen': 1}
         )
         html = response.content.decode('utf8')
         print(html)
