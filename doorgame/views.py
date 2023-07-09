@@ -1082,7 +1082,7 @@ def home_page_user_unique(request, username):
         return redirect('/user/' + username_logged_in + '/door-result')
 
     return render(request,
-                  'door-page-one.html', {
+                  'door_page_one.html', {
                       "username": username_logged_in,
                   })
 

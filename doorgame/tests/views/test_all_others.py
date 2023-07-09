@@ -42,7 +42,18 @@ class MemoryGameInitialTurnTest(BaseTest):
         self.login_temp()
 
         response = self.client.get('/memory_game_initial_turn', follow=True)
+
         self.assertTemplateUsed(response, 'home.html')
+
+class DoorGameTest(BaseTest):
+
+    def test_door_page_one_returns_door_page_one_template(self):
+        self.login_temp()
+
+        response = self.client.get('/door_page_one', follow=True)
+
+        self.assertTemplateUsed(response, 'door_page_one.html')
+
 
 class ResultTest(BaseTest):
 
