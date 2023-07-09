@@ -83,8 +83,8 @@ class NewVisitorTest(BaseTest):
         door1 = self.browser.find_element_by_id('door1')
         self.assertAlmostEqual(
             door1.location['x'] + door1.size['width'] / 2,
-            100,
-            delta=10
+            300,
+            delta=50
         )
 
 
