@@ -36,6 +36,13 @@ class MemoryGameTest(BaseTest):
 
         self.assertEqual(len(memory_game_list), number_of_trials)
 
+class MemoryGameInitialTurnTest(BaseTest):
+
+    def test_memory_game_initial_turn_returns_home_template(self):
+        self.login_temp()
+
+        response = self.client.get('/memory_game_initial_turn', follow=True)
+        self.assertTemplateUsed(response, 'home.html')
 
 class ResultTest(BaseTest):
 
