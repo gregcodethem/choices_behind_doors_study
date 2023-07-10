@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 from doorgame.models import (
     Choice,
@@ -121,6 +122,16 @@ class DoorToChooseTest(BaseTest):
         self.assertEqual(Choice.objects.count(), 1)
         new_choice = Choice.objects.first()
         self.assertEqual(new_choice.door_number, 1)
+
+    def test_choose_door_redirects_to_door_result_page(self):
+        self.login_temp()
+        user = User.objects.get(username='temporary')
+
+        response = self.client.post(
+            '/choose_door', {'door_chosen': 1}
+        )
+
+        self.assertRedirects(response, reverse('door_result_page',kwargs={'username': 'temporary'}))
 
     def test_saves_user_in_post_request(self):
         self.login_temp()

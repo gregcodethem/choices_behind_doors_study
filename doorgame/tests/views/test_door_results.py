@@ -226,6 +226,7 @@ class DoorResultPageTest(BaseTest):
         found = resolve('/user/temporary/door-result')
         self.assertEqual(found.func, door_result_page)
 
+
     def test_door_result_page_returns_correct_html(self):
         self.login_temp()
         user = User.objects.get(username='temporary')
