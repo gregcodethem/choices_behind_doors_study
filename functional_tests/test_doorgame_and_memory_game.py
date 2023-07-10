@@ -107,28 +107,9 @@ class NewVisitorTest(BaseTest):
 class DifferentChoiceTest(BaseTest):
 
     def test_user_can_choose_different_doors(self):
-        # James accesses website and logs in
-        self.browser.get(self.live_server_url)
-        # Login screen appears
-        WebDriverWait(self.browser, 10).until(
-            EC.presence_of_element_located((By.TAG_NAME, 'h2'))
-        )
-        login_title = self.browser.find_element_by_tag_name(
-            'h2').text
-        self.assertIn('Login', login_title)
 
-        # James logs in
-        self.login()
-        time.sleep(0.5)
-
-        # James has completed all the prelims and sees memory game
-        # James sees countdown, then 3 by 3 grid
-
-        first_real_memory_game_url = self.live_server_url + '/memory_game_initial_turn'
-
-        self.browser.get(first_real_memory_game_url)
-
-        time.sleep(2)
+        # James accesses website, logs in and goes to the door game
+        self.user_goes_straight_to_first_door_game_via_memory_game()
 
         self.user_chooses_a_door("door1")
         # their door choice is saved
@@ -137,9 +118,7 @@ class DifferentChoiceTest(BaseTest):
 
         # ------- Door 2-------
         # User logs in
-
-        self.login()
-        self.user_clicks_through_memory_game()
+        self.user_goes_straight_to_first_door_game_via_memory_game()
         self.user_chooses_a_door("door2")
 
         # user logs out

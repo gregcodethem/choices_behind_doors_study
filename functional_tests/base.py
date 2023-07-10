@@ -81,6 +81,34 @@ class BaseTest(LiveServerTestCase):
         # click Login
         password_input_box.send_keys(Keys.ENTER)
 
+    def user_goes_straight_to_first_door_game_via_memory_game(self):
+        # James accesses website and logs in
+        self.browser.get(self.live_server_url)
+        # Login screen appears
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, 'h2'))
+        )
+        # James logs in
+        self.login()
+        time.sleep(0.5)
+
+        # James has completed all the prelims and sees memory game
+        # James sees countdown, then 3 by 3 grid
+
+        first_real_memory_game_url = self.live_server_url + '/memory_game_initial_turn'
+        self.browser.get(first_real_memory_game_url)
+
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, 'col-sm-1'))
+        )
+
+        # James is automatically redirected to the door game
+        time.sleep(2)
+
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'door1'))
+        )
+
 
     def logout(self):
         logout_link = self.browser.find_element_by_id('logout_link_anchor')
