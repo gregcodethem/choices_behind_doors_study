@@ -111,7 +111,23 @@ class DifferentChoiceTest(BaseTest):
         # James accesses website, logs in and goes to the door game
         self.user_goes_straight_to_first_door_game_via_memory_game()
 
-        self.user_chooses_a_door("door1")
+        # see text welcome page
+        game_title = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('Welcome to the door game', game_title)
+
+        time.sleep(2)
+
+        # user can chose a door
+        door_number = 'door1'
+        door1 = self.browser.find_element_by_id(door_number)
+        # user clicks on door1
+        door1.click()
+
+        time.sleep(4)
+        # User sees message that they've chosen door1
+        first_door_chosen_message = self.browser.find_element_by_tag_name(
+            'h2').text
+        self.assertIn('The result of your door choice', first_door_chosen_message)
         # their door choice is saved
         # user logs out
         self.logout()

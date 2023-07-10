@@ -136,7 +136,7 @@ class BaseTest(LiveServerTestCase):
         door1 = self.browser.find_element_by_id(door_number)
         # user clicks on door1
         door1.click()
-        time.sleep(1)
+        time.sleep(2)
 
         # User sees message that they've chosen door1
         chosen_message = self.browser.find_element_by_id(
