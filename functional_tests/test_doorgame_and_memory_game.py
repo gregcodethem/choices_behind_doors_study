@@ -115,15 +115,19 @@ class DifferentChoiceTest(BaseTest):
         game_title = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Welcome to the door game', game_title)
 
-        time.sleep(2)
-
         # user can chose a door
         door_number = 'door1'
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'door1'))
+        )
+
         door1 = self.browser.find_element_by_id(door_number)
         # user clicks on door1
         door1.click()
 
-        time.sleep(4)
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'result_of_first_door_choice'))
+        )
         # User sees message that they've chosen door1
         first_door_chosen_message = self.browser.find_element_by_tag_name(
             'h2').text
