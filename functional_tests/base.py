@@ -133,21 +133,16 @@ class BaseTest(LiveServerTestCase):
         time.sleep(1)
 
     def user_chooses_a_door(self, door_number):
-        # door_number must be string
+        # door_number must be string of format 'door1' etc
 
-        # see text welcome page
-        game_title = self.browser.find_element_by_tag_name('h2').text
-        self.assertIn('Welcome to the door game', game_title)
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, door_number))
+        )
 
-        time.sleep(2)
-
-        # user can chose a door
-        door1 = self.browser.find_element_by_id(door_number)
+        door_to_choose = self.browser.find_element_by_id(door_number)
         # user clicks on door1
-        door1.click()
-        time.sleep(2)
+        door_to_choose.click()
 
-        # User sees message that they've chosen door1
-        chosen_message = self.browser.find_element_by_id(
-            'chosen_message').text
-        self.assertIn('You chose ' + door_number, chosen_message)
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'result_of_first_door_choice'))
+        )

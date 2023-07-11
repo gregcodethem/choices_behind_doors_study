@@ -117,18 +117,9 @@ class DifferentChoiceTest(BaseTest):
 
         # user can chose a door
         door_number = 'door1'
-        WebDriverWait(self.browser, 10).until(
-            EC.presence_of_element_located((By.ID, 'door1'))
-        )
+        self.user_chooses_a_door(door_number)
 
-        door1 = self.browser.find_element_by_id(door_number)
-        # user clicks on door1
-        door1.click()
-
-        WebDriverWait(self.browser, 10).until(
-            EC.presence_of_element_located((By.ID, 'result_of_first_door_choice'))
-        )
-        # User sees message that they've chosen door1
+        # User sees message that they've chosen a door
         first_door_chosen_message = self.browser.find_element_by_tag_name(
             'h2').text
         self.assertIn('The result of your door choice', first_door_chosen_message)
@@ -149,18 +140,11 @@ class DifferentChoiceTest(BaseTest):
         self.assertIn('Welcome to the door game', game_title)
 
         # user can chose a door
-        door_number = 'door1'
-        WebDriverWait(self.browser, 10).until(
-            EC.presence_of_element_located((By.ID, 'door1'))
-        )
+        door_number = 'door2'
+        self.user_chooses_a_door(door_number)
 
-        door1 = self.browser.find_element_by_id(door_number)
-        # user clicks on door1
-        door1.click()
-
-        WebDriverWait(self.browser, 10).until(
-            EC.presence_of_element_located((By.ID, 'result_of_first_door_choice'))
-        )
+        first_door_chosen_message = self.browser.find_element_by_tag_name(
+            'h2').text
         self.assertIn('The result of your door choice', first_door_chosen_message)
 
         # user logs out
@@ -168,13 +152,24 @@ class DifferentChoiceTest(BaseTest):
 
         # ------- Door 3 ------
         # User logs in
+        self.user_goes_straight_to_first_door_game_via_memory_game(
+            user_identifier="Bob"
+        )
+        # see text welcome page
+        game_title = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('Welcome to the door game', game_title)
 
-        self.login()
-        self.user_clicks_through_memory_game()
+        # user can chose a door
+        door_number = 'door3'
+        self.user_chooses_a_door(door_number)
 
-        self.user_chooses_a_door("door3")
+        first_door_chosen_message = self.browser.find_element_by_tag_name(
+            'h2').text
+        self.assertIn('The result of your door choice', first_door_chosen_message)
+
         # user logs out
         self.logout()
+
 
     def test_multiple_users_can_have_turns(self):
         # first user comes to site
