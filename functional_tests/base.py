@@ -33,6 +33,20 @@ def get_profile_by_username(username):
         return None
 
 
+class attribute_has_changed(object):
+  def __init__(self, locator, attribute, old_value):
+    self.locator = locator
+    self.attribute = attribute
+    self.old_value = old_value
+
+  def __call__(self, driver):
+    element = driver.find_element(*self.locator)   # Finding the referenced element
+    new_value = element.get_attribute(self.attribute)
+    if new_value != self.old_value:
+        return element
+    else:
+        return False
+
 class BaseTest(LiveServerTestCase):
 
     def create_user(

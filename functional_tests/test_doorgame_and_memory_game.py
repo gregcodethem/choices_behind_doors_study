@@ -8,7 +8,8 @@ from selenium.common.exceptions import NoSuchElementException
 
 from .base import (
     BaseTest,
-    get_profile_by_username
+    get_profile_by_username,
+    attribute_has_changed,
 )
 
 class NewVisitorTest(BaseTest):
@@ -115,14 +116,60 @@ class DifferentChoiceTest(BaseTest):
         game_title = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Welcome to the door game', game_title)
 
-        # user can chose a door
+        # James can see a door in position 1
+        door_one = self.browser.find_element_by_id('door1')
+        image_door_one_before_click = door_one.get_attribute('src')
+
+        # Check that this door is the normal door and is not red
+        normal_door_url = self.live_server_url + '/static/doorgame/door.png'
+        self.assertEqual(
+            image_door_one_before_click,
+            normal_door_url
+        )
+
+        # James can chose a door and clicks on door one
         door_number = 'door1'
-        self.user_chooses_a_door(door_number)
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, door_number))
+        )
+        door_to_choose = self.browser.find_element_by_id(door_number)
+        door_to_choose.click()
+
+        # wait for the image to change
+        WebDriverWait(self.browser, 10).until(
+            attribute_has_changed((By.ID, "door1"), 'src', image_door_one_before_click)
+        )
+
+        # Now the door has changed
+        door_one = self.browser.find_element_by_id('door1')
+        image_door_one_after_click = door_one.get_attribute('src')
+        self.assertNotEqual(
+            image_door_one_before_click,
+            image_door_one_after_click)
+
+        # It appears as red
+        red_door_url = self.live_server_url + '/static/doorgame/red_door.png'
+        self.assertEqual(
+            image_door_one_after_click,
+            red_door_url
+        )
+
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'result_of_first_door_choice'))
+        )
 
         # User sees message that they've chosen a door
         first_door_chosen_message = self.browser.find_element_by_tag_name(
             'h2').text
         self.assertIn('The result of your door choice', first_door_chosen_message)
+
+        # user can see which door they've chosen
+
+
+
+        # user sees a goat at one of the other doors
+
+
         # their door choice is saved
         # user logs out
         self.logout()
