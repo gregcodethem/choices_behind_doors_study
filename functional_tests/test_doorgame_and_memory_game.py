@@ -166,12 +166,11 @@ class DifferentChoiceTest(BaseTest):
         # James can still see which door they've chosen
         # Now the door has changed
         door_one_result_page = self.browser.find_element_by_id('door1')
-        image_door_result_page = door_one_result_page.get_attribute('src')
+        image_door_one_result_page = door_one_result_page.get_attribute('src')
         self.assertEqual(
-            image_door_result_page,
+            image_door_one_result_page,
             red_door_url
         )
-
 
         # their door choice is saved
         # user logs out
@@ -181,15 +180,15 @@ class DifferentChoiceTest(BaseTest):
         self.assertIn('Login', login_title)
 
         # ------- Door 2-------
-        # User logs in
+        # Ozen then logs in
         self.user_goes_straight_to_first_door_game_via_memory_game(
             user_identifier="Ozen"
         )
-        # see text welcome page
+        # sees text welcome page
         game_title = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Welcome to the door game', game_title)
 
-        # user can chose a door
+        # Ozen can chose a door
         door_number = 'door2'
         self.user_chooses_a_door(door_number)
 
@@ -197,11 +196,19 @@ class DifferentChoiceTest(BaseTest):
             'h2').text
         self.assertIn('The result of your door choice', first_door_chosen_message)
 
-        # user logs out
+        # Ozen can still see which door they've chosen
+        # Now the door has changed
+        door_two_result_page = self.browser.find_element_by_id('door2')
+        image_door_two_result_page = door_two_result_page.get_attribute('src')
+        self.assertEqual(
+            image_door_two_result_page,
+            red_door_url
+        )
+        # Ozen logs out
         self.logout()
 
         # ------- Door 3 ------
-        # User logs in
+        # Bob logs in
         self.user_goes_straight_to_first_door_game_via_memory_game(
             user_identifier="Bob"
         )
@@ -209,7 +216,7 @@ class DifferentChoiceTest(BaseTest):
         game_title = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Welcome to the door game', game_title)
 
-        # user can chose a door
+        # Bob can chose a door
         door_number = 'door3'
         self.user_chooses_a_door(door_number)
 
@@ -217,7 +224,14 @@ class DifferentChoiceTest(BaseTest):
             'h2').text
         self.assertIn('The result of your door choice', first_door_chosen_message)
 
-        # user logs out
+        # Now the door has changed
+        door_three_result_page = self.browser.find_element_by_id('door3')
+        image_door_three_result_page = door_three_result_page.get_attribute('src')
+        self.assertEqual(
+            image_door_three_result_page,
+            red_door_url
+        )
+        # Bob logs out
         self.logout()
 
 
