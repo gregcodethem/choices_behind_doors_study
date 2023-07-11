@@ -135,6 +135,9 @@ class DifferentChoiceTest(BaseTest):
         # their door choice is saved
         # user logs out
         self.logout()
+        login_title = self.browser.find_element_by_tag_name(
+            'h2').text
+        self.assertIn('Login', login_title)
 
         # ------- Door 2-------
         # User logs in

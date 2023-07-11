@@ -111,9 +111,13 @@ class BaseTest(LiveServerTestCase):
 
 
     def logout(self):
-        logout_link = self.browser.find_element_by_id('logout_link_anchor')
-        logout_link.click()
-        time.sleep(2)
+        logout_url = self.live_server_url + '/accounts/logout'
+        self.browser.get(logout_url)
+        # Login screen appears
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, 'h2'))
+        )
+
 
     def user_clicks_through_memory_game(self):
         memory_title = self.browser.find_element_by_tag_name('h2').text
