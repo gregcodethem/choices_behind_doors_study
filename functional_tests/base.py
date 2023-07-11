@@ -81,7 +81,12 @@ class BaseTest(LiveServerTestCase):
         # click Login
         password_input_box.send_keys(Keys.ENTER)
 
-    def user_goes_straight_to_first_door_game_via_memory_game(self):
+    def user_goes_straight_to_first_door_game_via_memory_game(
+            self,
+            user_identifier="John"
+    ):
+        if user_identifier is not "John":
+            self.create_user(user_identifier=user_identifier)
         # James accesses website and logs in
         self.browser.get(self.live_server_url)
         # Login screen appears
@@ -89,7 +94,7 @@ class BaseTest(LiveServerTestCase):
             EC.presence_of_element_located((By.TAG_NAME, 'h2'))
         )
         # James logs in
-        self.login()
+        self.login(user_identifier=user_identifier)
         time.sleep(0.5)
 
         # James has completed all the prelims and sees memory game
