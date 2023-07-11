@@ -163,11 +163,14 @@ class DifferentChoiceTest(BaseTest):
             'h2').text
         self.assertIn('The result of your door choice', first_door_chosen_message)
 
-        # user can see which door they've chosen
-
-
-
-        # user sees a goat at one of the other doors
+        # James can still see which door they've chosen
+        # Now the door has changed
+        door_one_result_page = self.browser.find_element_by_id('door1')
+        image_door_result_page = door_one_result_page.get_attribute('src')
+        self.assertEqual(
+            image_door_result_page,
+            red_door_url
+        )
 
 
         # their door choice is saved
