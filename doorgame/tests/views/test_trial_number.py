@@ -34,7 +34,7 @@ class TrialNumberTest(BaseTest):
         self.login_temp()
         user = User.objects.get(username='temporary')
         response = self.client.get(
-            '/user/temporary/',
+            '/memory_game_initial_turn',
             )
         trials_list = Trial.objects.all()
         trial_created = Trial.objects.last()

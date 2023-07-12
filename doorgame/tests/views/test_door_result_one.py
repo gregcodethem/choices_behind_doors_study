@@ -1,4 +1,4 @@
-from django.urls import resolve
+from django.urls import resolve, reverse
 from django.http import HttpRequest
 from django.contrib.auth.models import User
 
@@ -12,10 +12,25 @@ class DoorResultPageTest(BaseTest):
         self.assertEqual(found.func, door_result_page)
 
     def test_door_result_page_returns_correct_html(self):
+        #!!!!!!
+        #!!!!! This test is what I need to rewrite,
+        # I need to look at the actual view
+        # and think what it is I want to be testing
+        # do i need to do more in the setup?
+        # needs a good think
+
+
         self.login_temp()
         user = User.objects.get(username='temporary')
+        # create a trial for this user
+
+
+        # create a choice for this trial
+
         # response = self.client.get('/user/temporary/door-result', follow=True)
         request = HttpRequest()
+        request.method = 'POST'
+        request.user = user
         response = door_result_page(request, user.username)
         html = response.content.decode('utf8')
         self.assertIn('The result of your door choice', html)
