@@ -12,45 +12,50 @@ from .base import BaseTest
 
 class DoorResultPageTest(BaseTest):
 
-    def test_door_result_url_resolves_to_door_page_view(self):
-        found = resolve('/user/temporary/door-result')
-        self.assertEqual(found.func, door_result_page)
-
-    def test_door_result_view_returns_correct_html(self):
-        # For this to work I need to create various different
-        # model instances which will be referenced by the view
-
+    def door_result_page_login_and_model_setup(
+            self,
+            choose_door_url_called=True
+    ):
         self.login_temp()
-        # For this to work, I need to create a user,
         user = User.objects.get(username='temporary')
 
-        # set their profile hard_or_easy setting,
-        # or their low_medium_or_high_dots_setting if it's
-        # a 4 by 4 memory game
-        profile = user.profile
-        profile.hard_or_easy_dots = 'easy'
-        profile.save()
-
         # An associated trial also needs to be created
+        # as this is usually created by the view:
+        # memory_game_initial_turn
         trial = Trial()
         trial.user = user
         trial.number_of_trial = 1
         trial.save()
 
-        # The result of the door game, needs to be fed into
-        # this view, so an instance of this needs to be created here
-        result = Result()
-        result.trial = trial
-        result.door_number = 1
-        result.save()
+        if choose_door_url_called == False:
+            # The result of the door game, needs to be fed into
+            # this view, so an instance of this needs to be created here
+            result = Result()
+            result.trial = trial
+            result.door_number = 1
+            result.save()
 
-        # create a choice for this trial,
-        # this shows the door choice they've made
-        choice = Choice()
-        choice.door_number = 1
-        choice.first_or_second_choice = 1
-        choice.trial = trial
-        choice.save()
+            # create a choice for this trial,
+            # this shows the door choice they've made
+            choice = Choice()
+            choice.door_number = 1
+            choice.first_or_second_choice = 1
+            choice.trial = trial
+            choice.save()
+
+    def test_door_result_url_resolves_to_door_page_view(self):
+        found = resolve('/user/temporary/door-result')
+        self.assertEqual(found.func, door_result_page)
+
+    def test_door_result_view_returns_correct_html(self):
+        # For this to work various different
+        # model instances are created by this setup method
+        # the model instances will be referenced by the view
+        self.door_result_page_login_and_model_setup(
+            choose_door_url_called=False
+        )
+
+        user = User.objects.get(username='temporary')
 
         request = HttpRequest()
         request.method = 'GET'
@@ -64,42 +69,12 @@ class DoorResultPageTest(BaseTest):
     def test_door_result_page_returns_correct_html(self):
         # Sister test to test_door_result_view_returns_correct_html
         # but testing from the url
-        # For this to work I need to create various different
-        # model instances which will be referenced by the view
-
-        self.login_temp()
-        # For this to work, I need to create a user,
-        user = User.objects.get(username='temporary')
-
-        # set their profile hard_or_easy setting,
-        # or their low_medium_or_high_dots_setting if it's
-        # a 4 by 4 memory game
-        profile = user.profile
-        profile.hard_or_easy_dots = 'easy'
-        profile.save()
-
-        # An associated trial also needs to be created
-        # as this is usually created by the view:
-        # memory_game_initial_turn
-        trial = Trial()
-        trial.user = user
-        trial.number_of_trial = 1
-        trial.save()
-
-        # The result of the door game, needs to be fed into
-        # this view, so an instance of this needs to be created here
-        result = Result()
-        result.trial = trial
-        result.door_number = 1
-        result.save()
-
-        # create a choice for this trial,
-        # this shows the door choice they've made
-        choice = Choice()
-        choice.door_number = 1
-        choice.first_or_second_choice = 1
-        choice.trial = trial
-        choice.save()
+        # For this to work various different
+        # model instances are created by this setup method
+        # the model instances will be referenced by the view
+        self.door_result_page_login_and_model_setup(
+            choose_door_url_called=False
+        )
 
         response = self.client.get('/user/temporary/door-result', follow=True)
 
@@ -107,23 +82,11 @@ class DoorResultPageTest(BaseTest):
         self.assertIn('The result of your door choice', html)
 
     def test_door_result_page_returns_an_incorrect_door(self):
-        self.login_temp()
+
+        self.door_result_page_login_and_model_setup(
+            choose_door_url_called=True
+        )
         user = User.objects.get(username='temporary')
-
-        # set their profile hard_or_easy setting,
-        # or their low_medium_or_high_dots_setting if it's
-        # a 4 by 4 memory game
-        profile = user.profile
-        profile.hard_or_easy_dots = 'easy'
-        profile.save()
-
-        # An associated trial also needs to be created
-        # as this is usually created by the view:
-        # memory_game_initial_turn
-        trial = Trial()
-        trial.user = user
-        trial.number_of_trial = 1
-        trial.save()
 
         # this method will assign a chosen door,
         # it will also create a result instance as part of
@@ -149,22 +112,12 @@ class DoorResultPageTest(BaseTest):
         self.assertNotIn('alt="open_door_goat3"', html_door_result)
 
     def test_can_display_a_POST_request(self):
-        self.login_temp()
-        user = User.objects.get(username='temporary')
-        # set their profile hard_or_easy setting,
-        # or their low_medium_or_high_dots_setting if it's
-        # a 4 by 4 memory game
-        profile = user.profile
-        profile.hard_or_easy_dots = 'easy'
-        profile.save()
 
-        # An associated trial also needs to be created
-        # as this is usually created by the view:
-        # memory_game_initial_turn
-        trial = Trial()
-        trial.user = user
-        trial.number_of_trial = 1
-        trial.save()
+        self.door_result_page_login_and_model_setup(
+            choose_door_url_called=True
+        )
+
+        user = User.objects.get(username='temporary')
 
         # this method will assign a chosen door,
         # it will also create a result instance as part of
@@ -182,28 +135,44 @@ class DoorResultPageTest(BaseTest):
         self.assertIn('alt="door 1 chosen"', html_door_result)
 
     def test_can_display_a_POST_request_for_door_two(self):
-        self.login_temp()
-        user = User.objects.get(username='temporary')
-        # add for door 2
-        response_home = self.client.post(
-            '/user/temporary/door_page_one',
-            data={'door_chosen': 2}
-
+        self.door_result_page_login_and_model_setup(
+            choose_door_url_called=True
         )
+
+        user = User.objects.get(username='temporary')
+
+        # this method will assign a chosen door,
+        # it will also create a result instance as part of
+        # it's logic, so no result model instance needs to be called here
+        response_home = self.client.post(
+            '/choose_door', {'door_chosen': 2}
+        )
+
         request = HttpRequest()
+        request.method = 'GET'
+        request.user = user
         response_door_result = door_result_page(request, user.username)
         html_door_result = response_door_result.content.decode('utf8')
-        self.assertIn("You chose door2", html_door_result)
 
+        self.assertIn('alt="door 2 chosen"', html_door_result)
     def test_can_display_a_POST_request_for_door_three(self):
-        self.login_temp()
+        self.door_result_page_login_and_model_setup(
+            choose_door_url_called=True
+        )
+
         user = User.objects.get(username='temporary')
 
+        # this method will assign a chosen door,
+        # it will also create a result instance as part of
+        # it's logic, so no result model instance needs to be called here
         response_home = self.client.post(
-            '/user/temporary/door_page_one',
-            data={'door_chosen': 3}
+            '/choose_door', {'door_chosen': 3}
         )
+
         request = HttpRequest()
+        request.method = 'GET'
+        request.user = user
         response_door_result = door_result_page(request, user.username)
         html_door_result = response_door_result.content.decode('utf8')
-        self.assertIn("You chose door3", html_door_result)
+
+        self.assertIn('alt="door 3 chosen"', html_door_result)
