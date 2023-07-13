@@ -269,41 +269,56 @@ class DifferentChoiceTest(BaseTest):
         # user logs out
         self.logout()
 
-        # they login with different details
-
-        # they chose a door
-
-        # their choice is saved
-
-        # the choice of user 1 is not saved
 
 
 class SecondChoiceTest(BaseTest):
 
     def test_user_can_keep_door_choice_and_get_pattern_again(self):
-        self.browser.get('http://localhost:8000/accounts/login')
-        # Login screen appears
-        login_title = self.browser.find_element_by_tag_name(
-            'h2').text
-        self.assertIn('Login', login_title)
+        # John comes to site
+        self.user_goes_straight_to_first_door_game_via_memory_game()
 
-        self.login()
-        time.sleep(1)
-
-        self.user_clicks_through_memory_game()
         self.user_chooses_a_door("door1")
 
-        # User sees message that they can change door
-        new_choice_message = self.browser.find_element_by_id(
-            'new_choice_message').text
-        self.assertIn("It's not door", new_choice_message)
-        self.assertRegex(new_choice_message, '.*\d\.*')
-        self.assertIn("You can change your choice", new_choice_message)
+        time.sleep(10)
 
-        # User can see option to keep or change their choice
+        # John sees message that they can change door
+        new_choice_message = self.browser.find_element_by_id(
+            'monty_speech_bubble').text
+        self.assertIn("I am revealing one of the two goats.", new_choice_message)
+
+        # John can see a goat in either door two or door three
+        goat_two = self.browser.find_elements_by_id(
+            'open_door_goat2'
+        )
+        goat_three = self.browser.find_elements_by_id(
+            'open_door_goat3'
+        )
+        self.assertTrue(
+            len(goat_three) > 0 or len(goat_two) > 0,
+            "Neither 'open_door_goat3' nor 'open_door_goat2' was found"
+        )
+        # check that there is no goat image for door 1:
+        goat_one = self.browser.find_elements_by_id(
+            'open_door_goat1'
+        )
+        self.assertTrue(
+            len(goat_one) == 0,
+            "'open_door_goat1' was found"
+        )
+
+
+        # John can see option to keep or change their choice
         keep_door_link = self.browser.find_element_by_id('keep_door_link')
+        keep_door_text = keep_door_link.text
+        self.assertEqual(keep_door_text,'Stick with door 1',msg="keep door text not found or incorrect")
+
         change_door_link = self.browser.find_element_by_id('change_door_link')
-        # User choses to keep their door choice
+        change_door_text = change_door_link.text
+        self.assertTrue(
+            change_door_text=="Switch to door 2" or change_door_text=="Switch to door 3",
+            f"Change door text is incorrect:{change_door_text}"
+        )
+        # John choses to keep their door choice
         keep_door_link.click()
         time.sleep(2)
         # User sees message that they chose to keep their door choice.
