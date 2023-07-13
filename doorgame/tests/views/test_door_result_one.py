@@ -14,7 +14,7 @@ class DoorResultPageTest(BaseTest):
 
     def door_result_page_login_and_model_setup(
             self,
-            choose_door_url_called=True
+            choose_door_url_to_be_called=True
     ):
         self.login_temp()
         user = User.objects.get(username='temporary')
@@ -27,7 +27,7 @@ class DoorResultPageTest(BaseTest):
         trial.number_of_trial = 1
         trial.save()
 
-        if choose_door_url_called == False:
+        if choose_door_url_to_be_called == False:
             # The result of the door game, needs to be fed into
             # this view, so an instance of this needs to be created here
             result = Result()
@@ -52,7 +52,7 @@ class DoorResultPageTest(BaseTest):
         # model instances are created by this setup method
         # the model instances will be referenced by the view
         self.door_result_page_login_and_model_setup(
-            choose_door_url_called=False
+            choose_door_url_to_be_called=False
         )
 
         user = User.objects.get(username='temporary')
@@ -73,7 +73,7 @@ class DoorResultPageTest(BaseTest):
         # model instances are created by this setup method
         # the model instances will be referenced by the view
         self.door_result_page_login_and_model_setup(
-            choose_door_url_called=False
+            choose_door_url_to_be_called=False
         )
 
         response = self.client.get('/user/temporary/door-result', follow=True)
@@ -84,7 +84,7 @@ class DoorResultPageTest(BaseTest):
     def test_door_result_page_returns_an_incorrect_door(self):
 
         self.door_result_page_login_and_model_setup(
-            choose_door_url_called=True
+            choose_door_url_to_be_called=True
         )
         user = User.objects.get(username='temporary')
 
@@ -99,8 +99,8 @@ class DoorResultPageTest(BaseTest):
         request = HttpRequest()
         request.method = 'GET'
         request.user = user
-        response_door_result_page = door_result_page(request, user.username)
 
+        response_door_result_page = door_result_page(request, user.username)
         html_door_result = response_door_result_page.content.decode('utf8')
 
         # Check that the door_goat image is displayed for
@@ -114,7 +114,7 @@ class DoorResultPageTest(BaseTest):
     def test_can_display_a_POST_request(self):
 
         self.door_result_page_login_and_model_setup(
-            choose_door_url_called=True
+            choose_door_url_to_be_called=True
         )
 
         user = User.objects.get(username='temporary')
@@ -129,14 +129,16 @@ class DoorResultPageTest(BaseTest):
         request = HttpRequest()
         request.method = 'GET'
         request.user = user
+
         response_door_result = door_result_page(request, user.username)
         html_door_result = response_door_result.content.decode('utf8')
 
         self.assertIn('alt="door 1 chosen"', html_door_result)
 
     def test_can_display_a_POST_request_for_door_two(self):
+
         self.door_result_page_login_and_model_setup(
-            choose_door_url_called=True
+            choose_door_url_to_be_called=True
         )
 
         user = User.objects.get(username='temporary')
@@ -151,13 +153,15 @@ class DoorResultPageTest(BaseTest):
         request = HttpRequest()
         request.method = 'GET'
         request.user = user
+
         response_door_result = door_result_page(request, user.username)
         html_door_result = response_door_result.content.decode('utf8')
 
         self.assertIn('alt="door 2 chosen"', html_door_result)
+
     def test_can_display_a_POST_request_for_door_three(self):
         self.door_result_page_login_and_model_setup(
-            choose_door_url_called=True
+            choose_door_url_to_be_called=True
         )
 
         user = User.objects.get(username='temporary')
@@ -172,6 +176,7 @@ class DoorResultPageTest(BaseTest):
         request = HttpRequest()
         request.method = 'GET'
         request.user = user
+
         response_door_result = door_result_page(request, user.username)
         html_door_result = response_door_result.content.decode('utf8')
 
