@@ -79,6 +79,8 @@ class DoorResultPageTest(BaseTest):
         profile.save()
 
         # An associated trial also needs to be created
+        # as this is usually created by the view:
+        # memory_game_initial_turn
         trial = Trial()
         trial.user = user
         trial.number_of_trial = 1
@@ -116,6 +118,8 @@ class DoorResultPageTest(BaseTest):
         profile.save()
 
         # An associated trial also needs to be created
+        # as this is usually created by the view:
+        # memory_game_initial_turn
         trial = Trial()
         trial.user = user
         trial.number_of_trial = 1
@@ -132,9 +136,9 @@ class DoorResultPageTest(BaseTest):
         request = HttpRequest()
         request.method = 'GET'
         request.user = user
-        response_door_page_result = door_result_page(request, user.username)
+        response_door_result_page = door_result_page(request, user.username)
 
-        html_door_result = response_door_page_result.content.decode('utf8')
+        html_door_result = response_door_result_page.content.decode('utf8')
 
         # Check that the door_goat image is displayed for
         # door 1 or door 2
@@ -146,14 +150,36 @@ class DoorResultPageTest(BaseTest):
 
     def test_can_display_a_POST_request(self):
         self.login_temp()
-        response_home = self.client.post(
-            '/user/temporary/door_page_one', {'door_chosen': 1}
-        )
-        request = HttpRequest()
         user = User.objects.get(username='temporary')
+        # set their profile hard_or_easy setting,
+        # or their low_medium_or_high_dots_setting if it's
+        # a 4 by 4 memory game
+        profile = user.profile
+        profile.hard_or_easy_dots = 'easy'
+        profile.save()
+
+        # An associated trial also needs to be created
+        # as this is usually created by the view:
+        # memory_game_initial_turn
+        trial = Trial()
+        trial.user = user
+        trial.number_of_trial = 1
+        trial.save()
+
+        # this method will assign a chosen door,
+        # it will also create a result instance as part of
+        # it's logic, so no result model instance needs to be called here
+        response_home = self.client.post(
+            '/choose_door', {'door_chosen': 1}
+        )
+
+        request = HttpRequest()
+        request.method = 'GET'
+        request.user = user
         response_door_result = door_result_page(request, user.username)
         html_door_result = response_door_result.content.decode('utf8')
-        self.assertIn("You chose door1", html_door_result)
+
+        self.assertIn('alt="door 1 chosen"', html_door_result)
 
     def test_can_display_a_POST_request_for_door_two(self):
         self.login_temp()
