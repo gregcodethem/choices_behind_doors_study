@@ -3,6 +3,11 @@ from django.http import HttpRequest
 from django.contrib.auth.models import User
 
 from doorgame.views import door_result_page
+from doorgame.models import (
+    Trial,
+    Choice,
+    Result
+)
 from .base import BaseTest
 
 class DoorResultPageTest(BaseTest):
@@ -11,27 +16,91 @@ class DoorResultPageTest(BaseTest):
         found = resolve('/user/temporary/door-result')
         self.assertEqual(found.func, door_result_page)
 
-    def test_door_result_page_returns_correct_html(self):
-        #!!!!!!
-        #!!!!! This test is what I need to rewrite,
-        # I need to look at the actual view
-        # and think what it is I want to be testing
-        # do i need to do more in the setup?
-        # needs a good think
-
+    def test_door_result_view_returns_correct_html(self):
+        # For this to work I need to create various different
+        # model instances which will be referenced by the view
 
         self.login_temp()
+        # For this to work, I need to create a user,
         user = User.objects.get(username='temporary')
-        # create a trial for this user
 
+        # set their profile hard_or_easy setting,
+        # or their low_medium_or_high_dots_setting if it's
+        # a 4 by 4 memory game
+        profile = user.profile
+        profile.hard_or_easy_dots = 'easy'
+        profile.save()
 
-        # create a choice for this trial
+        # An associated trial also needs to be created
+        trial = Trial()
+        trial.user = user
+        trial.number_of_trial = 1
+        trial.save()
 
-        # response = self.client.get('/user/temporary/door-result', follow=True)
+        # The result of the door game, needs to be fed into
+        # this view, so an instance of this needs to be created here
+        result = Result()
+        result.trial = trial
+        result.door_number = 1
+        result.save()
+
+        # create a choice for this trial,
+        # this shows the door choice they've made
+        choice = Choice()
+        choice.door_number = 1
+        choice.first_or_second_choice = 1
+        choice.trial = trial
+        choice.save()
+
         request = HttpRequest()
-        request.method = 'POST'
+        request.method = 'GET'
         request.user = user
+
         response = door_result_page(request, user.username)
+        html = response.content.decode('utf8')
+
+        self.assertIn('The result of your door choice', html)
+
+    def test_door_result_page_returns_correct_html(self):
+        # Sister test to test_door_result_view_returns_correct_html
+        # but testing from the url
+        # For this to work I need to create various different
+        # model instances which will be referenced by the view
+
+        self.login_temp()
+        # For this to work, I need to create a user,
+        user = User.objects.get(username='temporary')
+
+        # set their profile hard_or_easy setting,
+        # or their low_medium_or_high_dots_setting if it's
+        # a 4 by 4 memory game
+        profile = user.profile
+        profile.hard_or_easy_dots = 'easy'
+        profile.save()
+
+        # An associated trial also needs to be created
+        trial = Trial()
+        trial.user = user
+        trial.number_of_trial = 1
+        trial.save()
+
+        # The result of the door game, needs to be fed into
+        # this view, so an instance of this needs to be created here
+        result = Result()
+        result.trial = trial
+        result.door_number = 1
+        result.save()
+
+        # create a choice for this trial,
+        # this shows the door choice they've made
+        choice = Choice()
+        choice.door_number = 1
+        choice.first_or_second_choice = 1
+        choice.trial = trial
+        choice.save()
+
+        response = self.client.get('/user/temporary/door-result', follow=True)
+
         html = response.content.decode('utf8')
         self.assertIn('The result of your door choice', html)
 
