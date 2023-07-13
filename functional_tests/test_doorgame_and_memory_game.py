@@ -236,15 +236,13 @@ class DifferentChoiceTest(BaseTest):
 
 
     def test_multiple_users_can_have_turns(self):
-        # first user comes to site
-        self.browser.get('http://localhost:8000/accounts/login')
-        self.login()
+        # John comes to site
+        self.user_goes_straight_to_first_door_game_via_memory_game()
 
-        # He notices that her account has a unique URL
-        greg_game_url = self.browser.current_url
-        self.assertRegex(greg_game_url, '/user/.+')
+        # John notices that her account has a unique URL
+        john_game_url = self.browser.current_url
+        self.assertRegex(john_game_url, '/user/.+')
 
-        self.user_clicks_through_memory_game()
         self.user_chooses_a_door("door1")
         # their door choice is saved
         # user logs out
@@ -254,15 +252,14 @@ class DifferentChoiceTest(BaseTest):
         self.browser = webdriver.Firefox()
 
         # Ozen visits the home page.
-        self.browser.get('http://localhost:8000/accounts/login')
-
-        self.login("Ozen")
+        self.user_goes_straight_to_first_door_game_via_memory_game(
+            user_identifier="Ozen"
+        )
         # Ozen gets her own unique URL
         ozen_game_url = self.browser.current_url
         self.assertRegex(ozen_game_url, '/user/.+')
-        self.assertNotEqual(ozen_game_url, greg_game_url)
+        self.assertNotEqual(ozen_game_url, john_game_url)
 
-        self.user_clicks_through_memory_game()
         self.user_chooses_a_door("door2")
         # this url is also has user as a prefix
         ozen_result_url = self.browser.current_url
