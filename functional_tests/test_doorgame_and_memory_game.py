@@ -279,7 +279,7 @@ class SecondChoiceTest(BaseTest):
 
         self.user_chooses_a_door("door1")
 
-        time.sleep(10)
+        time.sleep(1)
 
         # John sees message that they can change door
         new_choice_message = self.browser.find_element_by_id(
@@ -318,20 +318,33 @@ class SecondChoiceTest(BaseTest):
             change_door_text=="Switch to door 2" or change_door_text=="Switch to door 3",
             f"Change door text is incorrect:{change_door_text}"
         )
+
         # John choses to keep their door choice
         keep_door_link.click()
-        time.sleep(2)
-        # User sees message that they chose to keep their door choice.
-        final_choice_message = self.browser.find_element_by_id(
-            'final_choice_message').text
-        self.assertIn("You chose door1", final_choice_message)
+
+        # When John has done the process the required number
+        # of times, he then sees a regret page
+        # John sees a regret page:
+        regret_message = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('To what extent would you experience regret', regret_message)
+
+        # They click on the number 1
+        regret_one = self.browser.find_element_by_id('regret_one')
+        regret_one.click()
+
+        # Then they click submit
+        submit_button = self.browser.find_element_by_id('complete-the-survey')
+        submit_button.click()
+
+
+        # John sees the grid from before
 
         final_pattern_message = self.browser.find_element_by_id(
             'final_pattern_message').text
         self.assertIn(
             'Can you remember the pattern from before?', final_pattern_message
         )
-
+        time.sleep(1)
         # user sees blank boxes that they can click
         box_1 = self.browser.find_element_by_id('box_1')
         box_2 = self.browser.find_element_by_id('box_2')
