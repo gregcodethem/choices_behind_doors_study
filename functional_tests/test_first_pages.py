@@ -147,7 +147,7 @@ class VisitorClicksThroughFirstPages(BaseTest):
 
         box_1.click()
         box_2.click()
-        
+
         # James should see a message asking them to
         # continue to the next page
         time.sleep(2)

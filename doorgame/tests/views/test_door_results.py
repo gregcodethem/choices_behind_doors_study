@@ -193,11 +193,34 @@ class FinalDoorResultPageTest(BaseTest):
     def test_final_door_result_page_returns_correct_html(self):
         self.login_temp()
         user = User.objects.get(username='temporary')
+        # An associated trial also needs to be created
+        # as this is usually created by the view:
+        # memory_game_initial_turn
+        trial = Trial()
+        trial.user = user
+        trial.number_of_trial = 1
+        trial.save()
+
         #response = self.client.get('/user/temporary/door-result', follow=True)
         request = HttpRequest()
+        request.method = "GET"
+        request.user = user
+
         response = final_door_result_page(request, user.username)
         html = response.content.decode('utf8')
         self.assertIn('The result of your final door choice', html)
+
+class ChooseFinalDoorTest(DoorResultPageTest):
+    def test_choose_final_door_method_keeping_door_redirects_to_correct_template(self):
+        self.door_result_page_login_and_model_setup()
+        response = self.client.post(
+            '/choose_final_door',
+            {'door_chosen':1}
+        )
+        #!!!!! I need to finish this test,
+        # check other tests for testing templates used
+        # or look up if redirecting to correct place
+
 
     def test_first_result_page_can_display_a_POST_request(self):
         self.login_temp()
