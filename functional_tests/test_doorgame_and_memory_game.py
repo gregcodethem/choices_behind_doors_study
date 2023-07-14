@@ -346,8 +346,8 @@ class SecondChoiceTest(BaseTest):
         )
         time.sleep(1)
         # user sees blank boxes that they can click
-        box_1 = self.browser.find_element_by_id('box_1')
-        box_2 = self.browser.find_element_by_id('box_2')
+        box_1 = self.browser.find_element_by_id('div_box_1')
+        box_2 = self.browser.find_element_by_id('div_box_2')
 
         box_1.click()
 
