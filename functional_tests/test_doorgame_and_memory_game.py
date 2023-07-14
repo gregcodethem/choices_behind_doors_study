@@ -348,7 +348,7 @@ class SecondChoiceTest(BaseTest):
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.ID, 'div_box_1'))
         )
-        # user sees blank boxes that they can click
+        # John sees blank boxes that they can click
         box_1 = self.browser.find_element_by_id('div_box_1')
         box_2 = self.browser.find_element_by_id('div_box_2')
 

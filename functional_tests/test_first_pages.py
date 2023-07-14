@@ -141,7 +141,13 @@ class VisitorClicksThroughFirstPages(BaseTest):
             "Can you remember the pattern from before?",
             remember_pattern_message_actual
         )
+        # James clicks on some boxes
+        box_1 = self.browser.find_element_by_id('div_box_1')
+        box_2 = self.browser.find_element_by_id('div_box_2')
 
+        box_1.click()
+        box_2.click()
+        
         # James should see a message asking them to
         # continue to the next page
         time.sleep(2)
