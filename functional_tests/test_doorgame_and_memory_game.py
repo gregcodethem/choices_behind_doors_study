@@ -12,7 +12,7 @@ from .base import (
     attribute_has_changed,
 )
 
-class NewVisitorTest(BaseTest):
+class LayoutTest(BaseTest):
 
     def test_layout(self):
         # James accesses website and logs in
@@ -279,8 +279,9 @@ class SecondChoiceTest(BaseTest):
 
         self.user_chooses_a_door("door1")
 
-        time.sleep(1)
-
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'monty_speech_bubble'))
+        )
         # John sees message that they can change door
         new_choice_message = self.browser.find_element_by_id(
             'monty_speech_bubble').text
@@ -344,13 +345,18 @@ class SecondChoiceTest(BaseTest):
         self.assertIn(
             'Can you remember the pattern from before?', final_pattern_message
         )
-        time.sleep(1)
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'div_box_1'))
+        )
         # user sees blank boxes that they can click
         box_1 = self.browser.find_element_by_id('div_box_1')
         box_2 = self.browser.find_element_by_id('div_box_2')
 
         box_1.click()
 
+        # !!!! in this version of the FT, the user won't play again
+        # I need another FT, where they play twice, then
+        # a code block equivalent to this will go there
         # user goes back to first screen
         play_again_link = self.browser.find_element_by_id(
             'play_again_link')
