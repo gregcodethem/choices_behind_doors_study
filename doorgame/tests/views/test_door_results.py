@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 from doorgame.views import final_door_result_page
 from doorgame.models import Choice, Trial, Result, MemoryGame
 from .base import BaseTest
+from .test_door_result_one import DoorResultPageTest
 
 
 class FinalPattern(BaseTest):
@@ -211,16 +212,16 @@ class FinalDoorResultPageTest(BaseTest):
         self.assertIn('The result of your final door choice', html)
 
 class ChooseFinalDoorTest(DoorResultPageTest):
-    def test_choose_final_door_method_keeping_door_redirects_to_correct_template(self):
+    def test_choose_final_door_method_keeping_door_redirects(self):
         self.door_result_page_login_and_model_setup()
+
         response = self.client.post(
             '/choose_final_door',
             {'door_chosen':1}
         )
-        #!!!!! I need to finish this test,
-        # check other tests for testing templates used
-        # or look up if redirecting to correct place
 
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/user/temporary/final-door-result')
 
     def test_first_result_page_can_display_a_POST_request(self):
         self.login_temp()
