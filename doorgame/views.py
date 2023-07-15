@@ -91,6 +91,7 @@ def final_pattern(request):
     username_logged_in = request.user.username
     user_logged_in = request.user
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
+    hard_or_easy_dots_setting = user_logged_in.profile.hard_or_easy_dots
 
     if request.method == 'POST':
         if very_hard_setting in four_by_four_setting_list:
@@ -116,6 +117,8 @@ def final_pattern(request):
         # without saving and with an error message
         if very_hard_setting == "very_hard":
             number_of_dots_to_select = 6
+        elif hard_or_easy_dots_setting == 'easy':
+            number_of_dots_to_select = 3
         else:
             number_of_dots_to_select = 4
 
@@ -193,7 +196,6 @@ def final_pattern(request):
         trial_number = trial_existing.number_of_trial
         if trial_number >= TRIAL_LIMIT - 1:
             return redirect('/outcome_of_doorgame')
-
         return redirect('/trial_completed')
 
     else:
