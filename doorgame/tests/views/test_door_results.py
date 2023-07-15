@@ -223,6 +223,29 @@ class ChooseFinalDoorTest(DoorResultPageTest):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], '/user/temporary/final-door-result')
 
+    def test_choose_final_door_method_keeping_door_saves_choice(self):
+        self.door_result_page_login_and_model_setup(
+            choose_door_url_to_be_called=False
+        )
+
+        response = self.client.post(
+            '/choose_final_door',
+            {'final_door_chosen': 1}
+        )
+
+        # extract model data here
+        user = User.objects.get(username='temporary')
+        trial = Trial.objects.filter(user=user).last()
+        choice_existing_objects = Choice.objects.filter(trial=trial)
+        final_door_choice = choice_existing_objects.last()
+        choice_first_or_second = final_door_choice.first_or_second_choice
+        choice_door_chosen = final_door_choice.door_number
+
+        self.assertEqual(len(choice_existing_objects),2)
+        self.assertEqual(choice_first_or_second, 2)
+        self.assertEqual(choice_door_chosen, 1)
+
+
     def test_first_result_page_can_display_a_POST_request(self):
         self.login_temp()
         response_home = self.client.post(
