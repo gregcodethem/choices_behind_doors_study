@@ -362,7 +362,16 @@ class SecondChoiceTest(BaseTest):
             'play_again_link')
         play_again_link.click()
 
-        time.sleep(1)
+        # What do I expect to be displayed here and why
+        # do I get a weird four by four display,
+        # what's happening?
+        # John should see text for his final door result
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'final_choice_message'))
+        )
+        final_door_message = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('The result of your final door choice', final_door_message)
+
 
         '''
         This doesn't work on the test db:
