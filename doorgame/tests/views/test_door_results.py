@@ -306,14 +306,6 @@ class ChooseFinalDoorTest(DoorResultPageTest):
             choose_door_url_to_be_called=False
         )
 
-        # extract model data here
-        user = User.objects.get(username='temporary')
-        trial = Trial.objects.filter(user=user).last()
-        choice_existing_objects = Choice.objects.filter(trial=trial)
-        final_door_choice = choice_existing_objects.last()
-        choice_first_or_second = final_door_choice.first_or_second_choice
-        choice_door_chosen = final_door_choice.door_number
-
         response = self.client.post(
             '/choose_final_door',
             {'final_door_chosen': 1}
