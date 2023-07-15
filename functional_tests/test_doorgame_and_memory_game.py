@@ -351,8 +351,11 @@ class SecondChoiceTest(BaseTest):
         # John sees blank boxes that they can click
         box_1 = self.browser.find_element_by_id('div_box_1')
         box_2 = self.browser.find_element_by_id('div_box_2')
+        box_3 = self.browser.find_element_by_id('div_box_3')
 
         box_1.click()
+        box_2.click()
+        box_3.click()
 
         # !!!! in this version of the FT, the user won't play again
         # I need another FT, where they play twice, then
@@ -369,6 +372,7 @@ class SecondChoiceTest(BaseTest):
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.ID, 'final_choice_message'))
         )
+
         final_door_message = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('The result of your final door choice', final_door_message)
 
