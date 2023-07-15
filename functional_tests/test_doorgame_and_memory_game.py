@@ -409,7 +409,7 @@ class SecondChoiceTest(BaseTest):
 
         # User choses to keep their door choice
         change_door_link.click()
-        
+
         # When John has done the process the required number
         # of times, he then sees a regret page
         # John sees a regret page:
