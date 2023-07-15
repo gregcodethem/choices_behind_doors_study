@@ -4,8 +4,7 @@ from doorgame.models import (
     MemoryGame,
     MemoryGameList,
     Trial,
-    Result,
-    Choice
+    Choice,
 )
 from doorgame.utils import add_memory_games
 
@@ -76,4 +75,44 @@ class MemoryGameFinalPatternTest(DoorResultPageTest):
         self.assertEqual(response['location'], '/outcome_of_doorgame')
 
     def test_final_pattern_url_saves_memory_game_box_choices(self):
-        self.fail("finish the test!")
+        self.login_temp()
+        user = User.objects.get(username='temporary')
+
+        # An associated trial also needs to be created
+        # as this is usually created by the view:
+        # memory_game_initial_turn
+        trial = Trial()
+        trial.user = user
+        trial.number_of_trial = 1
+        trial.save()
+
+        memory_game_list = MemoryGameList()
+        memory_game_list.user = user
+        memory_game_list.save()
+        add_memory_games(memory_game_list, "easy")
+
+        response = self.client.post(
+            '/final_pattern',
+            {
+                'box_1': True,
+                'box_2': True,
+                'box_3': True
+            }
+        )
+
+        trial = Trial.objects.filter(user=user).last()
+        memory_game_existing_objects = MemoryGame.objects.filter(trial=trial)
+        final_memory_game = memory_game_existing_objects.last()
+        saved_box_1 = final_memory_game.box_1
+        saved_box_2 = final_memory_game.box_2
+        saved_box_3 = final_memory_game.box_3
+        saved_box_4 = final_memory_game.box_4
+
+        self.assertEqual(final_memory_game.initial_or_final, 'final')
+        self.assertEqual(saved_box_1, True)
+        self.assertEqual(saved_box_2, True)
+        self.assertEqual(saved_box_3, True)
+        self.assertEqual(saved_box_4, False)
+
+
+
