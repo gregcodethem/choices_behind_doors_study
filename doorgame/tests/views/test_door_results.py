@@ -4,7 +4,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
 from doorgame.views import final_door_result_page
-from doorgame.models import Choice, Trial, Result, MemoryGame
+from doorgame.models import (
+    Choice,
+    Trial,
+    Result,
+    MemoryGame,
+)
 from .base import BaseTest
 from .test_door_result_one import DoorResultPageTest
 
@@ -190,6 +195,79 @@ class FinalDoorResultPageTest(BaseTest):
     def test_final_door_result_url_resolves_to_final_door_page_view(self):
         found = resolve('/user/temporary/final-door-result')
         self.assertEqual(found.func, final_door_result_page)
+
+    def test_outcome_of_doorgame_returns_correct_html(self):
+        self.login_temp()
+        user = User.objects.get(username='temporary')
+        # An associated trial also needs to be created
+        # as this is usually created by the view:
+        # memory_game_initial_turn
+        trial = Trial()
+        trial.user = user
+        trial.number_of_trial = 1
+        trial.save()
+
+        # The result of the door game, needs to be fed into
+        # this view, so an instance of this needs to be created here
+        result = Result()
+        result.trial = trial
+        result.door_number = 1
+        result.save()
+
+        # create a choice for this trial,
+        # this shows the door choice they've made
+        choice_one = Choice()
+        choice_one.door_number = 1
+        choice_one.first_or_second_choice = 1
+        choice_one.trial = trial
+        choice_one.save()
+
+        choice_two = Choice()
+        choice_two.door_number = 1
+        choice_two.first_or_second_choice = 2
+        choice_two.trial = trial
+        choice_two.save()
+
+        response = self.client.get('/outcome_of_doorgame', follow=True)
+
+        html = response.content.decode('utf8')
+        self.assertIn('The result of your final door choice', html)
+
+    def test_outcome_of_doorgame_returns_correct_template(self):
+        self.login_temp()
+        user = User.objects.get(username='temporary')
+        # An associated trial also needs to be created
+        # as this is usually created by the view:
+        # memory_game_initial_turn
+        trial = Trial()
+        trial.user = user
+        trial.number_of_trial = 1
+        trial.save()
+
+        # The result of the door game, needs to be fed into
+        # this view, so an instance of this needs to be created here
+        result = Result()
+        result.trial = trial
+        result.door_number = 1
+        result.save()
+
+        # create a choice for this trial,
+        # this shows the door choice they've made
+        choice_one = Choice()
+        choice_one.door_number = 1
+        choice_one.first_or_second_choice = 1
+        choice_one.trial = trial
+        choice_one.save()
+
+        choice_two = Choice()
+        choice_two.door_number = 1
+        choice_two.first_or_second_choice = 2
+        choice_two.trial = trial
+        choice_two.save()
+
+        response = self.client.get('/outcome_of_doorgame', follow=True)
+
+        self.assertTemplateUsed(response,'final_door_result.html')
 
     def test_final_door_result_page_returns_correct_html(self):
         self.login_temp()
