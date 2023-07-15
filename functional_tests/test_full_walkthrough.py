@@ -453,9 +453,9 @@ class FullWalkThroughTest(BaseTest):
             'play_again_link')
         play_again_link.click()
 
-        # What do I expect to be displayed here and why
-        # do I get a weird four by four display,
-        # what's happening?
+        # Note if they choose the wrong number of doors,
+        # At present the blank boxes will just appear again
+
         # John should see text for his final door result
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.ID, 'final_choice_message'))

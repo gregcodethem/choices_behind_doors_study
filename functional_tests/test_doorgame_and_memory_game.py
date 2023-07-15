@@ -365,9 +365,9 @@ class SecondChoiceTest(BaseTest):
             'play_again_link')
         play_again_link.click()
 
-        # What do I expect to be displayed here and why
-        # do I get a weird four by four display,
-        # what's happening?
+        # Note if they choose the wrong number of doors,
+        # At present the blank boxes will just appear again
+
         # John should see text for his final door result
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.ID, 'final_choice_message'))
@@ -394,34 +394,75 @@ class SecondChoiceTest(BaseTest):
         self.logout()
 
     def test_user_can_change_door_choice(self):
-        self.browser.get('http://localhost:8000/accounts/login')
-        # Login screen appears
-        login_title = self.browser.find_element_by_tag_name(
-            'h2').text
-        self.assertIn('Login', login_title)
-
-        self.login()
-        self.user_clicks_through_memory_game()
+        # John comes to site
+        self.user_goes_straight_to_first_door_game_via_memory_game()
 
         self.user_chooses_a_door("door1")
-        # User sees message that they can change door
-        new_choice_message = self.browser.find_element_by_id(
-            'new_choice_message').text
-        self.assertIn("It's not door", new_choice_message)
-        self.assertRegex(new_choice_message, '.*\d\.*')
-        self.assertIn("You can change your choice", new_choice_message)
 
-        # User can see option to keep or change their choice
-        keep_door_link = self.browser.find_element_by_id('keep_door_link')
+        # John sees option that they can change door
         change_door_link = self.browser.find_element_by_id('change_door_link')
+        change_door_text = change_door_link.text
+        self.assertTrue(
+            change_door_text == "Switch to door 2" or change_door_text == "Switch to door 3",
+            f"Change door text is incorrect:{change_door_text}"
+        )
+
         # User choses to keep their door choice
         change_door_link.click()
-        time.sleep(2)
+        
+        # When John has done the process the required number
+        # of times, he then sees a regret page
+        # John sees a regret page:
+        regret_message = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('To what extent would you experience regret', regret_message)
 
-        # User sees message that they chose to CHANGE their door choice.
-        final_choice_message = self.browser.find_element_by_id(
-            'final_choice_message').text
-        self.assertIn("You chose door", final_choice_message)
-        self.assertNotIn("You chose door1", final_choice_message)
+        # They click on the number 1
+        regret_one = self.browser.find_element_by_id('regret_one')
+        regret_one.click()
+
+        # Then they click submit
+        submit_button = self.browser.find_element_by_id('complete-the-survey')
+        submit_button.click()
+
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'final_pattern_message'))
+        )
+
+        # John sees the grid from before
+        final_pattern_message = self.browser.find_element_by_id(
+            'final_pattern_message').text
+        self.assertIn(
+            'Can you remember the pattern from before?', final_pattern_message
+        )
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'div_box_1'))
+        )
+        # John sees blank boxes that they can click
+        box_1 = self.browser.find_element_by_id('div_box_1')
+        box_2 = self.browser.find_element_by_id('div_box_2')
+        box_3 = self.browser.find_element_by_id('div_box_3')
+
+        box_1.click()
+        box_2.click()
+        box_3.click()
+
+        # !!!! in this version of the FT, the user won't play again
+        # I need another FT, where they play twice, then
+        # a code block equivalent to this will go there
+        # user goes back to first screen
+        play_again_link = self.browser.find_element_by_id(
+            'play_again_link')
+        play_again_link.click()
+
+        # Note if they choose the wrong number of doors,
+        # At present the blank boxes will just appear again
+
+        # John should see text for his final door result
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'final_choice_message'))
+        )
+
+        final_door_message = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('The result of your final door choice', final_door_message)
 
         self.logout()
