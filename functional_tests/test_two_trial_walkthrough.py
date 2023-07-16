@@ -499,7 +499,7 @@ class FullWalkThroughForTwoTrialsTest(BaseTest):
         self.assertIn('Thanks for completing the task', final_survey_thank_you_message)
 
         # John also sees some more questions to fill in
-        familiar_question =self.browser.find_element_by_id('familiar_yes')
-
+        familiar_question = self.browser.find_element_by_id('familiar_yes')
+        english_question = self.browser.find_element_by_id('english_yes')
 
         self.fail('finish_the_test!')
