@@ -1,4 +1,7 @@
+from django.contrib.auth.models import User
+
 from .base import BaseTest
+from doorgame.models import SurveyAnswers
 
 class FinalSurveyOneTest(BaseTest):
 
@@ -12,4 +15,20 @@ class FinalSurveyOneTest(BaseTest):
     def test_final_survey_one_saves_models(self):
 
         self.login_temp()
+        user = User.objects.get(username='temporary')
+        SurveyAnswers.objects.create(user=user)
+
+        response = self.client.post(
+            '/final_survey_one_completed',
+            {'best_strategy': 'stick'}
+        )
+
+        user = User.objects.get(username='temporary')
+        survey_answers_all = SurveyAnswers.objects.filter(user=user)
+        survey_answers = survey_answers_all.last()
+        saved_best_strategy = survey_answers.best_strategy
+
+        self.assertEqual(len(survey_answers_all), 1)
+        self.assertEqual(saved_best_strategy,'stick')
+
 
