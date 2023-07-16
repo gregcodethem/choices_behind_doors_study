@@ -8,3 +8,8 @@ class FinalSurveyOneTest(BaseTest):
         response = self.client.get('/final_survey_one')
 
         self.assertTemplateUsed(response, 'final_survey_one.html')
+
+    def test_final_survey_one_saves_models(self):
+
+        self.login_temp()
+

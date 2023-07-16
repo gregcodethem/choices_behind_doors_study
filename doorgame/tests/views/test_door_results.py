@@ -321,7 +321,7 @@ class ChooseFinalDoorTest(DoorResultPageTest):
         self.assertEqual(response_change_to_three.status_code, 302)
         self.assertEqual(response_change_to_three['location'], '/user/temporary/final-door-result')
 
-    def test_choose_final_door_method_changingg_door_saves_choice(self):
+    def test_choose_final_door_method_changing_door_saves_choice(self):
         self.door_result_page_login_and_model_setup(
             choose_door_url_to_be_called=False
         )
