@@ -499,7 +499,21 @@ class FullWalkThroughForTwoTrialsTest(BaseTest):
         self.assertIn('Thanks for completing the task', final_survey_thank_you_message)
 
         # John also sees some more questions to fill in
-        familiar_question = self.browser.find_element_by_id('familiar_yes')
-        english_question = self.browser.find_element_by_id('english_yes')
+        familiar_question_yes = self.browser.find_element_by_id('familiar_yes')
+        english_question_yes = self.browser.find_element_by_id('english_yes')
+        age_input = self.browser.find_element_by_id('age')
+        gender_male = self.browser.find_element_by_id('male')
+        education_bachelor = self.browser.find_element_by_id('bachelor')
+
+        familiar_question_yes.click()
+        english_question_yes.click()
+        age_input.send_keys("35")
+        gender_male.click()
+        education_bachelor.click()
+
+        submit_button_final_survey_three = self.browser.find_element_by_id("complete-the-survey")
+        submit_button_final_survey_three.click()
+        time.sleep(10)
+
 
         self.fail('finish_the_test!')
