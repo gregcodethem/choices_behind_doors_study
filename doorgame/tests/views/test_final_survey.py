@@ -31,4 +31,15 @@ class FinalSurveyOneTest(BaseTest):
         self.assertEqual(len(survey_answers_all), 1)
         self.assertEqual(saved_best_strategy,'stick')
 
+    def test_final_survey_one_completed_links_to_correct_template(self):
+        self.login_temp()
+        user = User.objects.get(username='temporary')
+        SurveyAnswers.objects.create(user=user)
+
+        response = self.client.post(
+            '/final_survey_one_completed',
+            {'best_strategy': 'stick'}
+        )
+
+        self.assertTemplateUsed(response, 'final_survey_three.html')
 
