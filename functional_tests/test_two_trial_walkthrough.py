@@ -491,5 +491,15 @@ class FullWalkThroughForTwoTrialsTest(BaseTest):
         final_survey_one_submit_button = self.browser.find_element_by_id('complete_the_survey')
         final_survey_one_submit_button.click()
 
+        # John sees a thank you message
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'form-final-survey'))
+        )
+        final_survey_thank_you_message = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('Thanks for completing the task', final_survey_thank_you_message)
 
-        time.sleep(5)
+        # John also sees some more questions to fill in
+        familiar_question =self.browser.find_element_by_id('familiar_yes')
+
+
+        self.fail('finish_the_test!')
