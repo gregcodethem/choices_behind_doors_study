@@ -73,3 +73,19 @@ class FinalSurveyOneTest(BaseTest):
         self.assertEqual(saved_age, 33)
         self.assertEqual(saved_gender, 'male')
         self.assertEqual(saved_education_level, 'master')
+
+    def test_final_survey_three_completed_links_to_correct_template(self):
+        self.login_temp()
+        user = User.objects.get(username='temporary')
+        SurveyAnswers.objects.create(user=user)
+
+        response = self.client.post(
+            '/final_survey_three_completed',
+            {'familiar': 'yes',
+             'english': 'no',
+             'age': '33',
+             'gender': 'male',
+             'education_level': 'master'}
+        )
+
+        self.assertTemplateUsed(response, 'thankyou.html')
