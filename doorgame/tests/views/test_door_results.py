@@ -8,35 +8,9 @@ from doorgame.models import (
     Choice,
     Trial,
     Result,
-    MemoryGame,
 )
 from .base import BaseTest
 from .test_door_result_one import DoorResultPageTest
-
-
-class FinalPattern(BaseTest):
-
-    def test_can_choose_final_patten(self):
-        self.login_temp()
-        User = get_user_model()
-        user_one = User.objects.get(username='temporary')
-        trial = Trial()
-        trial.user = user_one
-        trial.save()
-        response = self.client.post(
-            '/final_pattern',
-            {
-                'box_1': False,
-                'box_2': True,
-                'trial': trial,
-            }
-        )
-        self.assertEqual(MemoryGame.objects.count(), 1)
-        saved_memory_game = MemoryGame.objects.get()
-        self.assertEqual(False, saved_memory_game.box_1)
-        self.assertEqual(True, saved_memory_game.box_2)
-
-
 
 
 class TwoUsersUseSimultaneously(BaseTest):
