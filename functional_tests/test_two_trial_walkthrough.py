@@ -521,15 +521,23 @@ class FullWalkThroughForTwoTrialsTest(BaseTest):
 
         thankyou_and_debrief_header = self.browser.find_element_by_id('thankyou_and_debrief_header')
         debrief_header_text = thankyou_and_debrief_header.text
-        self.assertin('DEBRIEF SHEET', debrief_header_text)
+        self.assertIn('DEBRIEF SHEET', debrief_header_text)
 
         # John sees a logout link on the bottom and clicks it
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.ID, "logout_link_anchor"))
         )
-        # click on logout
-        # see what I should see next....?
 
+        log_out_link = self.browser.find_element_by_id("logout_link_anchor")
+        log_out_link.click(
+
+        # John sees the login header
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, "log_in_header"))
+        )
+        login_header = self.browser.find_element_by_id("log_in_header")
+        login_header_text = login_header.text
+        self.assertIn("Login", login_header_text)
 
         self.fail("finish the test!")
 
