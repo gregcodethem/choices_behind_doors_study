@@ -463,3 +463,72 @@ class FullWalkThroughTest(BaseTest):
 
         final_door_message = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('The result of your final door choice', final_door_message)
+
+        final_door_continue_link = self.browser.find_element_by_id('final_survey_one_link')
+
+        final_door_continue_link.click()
+
+        # John sees a message asking him to answer a question
+        # John should see text for his final door result
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'form-final-survey_one'))
+        )
+
+        final_survey_one_message = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('Now please answer the following question', final_survey_one_message)
+
+        # John sees the option stick being the best and clicks on it
+        stick_button = self.browser.find_element_by_id('stick')
+        stick_button.click()
+
+        # John then clicks submit
+        final_survey_one_submit_button = self.browser.find_element_by_id('complete_the_survey')
+        final_survey_one_submit_button.click()
+
+        # John sees a thank you message
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'form-final-survey'))
+        )
+        final_survey_thank_you_message = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('Thanks for completing the task', final_survey_thank_you_message)
+
+        # John also sees some more questions to fill in
+        familiar_question_yes = self.browser.find_element_by_id('familiar_yes')
+        english_question_yes = self.browser.find_element_by_id('english_yes')
+        age_input = self.browser.find_element_by_id('age')
+        gender_male = self.browser.find_element_by_id('male')
+        education_bachelor = self.browser.find_element_by_id('bachelor')
+
+        familiar_question_yes.click()
+        english_question_yes.click()
+        age_input.send_keys("35")
+        gender_male.click()
+        education_bachelor.click()
+
+        submit_button_final_survey_three = self.browser.find_element_by_id("complete-the-survey")
+        submit_button_final_survey_three.click()
+
+        # John sees a debrief sheet and another thank you message
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, "thankyou_and_debrief_header"))
+        )
+
+        thankyou_and_debrief_header = self.browser.find_element_by_id('thankyou_and_debrief_header')
+        debrief_header_text = thankyou_and_debrief_header.text
+        self.assertIn('DEBRIEF SHEET', debrief_header_text)
+
+        # John sees a logout link on the bottom and clicks it
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, "logout_link_anchor"))
+        )
+
+        log_out_link = self.browser.find_element_by_id("logout_link_anchor")
+        log_out_link.click()
+
+        # John sees the login header
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, "log_in_header"))
+        )
+        login_header = self.browser.find_element_by_id("log_in_header")
+        login_header_text = login_header.text
+        self.assertIn("Login", login_header_text)

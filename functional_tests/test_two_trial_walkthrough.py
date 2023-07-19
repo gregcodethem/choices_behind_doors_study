@@ -529,7 +529,7 @@ class FullWalkThroughForTwoTrialsTest(BaseTest):
         )
 
         log_out_link = self.browser.find_element_by_id("logout_link_anchor")
-        log_out_link.click(
+        log_out_link.click()
 
         # John sees the login header
         WebDriverWait(self.browser, 10).until(
