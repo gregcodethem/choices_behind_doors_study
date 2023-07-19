@@ -513,7 +513,23 @@ class FullWalkThroughForTwoTrialsTest(BaseTest):
 
         submit_button_final_survey_three = self.browser.find_element_by_id("complete-the-survey")
         submit_button_final_survey_three.click()
-        time.sleep(10)
+
+        # John sees a debrief sheet and another thank you message
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, "thankyou_and_debrief_header"))
+        )
+
+        thankyou_and_debrief_header = self.browser.find_element_by_id('thankyou_and_debrief_header')
+        debrief_header_text = thankyou_and_debrief_header.text
+        self.assertin('DEBRIEF SHEET', debrief_header_text)
+
+        # John sees a logout link on the bottom and clicks it
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, "logout_link_anchor"))
+        )
+        # click on logout
+        # see what I should see next....?
 
 
-        self.fail('finish_the_test!')
+        self.fail("finish the test!")
+
