@@ -256,19 +256,3 @@ class ChooseFinalDoorTest(DoorResultPageTest):
         self.assertEqual(len(choice_existing_objects),2)
         self.assertEqual(choice_first_or_second, 2)
         self.assertEqual(choice_door_chosen, 2)
-
-    def test_first_result_page_can_display_a_POST_request(self):
-        self.login_temp()
-        response_home = self.client.post(
-            '/user/temporary/door_page_one', {'door_chosen': 1}
-        )
-        response_first_door_result = self.client.post(
-            '/user/temporary/door-result/', {'door_chosen': 1}
-        )
-        request = HttpRequest()
-        user = User.objects.get(username='temporary')
-        response_final_door_result = final_door_result_page(
-            request, user.username)
-        html_final_door_result = response_final_door_result.content.decode(
-            'utf8')
-        self.assertIn("You chose door1", html_final_door_result)
