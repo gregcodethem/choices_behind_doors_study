@@ -45,11 +45,11 @@ from .dummy_memory_game import (
     MemoryGamePrelimClassNineByNine
 )
 
-from config.settings import TRIAL_LIMIT
+
 from django.conf import settings
 
 
-display_trial_limit = TRIAL_LIMIT - 1
+display_trial_limit = settings.TRIAL_LIMIT - 1
 four_by_four_setting_list = ["very_hard", "medium", "very_easy"]
 four_by_four_setting_list_two_options = ["medium", "very_easy"]
 
@@ -196,7 +196,7 @@ def final_pattern(request):
         memory_game.save()
 
         trial_number = trial_existing.number_of_trial
-        if trial_number >= TRIAL_LIMIT - 1:
+        if trial_number >= settings.TRIAL_LIMIT - 1:
             return redirect('/outcome_of_doorgame')
         return redirect('/trial_completed')
 
@@ -532,11 +532,11 @@ def memory_game_start(request, trial_completed):
 
     #trials_completed = user_logged_in.profile.trials_completed
 
-    # if trials_completed >= TRIAL_LIMIT:
+    # if trials_completed >= settings.TRIAL_LIMIT:
     #    return final_completion()
 
     number_of_trial = int(trial_completed) + 1
-    if number_of_trial > TRIAL_LIMIT:
+    if number_of_trial > settings.TRIAL_LIMIT:
         return final_completion()
 
     #number_of_trial = trials_completed + 1
@@ -581,14 +581,14 @@ def home_page_memory_game(request, username):
 
     # logout_if_reached_the_limit(request)
     user_logged_in = request.user
-    if user_logged_in.profile.trials_completed >= TRIAL_LIMIT:
+    if user_logged_in.profile.trials_completed >= settings.TRIAL_LIMIT:
         return final_completion(request)
 
     trials_for_this_user = Trial.objects.filter(user=user_logged_in)
     if len(trials_for_this_user) != 0:
         latest_trial = trials_for_this_user.last()
 
-        if latest_trial.number_of_trial >= TRIAL_LIMIT:
+        if latest_trial.number_of_trial >= settings.TRIAL_LIMIT:
             return final_completion(request)
 
         else:
@@ -1172,9 +1172,9 @@ def final_door_result_page(request, username):
     trial_number = trial_existing.number_of_trial
 
     print(f'trial_number: {trial_number}')
-    print(f'trial_limit: {settings.TRIAL_LIMIT_BIG}')
+    print(f'trial_limit: {settings.TRIAL_LIMIT}')
 
-    if trial_number >= settings.TRIAL_LIMIT_BIG - 1:
+    if trial_number >= settings.TRIAL_LIMIT - 1:
         print('trial number condition satisfied, redirecting to regret url')
         return redirect('/regret')
     else:

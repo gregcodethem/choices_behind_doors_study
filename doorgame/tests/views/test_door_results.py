@@ -138,7 +138,7 @@ class FinalDoorResultPageTest(DoorResultPageTest):
         response_client = self.client.get('/user/temporary/final-door-result', follow=True)
         self.assertTemplateUsed(response_client,'regret.html')
 
-    @override_settings(TRIAL_LIMIT_BIG=5)
+    @override_settings(TRIAL_LIMIT=5)
     def test_final_door_result_page_returns_box_grid_when_trial_limit_not_reached(self):
 
         self.login_temp()
