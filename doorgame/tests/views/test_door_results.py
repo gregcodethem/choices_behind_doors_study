@@ -249,7 +249,7 @@ class FinalDoorResultPageTest(DoorResultPageTest):
 
 
 
-    def test_final_door_result_view_redirects_to_regret_page(self):
+    def test_final_door_result_url_redirects_to_regret_page(self):
 
         self.login_temp()
         user = User.objects.get(username='temporary')
