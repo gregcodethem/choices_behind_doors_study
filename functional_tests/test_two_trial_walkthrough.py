@@ -1,6 +1,6 @@
 import time
 
-from unittest.mock import patch
+from django.test import override_settings
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -13,9 +13,9 @@ from .base import BaseTest
 
 
 class FullWalkThroughForTwoTrialsTest(BaseTest):
-    @patch('config.settings.TRIAL_LIMIT')
-    def test_full_walk_through(self, mock_TRIAL_LIMIT):
-        mock_TRIAL_LIMIT.return_value = 3
+
+    @override_settings(TRIAL_LIMIT=3)
+    def test_two_trial_full_walk_through(self):
 
         # James accesses website and logs in
         self.browser.get(self.live_server_url)
@@ -440,6 +440,22 @@ class FullWalkThroughForTwoTrialsTest(BaseTest):
         box_2.click()
         box_3.click()
 
+        play_again_link = self.browser.find_element_by_id(
+            'play_again_link')
+        play_again_link.click()
+
+        # John sees a trial completed screen
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'trial_completed_message'))
+        )
+        trial_completed_message = self.browser.find_element_by_id('trial_completed_message').text
+        self.assertIn('You have attempted to remember the dots', trial_completed_message)
+
+        # John clicks on the please click here link
+        trial_completed_continue_link = self.browser.find_element_by_id('trial_completed_continue_link')
+        trial_completed_continue_link.click()
+
+        time.sleep(20)
 
 
         # When John has done the process the required number

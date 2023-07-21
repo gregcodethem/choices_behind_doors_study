@@ -4,9 +4,9 @@
 {% block title %}Turn completed{% endblock %}
 
 {% block content %}
-<p>You have attempted to remember the dots and have chosen your memory game</p>
+<p id="trial_completed_message">You have attempted to remember the dots and have chosen your memory game</p>
 
 <p>You have completed trial number: {{ trial_number }}</p>
 {% load static %}
-<p>It's time to try again.  <a href="{% url 'memory_game_start' trial_completed=trial_number %}">Please click here</a> 
+<p>It's time to try again.  <div id="trial_completed_continue_link"><a href="{% url 'memory_game_start' trial_completed=trial_number %}">Please click here</a></div></p>
 {% endblock %}
