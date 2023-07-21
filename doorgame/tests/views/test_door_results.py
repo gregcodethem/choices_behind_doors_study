@@ -3,7 +3,9 @@ from unittest.mock import patch
 from django.urls import resolve
 from django.http import HttpRequest
 from django.contrib.auth.models import User
+from django.test import override_settings
 from django.contrib.auth import get_user_model
+from django.conf import settings
 
 from doorgame.views import final_door_result_page
 from doorgame.models import (
@@ -136,8 +138,9 @@ class FinalDoorResultPageTest(DoorResultPageTest):
         response_client = self.client.get('/user/temporary/final-door-result', follow=True)
         self.assertTemplateUsed(response_client,'regret.html')
 
+    @override_settings(TRIAL_LIMIT_BIG=5)
+    def test_final_door_result_page_returns_box_grid_when_trial_limit_not_reached(self):
 
-    def test_final_door_result_page_returns_correct_html(self):
         self.login_temp()
         user = User.objects.get(username='temporary')
         # An associated trial also needs to be created
@@ -148,14 +151,31 @@ class FinalDoorResultPageTest(DoorResultPageTest):
         trial.number_of_trial = 1
         trial.save()
 
-        #response = self.client.get('/user/temporary/door-result', follow=True)
-        request = HttpRequest()
-        request.method = "GET"
-        request.user = user
+        # The result of the door game, needs to be fed into
+        # this view, so an instance of this needs to be created here
+        result = Result()
+        result.trial = trial
+        result.door_number = 1
+        result.save()
 
-        response = final_door_result_page(request, user.username)
-        html = response.content.decode('utf8')
-        self.assertIn('The result of your final door choice', html)
+        # create a choice for this trial,
+        # this shows the door choice they've made
+        choice_one = Choice()
+        choice_one.door_number = 1
+        choice_one.first_or_second_choice = 1
+        choice_one.trial = trial
+        choice_one.save()
+
+        choice_two = Choice()
+        choice_two.door_number = 1
+        choice_two.first_or_second_choice = 2
+        choice_two.trial = trial
+        choice_two.save()
+
+
+        response_client = self.client.get('/user/temporary/final-door-result', follow=True)
+        self.assertTemplateUsed(response_client,'mem_game_blank_base.html')
+
 
 class ChooseFinalDoorTest(DoorResultPageTest):
     def test_choose_final_door_method_keeping_door_redirects(self):

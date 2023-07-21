@@ -130,3 +130,4 @@ LOGOUT_REDIRECT_URL = 'home'
 # The TRIAL_LIMIT should be one more than the actual trial limit,
 # so for 30, this should say 31
 TRIAL_LIMIT = 2
+TRIAL_LIMIT_BIG = 2

@@ -46,6 +46,8 @@ from .dummy_memory_game import (
 )
 
 from config.settings import TRIAL_LIMIT
+from django.conf import settings
+
 
 display_trial_limit = TRIAL_LIMIT - 1
 four_by_four_setting_list = ["very_hard", "medium", "very_easy"]
@@ -1162,20 +1164,22 @@ def door_result_page(request, username):
 
 def final_door_result_page(request, username):
     # find the trials by this user
-    #print('final_door_result_page called')
+    print('final_door_result_page called')
     trial_existing_objects = Trial.objects.filter(
         user=request.user
     )
     trial_existing = trial_existing_objects.last()
     trial_number = trial_existing.number_of_trial
-    #print(f'trial_number: {trial_number}')
-    #print(f'trial_limit: {TRIAL_LIMIT}')
-    if trial_number >= TRIAL_LIMIT - 1:
-        #print('trial number condition satisfied, redirecting to regret url')
+
+    print(f'trial_number: {trial_number}')
+    print(f'trial_limit: {settings.TRIAL_LIMIT_BIG}')
+
+    if trial_number >= settings.TRIAL_LIMIT_BIG - 1:
+        print('trial number condition satisfied, redirecting to regret url')
         return redirect('/regret')
     else:
-        #print('trial_number is less than trial limit')
-        pass
+        print('trial_number is less than trial limit')
+        return redirect('/remember_memory_game')
 
 
 
