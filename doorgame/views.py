@@ -1162,19 +1162,20 @@ def door_result_page(request, username):
 
 def final_door_result_page(request, username):
     # find the trials by this user
-    print('final_door_result_page called')
+    #print('final_door_result_page called')
     trial_existing_objects = Trial.objects.filter(
         user=request.user
     )
     trial_existing = trial_existing_objects.last()
     trial_number = trial_existing.number_of_trial
-    print(f'trial_number: {trial_number}')
-    print(f'trial_limit: {TRIAL_LIMIT}')
+    #print(f'trial_number: {trial_number}')
+    #print(f'trial_limit: {TRIAL_LIMIT}')
     if trial_number >= TRIAL_LIMIT - 1:
-        print('trial number condition satisfied, redirecting to regret url')
+        #print('trial number condition satisfied, redirecting to regret url')
         return redirect('/regret')
     else:
-        print('trial_number is less than trial limit')
+        #print('trial_number is less than trial limit')
+        pass
 
 
 
