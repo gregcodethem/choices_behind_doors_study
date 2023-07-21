@@ -418,6 +418,30 @@ class FullWalkThroughForTwoTrialsTest(BaseTest):
         # John choses to keep their door choice
         keep_door_link.click()
 
+        # As number of trials is set to two,
+        # John should see the grid for the choosing the dots
+
+        # John sees the grid from before
+
+        final_pattern_message = self.browser.find_element_by_id(
+            'final_pattern_message').text
+        self.assertIn(
+            'Can you remember the pattern from before?', final_pattern_message
+        )
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'div_box_1'))
+        )
+        # John sees blank boxes that they can click
+        box_1 = self.browser.find_element_by_id('div_box_1')
+        box_2 = self.browser.find_element_by_id('div_box_2')
+        box_3 = self.browser.find_element_by_id('div_box_3')
+
+        box_1.click()
+        box_2.click()
+        box_3.click()
+
+
+
         # When John has done the process the required number
         # of times, he then sees a regret page
         # John sees a regret page:
