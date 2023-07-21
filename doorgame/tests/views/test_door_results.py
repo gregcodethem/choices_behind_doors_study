@@ -4,8 +4,6 @@ from django.urls import resolve
 from django.http import HttpRequest
 from django.contrib.auth.models import User
 from django.test import override_settings
-from django.contrib.auth import get_user_model
-from django.conf import settings
 
 from doorgame.views import final_door_result_page
 from doorgame.models import (
@@ -13,47 +11,46 @@ from doorgame.models import (
     Trial,
     Result,
 )
-from .base import BaseTest
+
 from .test_door_result_one import DoorResultPageTest
 
 
 class FinalDoorResultPageTest(DoorResultPageTest):
+
+    def setUp(self):
+        super().setUp()
+        self.login_temp()
+        self.user = User.objects.get(username='temporary')
+        # An associated trial also needs to be created
+        self.trial = Trial()
+        self.trial.user = self.user
+        self.trial.number_of_trial = 1
+        self.trial.save()
+
+        # The result of the door game, needs to be fed into
+        # this view, so an instance of this needs to be created here
+        self.result = Result()
+        self.result.trial = self.trial
+        self.result.door_number = 1
+        self.result.save()
+
+    def create_choice(self, door_number, first_or_second_choice):
+        choice = Choice()
+        choice.door_number = door_number
+        choice.first_or_second_choice = first_or_second_choice
+        choice.trial = self.trial
+        choice.save()
 
     def test_final_door_result_url_resolves_to_final_door_page_view(self):
         found = resolve('/user/temporary/final-door-result')
         self.assertEqual(found.func, final_door_result_page)
 
     def test_outcome_of_doorgame_returns_correct_html(self):
-        self.login_temp()
-        user = User.objects.get(username='temporary')
-        # An associated trial also needs to be created
-        # as this is usually created by the view:
-        # memory_game_initial_turn
-        trial = Trial()
-        trial.user = user
-        trial.number_of_trial = 1
-        trial.save()
-
-        # The result of the door game, needs to be fed into
-        # this view, so an instance of this needs to be created here
-        result = Result()
-        result.trial = trial
-        result.door_number = 1
-        result.save()
 
         # create a choice for this trial,
         # this shows the door choice they've made
-        choice_one = Choice()
-        choice_one.door_number = 1
-        choice_one.first_or_second_choice = 1
-        choice_one.trial = trial
-        choice_one.save()
-
-        choice_two = Choice()
-        choice_two.door_number = 1
-        choice_two.first_or_second_choice = 2
-        choice_two.trial = trial
-        choice_two.save()
+        self.create_choice(door_number=1,first_or_second_choice=1)
+        self.create_choice(door_number=1,first_or_second_choice=2)
 
         response = self.client.get('/outcome_of_doorgame', follow=True)
 
@@ -61,38 +58,13 @@ class FinalDoorResultPageTest(DoorResultPageTest):
         self.assertIn('The result of your final door choice', html)
 
 
-
     def test_outcome_of_doorgame_returns_correct_template(self):
-        self.login_temp()
-        user = User.objects.get(username='temporary')
-        # An associated trial also needs to be created
-        # as this is usually created by the view:
-        # memory_game_initial_turn
-        trial = Trial()
-        trial.user = user
-        trial.number_of_trial = 1
-        trial.save()
 
-        # The result of the door game, needs to be fed into
-        # this view, so an instance of this needs to be created here
-        result = Result()
-        result.trial = trial
-        result.door_number = 1
-        result.save()
 
         # create a choice for this trial,
         # this shows the door choice they've made
-        choice_one = Choice()
-        choice_one.door_number = 1
-        choice_one.first_or_second_choice = 1
-        choice_one.trial = trial
-        choice_one.save()
-
-        choice_two = Choice()
-        choice_two.door_number = 1
-        choice_two.first_or_second_choice = 2
-        choice_two.trial = trial
-        choice_two.save()
+        self.create_choice(door_number=1,first_or_second_choice=1)
+        self.create_choice(door_number=1,first_or_second_choice=2)
 
         response = self.client.get('/outcome_of_doorgame', follow=True)
 
@@ -102,78 +74,24 @@ class FinalDoorResultPageTest(DoorResultPageTest):
 
     def test_final_door_result_url_redirects_to_regret_page(self):
 
-        self.login_temp()
-        user = User.objects.get(username='temporary')
-        # An associated trial also needs to be created
-        # as this is usually created by the view:
-        # memory_game_initial_turn
-        trial = Trial()
-        trial.user = user
-        trial.number_of_trial = 1
-        trial.save()
-
-        # The result of the door game, needs to be fed into
-        # this view, so an instance of this needs to be created here
-        result = Result()
-        result.trial = trial
-        result.door_number = 1
-        result.save()
-
         # create a choice for this trial,
         # this shows the door choice they've made
-        choice_one = Choice()
-        choice_one.door_number = 1
-        choice_one.first_or_second_choice = 1
-        choice_one.trial = trial
-        choice_one.save()
+        self.create_choice(door_number=1,first_or_second_choice=1)
+        self.create_choice(door_number=1,first_or_second_choice=2)
 
-        choice_two = Choice()
-        choice_two.door_number = 1
-        choice_two.first_or_second_choice = 2
-        choice_two.trial = trial
-        choice_two.save()
-
-
-        self.assertEqual('temporary',user.username)
         response_client = self.client.get('/user/temporary/final-door-result', follow=True)
         self.assertTemplateUsed(response_client,'regret.html')
 
     @override_settings(TRIAL_LIMIT=5)
     def test_final_door_result_page_returns_box_grid_when_trial_limit_not_reached(self):
 
-        self.login_temp()
-        user = User.objects.get(username='temporary')
-        # An associated trial also needs to be created
-        # as this is usually created by the view:
-        # memory_game_initial_turn
-        trial = Trial()
-        trial.user = user
-        trial.number_of_trial = 1
-        trial.save()
-
-        # The result of the door game, needs to be fed into
-        # this view, so an instance of this needs to be created here
-        result = Result()
-        result.trial = trial
-        result.door_number = 1
-        result.save()
-
         # create a choice for this trial,
         # this shows the door choice they've made
-        choice_one = Choice()
-        choice_one.door_number = 1
-        choice_one.first_or_second_choice = 1
-        choice_one.trial = trial
-        choice_one.save()
-
-        choice_two = Choice()
-        choice_two.door_number = 1
-        choice_two.first_or_second_choice = 2
-        choice_two.trial = trial
-        choice_two.save()
-
+        self.create_choice(door_number=1,first_or_second_choice=1)
+        self.create_choice(door_number=1,first_or_second_choice=2)
 
         response_client = self.client.get('/user/temporary/final-door-result', follow=True)
+
         self.assertTemplateUsed(response_client,'mem_game_blank_base.html')
 
 
