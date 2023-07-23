@@ -1,7 +1,9 @@
 import time
+import os
 
 from django.test import LiveServerTestCase
 from django.contrib.auth.models import User
+from django.conf import settings
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -10,12 +12,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from doorgame.models import Profile
+from .server_tools import (
+    create_session_on_server,
+    reset_database
+)
+from .management.commands.create_session import create_pre_authenticated_session
+from .test_data import test_login_data
 
-test_login_data = {
-    "John": {"username": "johndoe", "password": "bigfisharetasty3"},
-    "Ozen": {"username": "ozen", "password": "Russia432"},
-    "Bob": {"username": "bob", "password": "bobbob123"},
-}
 
 # A helper function to get the profile for a specific username
 def get_profile_by_username(username):
@@ -49,6 +52,23 @@ class attribute_has_changed(object):
 
 class BaseTest(LiveServerTestCase):
 
+    def create_pre_authenticated_session(self, user_identifier, size):
+        if self.staging_server:
+            session_key = create_session_on_server(
+                self.staging_server,
+                user_identifier,
+                size
+            )
+        else:
+            session_key = create_pre_authenticated_session(user_identifier, size)
+        self.browser.get(self.live_server_url + '/404_no_such_url')
+        self.browser.add_cookie(
+            dict(
+                name=settings.SESSION_COOKIE_NAME,
+                value=session_key,
+                path='/',
+            )
+        )
     def create_user(
             self,
             user_identifier="John",
@@ -71,7 +91,17 @@ class BaseTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
+        self.staging_server = os.environ.get('STAGING_SERVER')
+        if self.staging_server:
+            self.live_server_url = 'http://' + self.staging_server
+            reset_database(self.staging_server)
+
         self.create_user()
+        print('setUp ran, now sleeping for 3 seconds')
+        print('users at end of setUp in base.py:')
+        print([user.username for user in User.objects.all()])
+        print('end of list')
+        time.sleep(3)
 
     def tearDown(self):
         self.browser.quit()

@@ -11,3 +11,4 @@ env_old
 .idea
 doorgame/migrations
 public
+env_host.py

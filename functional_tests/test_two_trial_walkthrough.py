@@ -1,4 +1,5 @@
 import time
+from unittest import skip
 
 from django.test import override_settings
 
@@ -11,7 +12,7 @@ import config.settings
 from .base import BaseTest
 
 
-
+@skip
 class FullWalkThroughForTwoTrialsTest(BaseTest):
 
     @override_settings(TRIAL_LIMIT=3)

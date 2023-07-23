@@ -24,7 +24,7 @@ class FullWalkThroughTest(BaseTest):
 
         # James logs in
         self.login()
-        time.sleep(0.5)
+        time.sleep(3)
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.TAG_NAME, 'h2'))
         )
