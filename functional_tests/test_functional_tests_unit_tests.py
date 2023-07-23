@@ -25,7 +25,7 @@ class FunctionalTestUnitTests(BaseTest):
         self.assertTrue(self.client.login(username='johndoe', password='bigfisharetasty3'))
 
 
-class FunctionalTestUnitTests(BaseTest):
+class FunctionalTestWithoutSetUpUnitTests(BaseTest):
 
 
     # Override setUp to pass without executing the setup in BaseTest

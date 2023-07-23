@@ -18,6 +18,7 @@ from .server_tools import (
 )
 from .management.commands.create_session import create_pre_authenticated_session
 from .test_data import test_login_data
+from env_host import USERNAME_ON_HOST
 
 
 # A helper function to get the profile for a specific username
@@ -90,18 +91,23 @@ class BaseTest(LiveServerTestCase):
 
 
     def setUp(self):
+        print('users at start of setUp in base.py:')
+        print([user.username for user in User.objects.all()])
+        print([user.password for user in User.objects.all()])
+        print('end of list')
         self.browser = webdriver.Firefox()
         self.staging_server = os.environ.get('STAGING_SERVER')
         if self.staging_server:
             self.live_server_url = 'http://' + self.staging_server
-            reset_database(self.staging_server)
+            reset_database(USERNAME_ON_HOST, self.staging_server)
 
         self.create_user()
         print('setUp ran, now sleeping for 3 seconds')
         print('users at end of setUp in base.py:')
         print([user.username for user in User.objects.all()])
+        print([user.password for user in User.objects.all()])
         print('end of list')
-        time.sleep(3)
+        time.sleep(1)
 
     def tearDown(self):
         self.browser.quit()

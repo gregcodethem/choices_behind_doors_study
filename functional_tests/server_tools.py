@@ -10,9 +10,11 @@ def _get_manage_dot_py(host):
     return f'~/{host}/env/bin/python ~/{host}/manage.py'
 
 def reset_database(username_on_host, host):
+    print("Starting to reset_database")
     manage_dot_py = _get_manage_dot_py(host)
     with settings(host_string=f'{username_on_host}@{host}'):
         run(f'{manage_dot_py} flush --noinput')
+    print("reset_database complete")
 
 def _get_server_env_vars(host):
     env_lines = run(f'cat ~/{host}/.env').splitlines()
