@@ -502,10 +502,10 @@ def memory_game_initial_turn(request):
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
 
     if very_hard_setting in four_by_four_setting_list:
-        home_page_string = 'home_four_by_four.html'
+        home_page_string = 'memory_game/home_four_by_four.html'
         MemoryGameToSave = MemoryGameHigh
     else:
-        home_page_string = 'home.html'
+        home_page_string = 'memory_game/home.html'
         MemoryGameToSave = MemoryGame
 
     if len(memory_game_list) != 0:
@@ -564,10 +564,10 @@ def memory_game_start(request, trial_completed):
     memory_game.save()
 
     if very_hard_setting in four_by_four_setting_list:
-        home_page_string = 'home_four_by_four.html'
+        home_page_string = 'memory_game/home_four_by_four.html'
 
     else:
-        home_page_string = 'home.html'
+        home_page_string = 'memory_game/home.html'
 
     return render(request, home_page_string, {
         "username": username_logged_in,
@@ -697,7 +697,7 @@ def home_page_memory_game(request, username):
         }
                       )
 
-    return render(request, 'home.html', {
+    return render(request, 'memory_game/home.html', {
         "username": username_logged_in,
         "number_of_trial": number_of_trial,
         "memory_game": memory_game,
@@ -1058,13 +1058,13 @@ def prelim_three_part_b_feedback_second_go(request):
 
 
 def prelim_four(request):
-    return render(request, 'prelim_four.html',
+    return render(request, 'prelim/prelim_four.html',
                   {'display_trial_limit': display_trial_limit
                    })
 
 
 def prelim_five(request):
-    return render(request, 'prelim_five.html')
+    return render(request, 'prelim/prelim_five.html')
 
 
 @login_required(login_url='accounts/login')

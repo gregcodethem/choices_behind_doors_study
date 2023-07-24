@@ -89,7 +89,7 @@ class FinalDoorResultPageTest(DoorResultPageTest):
 
         response_client = self.client.get('/user/temporary/final-door-result', follow=True)
 
-        self.assertTemplateUsed(response_client,'mem_game_blank_base.html')
+        self.assertTemplateUsed(response_client,'memory_game/mem_game_blank_base.html')
 
 
 class ChooseFinalDoorTest(DoorResultPageTest):

@@ -27,7 +27,7 @@ class PrelimFiveTest(BaseTest):
         self.login_temp()
 
         response = self.client.get('/prelim_five', follow=True)
-        self.assertTemplateUsed(response, 'prelim_five.html')
+        self.assertTemplateUsed(response, 'prelim/prelim_five.html')
 
     def test_prelim_five_returns_continue_message(self):
         self.login_temp()

@@ -45,7 +45,7 @@ class MemoryGameInitialTurnTest(BaseTest):
 
         response = self.client.get('/memory_game_initial_turn', follow=True)
 
-        self.assertTemplateUsed(response, 'home.html')
+        self.assertTemplateUsed(response, 'memory_game/home.html')
 
 class MemoryGameFinalPatternTest(DoorResultPageTest):
 
