@@ -117,15 +117,19 @@ class BaseTest(LiveServerTestCase):
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.ID, 'id_username'))
         )
-        username_input_box = self.browser.find_element_by_id(
-            'id_username')
+        username_input_box = self.browser.find_element(
+            By.ID,
+            'id_username'
+        )
         user_login_info = test_login_data[user_identifier]
         username = user_login_info["username"]
         password = user_login_info["password"]
         username_input_box.send_keys(
             username)
-        password_input_box = self.browser.find_element_by_id(
-            'id_password')
+        password_input_box = self.browser.find_element(
+            By.ID,
+            'id_password'
+        )
         password_input_box.send_keys(password)
 
         # click Login
@@ -175,10 +179,10 @@ class BaseTest(LiveServerTestCase):
 
 
     def user_clicks_through_memory_game(self):
-        memory_title = self.browser.find_element_by_tag_name('h2').text
+        memory_title = self.browser.find_element(By.TAG_NAME,'h2').text
 
         # user can go to door game
-        go_to_door_game = self.browser.find_element_by_id('go_to_door_game')
+        go_to_door_game = self.browser.find_element(By.ID, 'go_to_door_game')
         go_to_door_game.click()
         time.sleep(1)
 
@@ -189,7 +193,7 @@ class BaseTest(LiveServerTestCase):
             EC.presence_of_element_located((By.ID, door_number))
         )
 
-        door_to_choose = self.browser.find_element_by_id(door_number)
+        door_to_choose = self.browser.find_element(By.ID, door_number)
         # user clicks on door1
         door_to_choose.click()
 
