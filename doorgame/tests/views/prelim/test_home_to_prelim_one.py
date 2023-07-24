@@ -45,7 +45,7 @@ class SimpleTestFirstPageLoggedIn(BaseTest):
     def test_home_page_returns_correct_template(self):
         self.login_temp()
         response = self.client.get('/user', follow=True)
-        self.assertTemplateUsed(response, 'terms_and_conditions.html')
+        self.assertTemplateUsed(response, 'prelim/terms_and_conditions.html')
 
     def test_redirect_user_url(self):
         # Make a request that results in a redirect
@@ -79,7 +79,7 @@ class SimpleTestSecondPage(BaseTest):
     def test_consent_questions_returns_correct_template(self):
         self.login_temp()
         response = self.client.get('/consent_questions', follow=True)
-        self.assertTemplateUsed(response, 'consent_questions.html')
+        self.assertTemplateUsed(response, 'prelim/consent_questions.html')
 
 
 class PrelimOneTest(BaseTest):
@@ -98,7 +98,7 @@ class PrelimOneTest(BaseTest):
     def test_prelim_one_returns_prelim_one_template(self):
         self.login_temp()
         response = self.client.get('/prelim_one', follow=True)
-        self.assertTemplateUsed(response, 'prelim_one.html')
+        self.assertTemplateUsed(response, 'prelim/prelim_one.html')
 
 
 class PrelimOnePartBTest(BaseTest):
@@ -117,4 +117,4 @@ class PrelimOnePartBTest(BaseTest):
     def test_prelim_one_part_b_returns_prelim_one_part_b_template(self):
         self.login_temp()
         response = self.client.get('/prelim_one_part_b', follow=True)
-        self.assertTemplateUsed(response, 'prelim_one_part_b.html')
+        self.assertTemplateUsed(response, 'prelim/prelim_one_part_b.html')

@@ -690,12 +690,12 @@ def home_page_memory_game(request, username):
 
 
     if number_of_trial == 0 or prelim_completed_bool == False:
-        return render(request, 'terms_and_conditions.html', {
+        return render(request, 'prelim/terms_and_conditions.html', {
             "username": username_logged_in,
             "number_of_trial": number_of_trial,
             "memory_game": memory_game,
         }
-        )
+                      )
 
     return render(request, 'home.html', {
         "username": username_logged_in,
@@ -706,17 +706,17 @@ def home_page_memory_game(request, username):
 
 @login_required(login_url='accounts/login')
 def consent_questions(request):
-    return render(request, 'consent_questions.html')
+    return render(request, 'prelim/consent_questions.html')
 
 
 @login_required(login_url='accounts/login')
 def prelim_one(request):
-    return render(request, 'prelim_one.html')
+    return render(request, 'prelim/prelim_one.html')
 
 
 @login_required(login_url='accounts/login')
 def prelim_one_part_b(request):
-    return render(request, 'prelim_one_part_b.html')
+    return render(request, 'prelim/prelim_one_part_b.html')
 
 
 @login_required(login_url='accounts/login')
@@ -728,7 +728,7 @@ def prelim_two(request):
     if easy_setting:
         MemoryGamePrelim = MemoryGamePrelimClassNineByNine(1, easy_setting)
 
-        return render(request, 'prelim_two.html', {
+        return render(request, 'prelim_memory_game/prelim_two.html', {
             "memory_game": MemoryGamePrelim,
             "first_go": True
         })
@@ -736,14 +736,14 @@ def prelim_two(request):
     elif very_hard_setting:
         MemoryGamePrelim = MemoryGamePrelimClass(1, very_hard_setting)
 
-        return render(request, 'prelim_two_four_by_four.html', {
+        return render(request, 'prelim_memory_game/prelim_two_four_by_four.html', {
             "memory_game": MemoryGamePrelim,
             "first_go": True
         })
 
     else:
         print("Setting not assigned or other problem with setting!")
-        return render(request, 'prelim_two.html')
+        return render(request, 'prelim_memory_game/prelim_two.html')
 
 @login_required(login_url='accounts/login')
 def prelim_two_second_go(request):
@@ -778,11 +778,11 @@ def prelim_two_second_go(request):
     else:
         if very_hard_setting:
             MemoryGamePrelim = MemoryGamePrelimClass(2, very_hard_setting)
-        return render(request, 'prelim_two_four_by_four.html', {
+        return render(request, 'prelim_memory_game/prelim_two_four_by_four.html', {
             "memory_game": MemoryGamePrelim,
             "first_go": False
         })
-    return render(request, 'prelim_two.html', {
+    return render(request, 'prelim_memory_game/prelim_two.html', {
         "memory_game": MemoryGamePrelim,
         "first_go": False
     })
@@ -796,7 +796,7 @@ def prelim_three(request):
 
     # if 4 by 4
     if very_hard_setting in four_by_four_setting_list:
-        return render(request, 'prelim_three_four_by_four.html',
+        return render(request, 'prelim_memory_game/prelim_three_four_by_four.html',
                       {'repeat_example': True,
                        'third_row_number_list': third_row_number_list,
                        'fourth_row_number_list': fourth_row_number_list,
@@ -806,7 +806,7 @@ def prelim_three(request):
     # if 3 by 3:
     #print("This should be a 3 by 3 and will now return"
     #      "the prelim_three.html with the repeat_example variable set to True")
-    return render(request, 'prelim_three.html',
+    return render(request, 'prelim_memory_game/prelim_three.html',
                   {'repeat_example': True
                    })
 
@@ -819,9 +819,9 @@ def prelim_three_part_b_feedback(request):
 
     # designate correct template
     if very_hard_setting in four_by_four_setting_list:
-        feedback_template = 'prelim_three_part_b_feedback_four_by_four.html'
+        feedback_template = 'prelim_memory_game/prelim_three_part_b_feedback_four_by_four.html'
     else:
-        feedback_template = 'prelim_three_part_b_feedback.html'
+        feedback_template = 'prelim_memory_game/prelim_three_part_b_feedback.html'
 
     if request.method == 'POST':
         if very_hard_setting in four_by_four_setting_list:
@@ -931,14 +931,14 @@ def prelim_three_second_go(request):
     user_logged_in = request.user
     very_hard_setting = user_logged_in.profile.low_medium_or_high_dots_setting
     if very_hard_setting in four_by_four_setting_list:
-        return render(request, 'prelim_three_four_by_four.html',
+        return render(request, 'prelim_memory_game/prelim_three_four_by_four.html',
                       {'repeat_example': False,
                        'third_row_number_list': third_row_number_list,
                        'fourth_row_number_list': fourth_row_number_list,
                        'all_number_row_list': all_number_row_list,
                        }
                       )
-    return render(request, 'prelim_three.html',
+    return render(request, 'prelim_memory_game/prelim_three.html',
                   {'repeat_example': False
                    })
 
@@ -951,9 +951,9 @@ def prelim_three_part_b_feedback_second_go(request):
 
     # designate correct template
     if very_hard_setting in four_by_four_setting_list:
-        feedback_template = 'prelim_three_part_b_feedback_four_by_four.html'
+        feedback_template = 'prelim_memory_game/prelim_three_part_b_feedback_four_by_four.html'
     else:
-        feedback_template = 'prelim_three_part_b_feedback.html'
+        feedback_template = 'prelim_memory_game/prelim_three_part_b_feedback.html'
 
     if request.method == 'POST':
         if very_hard_setting in four_by_four_setting_list:

@@ -26,7 +26,7 @@ class PrelimTwoTest(BaseTest):
         self.login_temp()
 
         response = self.client.get('/prelim_two', follow=True)
-        self.assertTemplateUsed(response, 'prelim_two.html')
+        self.assertTemplateUsed(response, 'prelim_memory_game/prelim_two.html')
 
 
     def test_prelim_two_returns_dot_in_grid(self):
@@ -69,7 +69,7 @@ class PrelimTwoFourByFourTest(BaseTest):
         self.set_to_four_by_four()
 
         response = self.client.get('/prelim_two', follow=True)
-        self.assertTemplateUsed(response, 'prelim_two_four_by_four.html')
+        self.assertTemplateUsed(response, 'prelim_memory_game/prelim_two_four_by_four.html')
 
     def test_prelim_two_four_by_four_returns_dot_in_grid(self):
         self.login_temp()
