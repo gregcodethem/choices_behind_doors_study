@@ -24,7 +24,7 @@ class VisitorClicksThroughFirstPages(BaseTest):
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.TAG_NAME, 'h2'))
         )
-        login_title = self.browser.find_element_by_tag_name(
+        login_title = self.browser.find_element(By.TAG_NAME,
             'h2').text
         self.assertIn('Login', login_title)
 
@@ -36,32 +36,32 @@ class VisitorClicksThroughFirstPages(BaseTest):
         )
 
         # Sees first page: participant information sheet
-        page_one_title = self.browser.find_element_by_tag_name(
+        page_one_title = self.browser.find_element(By.TAG_NAME,
             'h2').text
         self.assertIn("Participant Information Sheet", page_one_title)
 
         # Sees continue to next page at bottom
-        continue_message = self.browser.find_element_by_id(
+        continue_message = self.browser.find_element(By.ID,
             'go_to_consent_questions').text
         self.assertIn("Continue to next page", continue_message)
 
         # James clicks continue and sees second page:
-        continue_link = self.browser.find_element_by_id(
+        continue_link = self.browser.find_element(By.ID,
             'go_to_consent_questions')
         continue_link.click()
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.TAG_NAME, 'h2'))
         )
 
-        consent_form_title = self.browser.find_element_by_tag_name('h2').text
+        consent_form_title = self.browser.find_element(By.TAG_NAME,'h2').text
         self.assertIn("CONSENT FORM", consent_form_title)
 
         # User clicks that they consent to the terms
-        consent_link_text = self.browser.find_element_by_id(
+        consent_link_text = self.browser.find_element(By.ID,
             'go_to_prelim_one'
         ).text
         self.assertIn("I consent", consent_link_text)
-        consent_link = self.browser.find_element_by_id(
+        consent_link = self.browser.find_element(By.ID,
             'go_to_prelim_one'
         )
         consent_link.click()
@@ -70,31 +70,31 @@ class VisitorClicksThroughFirstPages(BaseTest):
         )
 
         # James sees the third page with a welcome message
-        welcome_message = self.browser.find_element_by_tag_name('p').text
+        welcome_message = self.browser.find_element(By.TAG_NAME,'p').text
         self.assertIn("Welcome to the Monty Hall Game", welcome_message)
 
         # James sees the continue message and clicks on it
-        continue_message_on_third_page = self.browser.find_element_by_id(
+        continue_message_on_third_page = self.browser.find_element(By.ID,
             "go_to_prelim_one_part_b"
         ).text
         self.assertIn("Continue", continue_message_on_third_page)
 
-        continue_link_on_third_page = self.browser.find_element_by_id(
+        continue_link_on_third_page = self.browser.find_element(By.ID,
             "go_to_prelim_one_part_b"
         )
         continue_link_on_third_page.click()
 
         # James sees the fourth page
-        first_line_on_fourth_page = self.browser.find_element_by_tag_name('p').text
+        first_line_on_fourth_page = self.browser.find_element(By.TAG_NAME,'p').text
         self.assertIn("You will now have", first_line_on_fourth_page)
 
         # James sees another continue message and clicks on it
-        continue_message_on_fourth_page = self.browser.find_element_by_id(
+        continue_message_on_fourth_page = self.browser.find_element(By.ID,
             "go_to_prelim_two"
         ).text
         self.assertIn("Continue", continue_message_on_third_page)
 
-        continue_link_on_fourth_page = self.browser.find_element_by_id(
+        continue_link_on_fourth_page = self.browser.find_element(By.ID,
             "go_to_prelim_two"
         )
         continue_link_on_fourth_page.click()
@@ -103,20 +103,20 @@ class VisitorClicksThroughFirstPages(BaseTest):
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'col-sm-1'))
         )
-        small_box_list = self.browser.find_elements_by_class_name(
+        small_box_list = self.browser.find_elements(By.CLASS_NAME,
             "col-sm-1"
         )
         number_of_small_boxes = len(small_box_list)
         self.assertEqual(number_of_small_boxes,9)
 
         # In the 3 by 3 grid there should be 3 dots
-        dot_pics_with_dots = self.browser.find_elements_by_xpath('//img[@src="/static/doorgame/box_with_dot.png"]')
+        dot_pics_with_dots = self.browser.find_elements(By.XPATH, '//img[@src="/static/doorgame/box_with_dot.png"]')
         number_of_dots = len(dot_pics_with_dots)
         self.assertEqual(number_of_dots,3)
 
         # James cannot see a message displayed saying: "Can you remember the pattern from before?"
         try:
-            remember_pattern_message = self.browser.find_element_by_id(
+            remember_pattern_message = self.browser.find_element(By.ID,
             "final_pattern_message"
         )
             remember_pattern_message_present = True
@@ -134,7 +134,7 @@ class VisitorClicksThroughFirstPages(BaseTest):
         )
         time.sleep(3)
         # Above the grid should be a message
-        remember_pattern_message_actual = self.browser.find_element_by_id(
+        remember_pattern_message_actual = self.browser.find_element(By.ID,
             "final_pattern_message"
         ).text
         self.assertIn(
@@ -142,8 +142,8 @@ class VisitorClicksThroughFirstPages(BaseTest):
             remember_pattern_message_actual
         )
         # James clicks on some boxes
-        box_1 = self.browser.find_element_by_id('div_box_1')
-        box_2 = self.browser.find_element_by_id('div_box_2')
+        box_1 = self.browser.find_element(By.ID,'div_box_1')
+        box_2 = self.browser.find_element(By.ID,'div_box_2')
 
         box_1.click()
         box_2.click()
@@ -151,7 +151,7 @@ class VisitorClicksThroughFirstPages(BaseTest):
         # James should see a message asking them to
         # continue to the next page
         time.sleep(2)
-        link_to_feedback_first_go = self.browser.find_element_by_id(
+        link_to_feedback_first_go = self.browser.find_element(By.ID,
             "play_again_link"
         )
 
@@ -165,17 +165,17 @@ class VisitorClicksThroughFirstPages(BaseTest):
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.ID, 'feedback_text'))
         )
-        feedback_text_message = self.browser.find_element_by_id(
+        feedback_text_message = self.browser.find_element(By.ID,
             'feedback_text'
         ).text
 
         self.assertIn('This is what you chose:', feedback_text_message)
 
         # James should also see two nine by nine grids
-        dot_pics_with_dots = self.browser.find_elements_by_xpath(
+        dot_pics_with_dots = self.browser.find_elements(By.XPATH,
             '//img[@src="/static/doorgame/box_with_dot.png"]'
         )
-        dot_pics_with_blanks = self.browser.find_elements_by_xpath(
+        dot_pics_with_blanks = self.browser.find_elements(By.XPATH,
             '//img[@src="/static/doorgame/box_empty.png"]'
         )
         number_of_pics_with_dots = len(dot_pics_with_dots)
@@ -184,13 +184,13 @@ class VisitorClicksThroughFirstPages(BaseTest):
         self.assertEqual(number_of_small_boxes, 18)
 
         # James should see a continue message
-        continue_message_on_feedback_page = self.browser.find_element_by_id(
+        continue_message_on_feedback_page = self.browser.find_element(By.ID,
             "go_to_prelim_two_again"
         ).text
         self.assertIn("Continue", continue_message_on_feedback_page)
 
         # James clicks on the continue message link
-        continue_link_on_feedback_page = self.browser.find_element_by_id(
+        continue_link_on_feedback_page = self.browser.find_element(By.ID,
             "go_to_prelim_two_again"
         )
         continue_link_on_feedback_page.click()
@@ -200,20 +200,21 @@ class VisitorClicksThroughFirstPages(BaseTest):
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'col-sm-1'))
         )
-        small_box_list = self.browser.find_elements_by_class_name(
+        small_box_list = self.browser.find_elements(
+            By.CLASS_NAME,
             "col-sm-1"
         )
         number_of_small_boxes = len(small_box_list)
         self.assertEqual(number_of_small_boxes,9)
 
         # In the 3 by 3 grid there should be 3 dots
-        dot_pics_with_dots = self.browser.find_elements_by_xpath('//img[@src="/static/doorgame/box_with_dot.png"]')
+        dot_pics_with_dots = self.browser.find_elements(By.XPATH,'//img[@src="/static/doorgame/box_with_dot.png"]')
         number_of_dots = len(dot_pics_with_dots)
         self.assertEqual(number_of_dots,3)
 
         # James again cannot see a message displayed saying: "Can you remember the pattern from before?"
         try:
-            remember_pattern_message = self.browser.find_element_by_id(
+            remember_pattern_message = self.browser.find_element(By.ID,
                 "final_pattern_message"
             )
             remember_pattern_message_present = True
@@ -231,7 +232,7 @@ class VisitorClicksThroughFirstPages(BaseTest):
         )
         time.sleep(2)
         # Above the grid should be a message
-        remember_pattern_message_actual = self.browser.find_element_by_id(
+        remember_pattern_message_actual = self.browser.find_element(By.ID,
             "final_pattern_message"
         ).text
         self.assertIn(
@@ -242,7 +243,7 @@ class VisitorClicksThroughFirstPages(BaseTest):
         # James should see a message asking them to
         # continue to the next page
         time.sleep(2)
-        link_to_feedback_second_go = self.browser.find_element_by_id(
+        link_to_feedback_second_go = self.browser.find_element(By.ID,
             "play_again_link"
         )
 
@@ -256,17 +257,17 @@ class VisitorClicksThroughFirstPages(BaseTest):
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.ID, 'feedback_text'))
         )
-        feedback_text_message = self.browser.find_element_by_id(
+        feedback_text_message = self.browser.find_element(By.ID,
             'feedback_text'
         ).text
 
         self.assertIn('This is what you chose:', feedback_text_message)
 
         # James should also see two nine by nine grids
-        dot_pics_with_dots = self.browser.find_elements_by_xpath(
+        dot_pics_with_dots = self.browser.find_elements(By.XPATH,
             '//img[@src="/static/doorgame/box_with_dot.png"]'
         )
-        dot_pics_with_blanks = self.browser.find_elements_by_xpath(
+        dot_pics_with_blanks = self.browser.find_elements(By.XPATH,
             '//img[@src="/static/doorgame/box_empty.png"]'
         )
         number_of_pics_with_dots = len(dot_pics_with_dots)
@@ -275,13 +276,13 @@ class VisitorClicksThroughFirstPages(BaseTest):
         self.assertEqual(number_of_small_boxes, 18)
 
         # James should see a continue message
-        continue_message_on_feedback_page = self.browser.find_element_by_id(
+        continue_message_on_feedback_page = self.browser.find_element(By.ID,
             "go_to_prelim_four"
         ).text
         self.assertIn("Continue", continue_message_on_feedback_page)
 
         # James clicks on the continue message link
-        continue_link_on_feedback_page = self.browser.find_element_by_id(
+        continue_link_on_feedback_page = self.browser.find_element(By.ID,
             "go_to_prelim_four"
         )
         continue_link_on_feedback_page.click()
@@ -292,18 +293,18 @@ class VisitorClicksThroughFirstPages(BaseTest):
             EC.presence_of_element_located((By.TAG_NAME, 'h2'))
         )
 
-        well_done_message = self.browser.find_element_by_tag_name('h2').text
+        well_done_message = self.browser.find_element(By.TAG_NAME,'h2').text
         self.assertIn("Well done", well_done_message)
 
 
         # James sees a continue message
-        continue_message_on_prelim_four = self.browser.find_element_by_id(
+        continue_message_on_prelim_four = self.browser.find_element(By.ID,
             "go_to_prelim_five"
         ).text
         self.assertIn("Continue", continue_message_on_prelim_four)
 
         # James clicks on link
-        continue_link_on_prelim_four = self.browser.find_element_by_id(
+        continue_link_on_prelim_four = self.browser.find_element(By.ID,
             "go_to_prelim_five"
         )
         continue_link_on_prelim_four.click()
@@ -313,17 +314,17 @@ class VisitorClicksThroughFirstPages(BaseTest):
             EC.presence_of_element_located((By.TAG_NAME, 'h2'))
         )
 
-        example_monty_hall_title = self.browser.find_element_by_tag_name('h2').text
+        example_monty_hall_title = self.browser.find_element(By.TAG_NAME,'h2').text
         self.assertIn("Example Monty Hall", example_monty_hall_title)
 
         # James sees a continue message
-        continue_message_on_prelim_five = self.browser.find_element_by_id(
+        continue_message_on_prelim_five = self.browser.find_element(By.ID,
             "go_to_memory_game_initial_turn"
         ).text
         self.assertIn("Let's play the game", continue_message_on_prelim_five)
 
         # James clicks on link
-        continue_link_on_prelim_five = self.browser.find_element_by_id(
+        continue_link_on_prelim_five = self.browser.find_element(By.ID,
             "go_to_memory_game_initial_turn"
         )
         continue_link_on_prelim_five.click()
@@ -336,20 +337,21 @@ class VisitorClicksThroughFirstPages(BaseTest):
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'col-sm-1'))
         )
-        small_box_list = self.browser.find_elements_by_class_name(
+        small_box_list = self.browser.find_elements(
+            By.CLASS_NAME,
             "col-sm-1"
         )
         number_of_small_boxes = len(small_box_list)
         self.assertEqual(number_of_small_boxes, 9)
 
         # In the 3 by 3 grid there should be 3 dots
-        dot_pics_with_dots = self.browser.find_elements_by_xpath('//img[@src="/static/doorgame/box_with_dot.png"]')
+        dot_pics_with_dots = self.browser.find_elements(By.XPATH,'//img[@src="/static/doorgame/box_with_dot.png"]')
         number_of_dots = len(dot_pics_with_dots)
         self.assertEqual(number_of_dots, 3)
 
         # James cannot see a message displayed saying: "Can you remember the pattern from before?"
         try:
-            remember_pattern_message = self.browser.find_element_by_id(
+            remember_pattern_message = self.browser.find_element(By.ID,
                 "Welcome to the door game"
             )
             remember_pattern_message_present = True
@@ -362,8 +364,8 @@ class VisitorClicksThroughFirstPages(BaseTest):
         )
 
         # user sees a box they can remember
-        box_1 = self.browser.find_element_by_id('box_1')
-        box_2 = self.browser.find_element_by_id('box_2')
+        box_1 = self.browser.find_element(By.ID,'box_1')
+        box_2 = self.browser.find_element(By.ID,'box_2')
 
         # James is automatically redirected to the door game
         time.sleep(2)
@@ -372,7 +374,7 @@ class VisitorClicksThroughFirstPages(BaseTest):
             EC.presence_of_element_located((By.TAG_NAME, 'h2'))
         )
         # see text welcome page
-        game_title = self.browser.find_element_by_tag_name('h2').text
+        game_title = self.browser.find_element(By.TAG_NAME,'h2').text
         self.assertIn('Welcome to the door game', game_title)
 
 
