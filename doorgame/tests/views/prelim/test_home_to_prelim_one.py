@@ -1,23 +1,11 @@
-from unittest import skip
-
 from django.urls import resolve
-from django.test import Client
-from django.http import HttpRequest
 
 from doorgame.views import (
-    home_page,
     home_page_user,
-    home_page_user_unique,
     consent_questions,
     prelim_one,
     prelim_one_part_b,
-    prelim_two,
-    prelim_three,
 )
-
-from doorgame.models import Choice, Trial, Result, MemoryGame, Profile
-from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
 
 from doorgame.tests.views.base import BaseTest
 
