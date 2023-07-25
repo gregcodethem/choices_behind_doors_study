@@ -239,7 +239,7 @@ def outcome_of_doorgame(request):
         else:
             door_three_bool = False
 
-        return render(request, 'final_door_result.html', {
+        return render(request, 'doorgame/final_door_result.html', {
             'final_door_chosen_number': str(final_chosen_number),
             'sucessfully_chose_right_door': sucessfully_chose_right_door,
             'door_one_bool': door_one_bool,
@@ -247,7 +247,7 @@ def outcome_of_doorgame(request):
             'door_three_bool': door_three_bool,
         })
     else:
-        return render(request, 'final_door_result.html')
+        return render(request, 'doorgame/final_door_result.html')
 
 
 @login_required(login_url='accounts/login')
@@ -1086,7 +1086,7 @@ def home_page_user_unique(request, username):
         return redirect('/user/' + username_logged_in + '/door-result')
 
     return render(request,
-                  'door_page_one.html', {
+                  'doorgame/door_page_one.html', {
                       "username": username_logged_in,
                   })
 
@@ -1149,7 +1149,7 @@ def door_result_page(request, username):
         else:
             door_three_bool = False
 
-        return render(request, 'door_result.html', {
+        return render(request, 'doorgame/door_result.html', {
             'door_chosen_number': str(choice.door_number),
             'door_to_remove_number': str(number_to_remove),
             'door_to_change_to_number': str(number_to_change_to),
@@ -1158,7 +1158,7 @@ def door_result_page(request, username):
             'door_three_bool': door_three_bool,
         })
     else:
-        return render(request, 'door_result.html',
+        return render(request, 'doorgame/door_result.html',
                       )
 
 

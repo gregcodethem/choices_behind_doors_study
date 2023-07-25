@@ -16,7 +16,7 @@ class DoorGameTest(BaseTest):
 
         response = self.client.get('/door_page_one', follow=True)
 
-        self.assertTemplateUsed(response, 'door_page_one.html')
+        self.assertTemplateUsed(response, 'doorgame/door_page_one.html')
 
 
 class ResultTest(BaseTest):

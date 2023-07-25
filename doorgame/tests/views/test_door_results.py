@@ -65,7 +65,7 @@ class FinalDoorResultPageTest(DoorResultPageTest):
 
         response = self.client.get('/outcome_of_doorgame', follow=True)
 
-        self.assertTemplateUsed(response,'final_door_result.html')
+        self.assertTemplateUsed(response,'doorgame/final_door_result.html')
 
 
 
