@@ -43,8 +43,9 @@ class DoorResultPageTest(BaseTest):
             choice.trial = trial
             choice.save()
 
+
     def test_door_result_url_resolves_to_door_page_view(self):
-        found = resolve('/user/temporary/door-result')
+        found = resolve('/doorgame/door_result')
         self.assertEqual(found.func, door_result_page)
 
     def test_door_result_view_returns_correct_html(self):
@@ -61,7 +62,7 @@ class DoorResultPageTest(BaseTest):
         request.method = 'GET'
         request.user = user
 
-        response = door_result_page(request, user.username)
+        response = door_result_page(request)
         html = response.content.decode('utf8')
 
         self.assertIn('The result of your door choice', html)
@@ -76,7 +77,7 @@ class DoorResultPageTest(BaseTest):
             choose_door_url_to_be_called=False
         )
 
-        response = self.client.get('/user/temporary/door-result', follow=True)
+        response = self.client.get('/doorgame/door_result', follow=True)
 
         html = response.content.decode('utf8')
         self.assertIn('The result of your door choice', html)
@@ -100,7 +101,7 @@ class DoorResultPageTest(BaseTest):
         request.method = 'GET'
         request.user = user
 
-        response_door_result_page = door_result_page(request, user.username)
+        response_door_result_page = door_result_page(request)
         html_door_result = response_door_result_page.content.decode('utf8')
 
         # Check that the door_goat image is displayed for
@@ -130,7 +131,7 @@ class DoorResultPageTest(BaseTest):
         request.method = 'GET'
         request.user = user
 
-        response_door_result = door_result_page(request, user.username)
+        response_door_result = door_result_page(request)
         html_door_result = response_door_result.content.decode('utf8')
 
         self.assertIn('alt="door 1 chosen"', html_door_result)
@@ -154,7 +155,7 @@ class DoorResultPageTest(BaseTest):
         request.method = 'GET'
         request.user = user
 
-        response_door_result = door_result_page(request, user.username)
+        response_door_result = door_result_page(request)
         html_door_result = response_door_result.content.decode('utf8')
 
         self.assertIn('alt="door 2 chosen"', html_door_result)
@@ -177,7 +178,7 @@ class DoorResultPageTest(BaseTest):
         request.method = 'GET'
         request.user = user
 
-        response_door_result = door_result_page(request, user.username)
+        response_door_result = door_result_page(request)
         html_door_result = response_door_result.content.decode('utf8')
 
         self.assertIn('alt="door 3 chosen"', html_door_result)

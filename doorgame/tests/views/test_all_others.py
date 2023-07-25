@@ -94,7 +94,7 @@ class DoorToChooseTest(BaseTest):
             '/choose_door', {'door_chosen': 1}
         )
 
-        self.assertRedirects(response, reverse('door_result_page',kwargs={'username': 'temporary'}))
+        self.assertRedirects(response, reverse('door_result_page'))
 
     def test_saves_user_in_post_request(self):
         self.login_temp()
@@ -124,7 +124,7 @@ class DoorToChooseTest(BaseTest):
         )
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/user/temporary/door-result')
+        self.assertEqual(response['location'], '/doorgame/door_result')
 
     def test_only_saves_door_choices_when_necessary(self):
         self.client.get('/')

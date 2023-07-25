@@ -128,13 +128,13 @@ class TwoUsersUseSimultaneously(BaseTest):
 
         self.client.login(username='Acho', password='tu_ajedrez')
         response_one = self.client.post(
-            '/user/Acho/door-result', {'door_chosen': 4}
+            '/doorgame/door_result', {'door_chosen': 4}
         )
         self.client.login(username='Darren',
                           password='just_a_sea_between_us'
                           )
         response_two = self.client.post(
-            '/user/Darren/door-result', {'door_chosen': 5}
+            '/doorgame/door_result', {'door_chosen': 5}
         )
 
         # check has saved 2 choices for each user

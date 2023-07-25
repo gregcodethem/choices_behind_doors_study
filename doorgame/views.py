@@ -411,7 +411,7 @@ def choose_door(request):
         result.trial = trial_existing
         result.save()
 
-        return redirect('/user/' + username_logged_in + '/door-result')
+        return redirect('/doorgame/door_result')
     else:
         pass
 
@@ -1092,7 +1092,7 @@ def home_page_user_unique(request, username):
 
 
 @login_required(login_url='accounts/login')
-def door_result_page(request, username):
+def door_result_page(request):
     if request.method == "POST":
         user_logged_in = request.user
         username_logged_in = user_logged_in.username

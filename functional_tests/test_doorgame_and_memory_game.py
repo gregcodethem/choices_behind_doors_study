@@ -171,6 +171,26 @@ class DifferentChoiceTest(BaseTest):
             image_door_one_result_page,
             red_door_url
         )
+        # The other doors are not red:
+        try:
+            door_two_result_page_first_person = self.browser.find_element(By.ID, 'door2')
+        except NoSuchElementException:
+            door_two_result_page_first_person = self.browser.find_element(By.ID, 'open_door_goat2')
+
+        image_door_two_result_page_first_person = door_two_result_page_first_person.get_attribute('src')
+        self.assertNotEqual(
+            image_door_two_result_page_first_person,
+            red_door_url
+        )
+        try:
+            door_three_result_page_first_person = self.browser.find_element(By.ID, 'door3')
+        except NoSuchElementException:
+            door_three_result_page_first_person = self.browser.find_element(By.ID, 'open_door_goat3')
+        image_door_three_result_page_first_person = door_three_result_page_first_person.get_attribute('src')
+        self.assertNotEqual(
+            image_door_two_result_page_first_person,
+            red_door_url
+        )
 
         # their door choice is saved
         # user logs out
@@ -204,6 +224,28 @@ class DifferentChoiceTest(BaseTest):
             image_door_two_result_page,
             red_door_url
         )
+
+        # The other doors are not red:
+        try:
+            door_one_result_page_second_person = self.browser.find_element(By.ID, 'door1')
+        except NoSuchElementException:
+            door_one_result_page_second_person = self.browser.find_element(By.ID, 'open_door_goat1')
+
+        image_door_one_result_page_second_person = door_one_result_page_second_person.get_attribute('src')
+        self.assertNotEqual(
+            image_door_one_result_page_second_person,
+            red_door_url
+        )
+        try:
+            door_three_result_page_second_person = self.browser.find_element(By.ID, 'door3')
+        except NoSuchElementException:
+            door_three_result_page_second_person = self.browser.find_element(By.ID, 'open_door_goat3')
+
+        image_door_three_result_page_second_person = door_three_result_page_second_person.get_attribute('src')
+        self.assertNotEqual(
+            image_door_three_result_page_second_person,
+            red_door_url
+        )
         # Ozen logs out
         self.logout()
 
@@ -232,41 +274,6 @@ class DifferentChoiceTest(BaseTest):
             red_door_url
         )
         # Bob logs out
-        self.logout()
-
-
-    def test_multiple_users_can_have_turns(self):
-        # John comes to site
-        self.user_goes_straight_to_first_door_game_via_memory_game()
-
-        # John notices that her account has a unique URL
-        john_game_url = self.browser.current_url
-        self.assertRegex(john_game_url, '/user/.+')
-
-        self.user_chooses_a_door("door1")
-        # their door choice is saved
-        # user logs out
-        self.logout()
-
-        self.browser.quit()
-        self.browser = webdriver.Firefox()
-
-        # Ozen visits the home page.
-        self.user_goes_straight_to_first_door_game_via_memory_game(
-            user_identifier="Ozen"
-        )
-        # Ozen gets her own unique URL
-        ozen_game_url = self.browser.current_url
-        self.assertRegex(ozen_game_url, '/user/.+')
-        self.assertNotEqual(ozen_game_url, john_game_url)
-
-        self.user_chooses_a_door("door2")
-        # this url is also has user as a prefix
-        ozen_result_url = self.browser.current_url
-        self.assertRegex(ozen_result_url, '/user/.+')
-
-        # their door choice is saved
-        # user logs out
         self.logout()
 
 

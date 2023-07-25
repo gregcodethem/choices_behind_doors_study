@@ -74,7 +74,8 @@ urlpatterns = [
     path('memory_game/memory_game_start/<trial_completed>', views.memory_game_start, name="memory_game_start"),
 
 
-    path('user/<username>/door-result', views.door_result_page, name='door_result_page'),
+    path('user/<username>/door-result', views.door_result_page, name='door_result_page_old'),
+    path('doorgame/door_result', views.door_result_page, name='door_result_page'),
     path('user/<username>/final-door-result', views.final_door_result_page, name='final_door_result_page'),
     path('regret', views.regret, name='regret'),
     path('regret_completed', views.regret_completed, name='regret_completed'),
