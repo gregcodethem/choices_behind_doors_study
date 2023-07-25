@@ -60,7 +60,7 @@ urlpatterns = [
     path('choose_door', views.choose_door, name='choose-door'),
     path('choose_final_door', views.choose_final_door, name='choose_final_door'),
     path('door_page_one', views.door_page_one, name="door-page-one"),
-    path('consent_questions',views.consent_questions, name="consent_questions"),
+    path('prelim/consent_questions',views.consent_questions, name="consent_questions"),
     path('prelim_one', views.prelim_one, name="prelim_one"),
     path('prelim_one_part_b',
         views.prelim_one_part_b,
@@ -91,7 +91,10 @@ urlpatterns = [
          ),
 
     path('user', views.home_page_user, name='home-user'),
-
+    path('prelim/terms_and_conditions',
+        views.terms_and_conditions,
+        name='terms_and_conditions'
+        ),
     path('user/<username>/',
          views.home_page_memory_game,
          name='home_user_memory_game'

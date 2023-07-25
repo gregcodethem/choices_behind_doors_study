@@ -17,11 +17,12 @@ class SimpleTestFirstPageLoggedIn(BaseTest):
         found = resolve('/user')
         self.assertEqual(found.func, home_page_user)
 
-    def test_user_page(self):
+
+    def test_user_url_redirects_to_terms_and_conditions_url(self):
         self.login_temp()
         response = self.client.get('/user', follow=True)
-        # print(response.content)
-        self.assertEqual(response.context['username'], 'temporary')
+        self.assertRedirects(response,'/prelim/terms_and_conditions')
+
 
     def test_home_page_user_sees_participation_information_sheet_first_page_on_login(self):
         self.login_temp()
@@ -46,7 +47,7 @@ class SimpleTestFirstPageLoggedIn(BaseTest):
             final_url, status_code = response.redirect_chain[-1]
 
             # Now you can perform assertions on the final_url
-            self.assertEqual(final_url, '/user/temporary/')
+            self.assertEqual(final_url, '/prelim/terms_and_conditions')
         else:
             self.fail('No redirect occurred')
 
@@ -54,19 +55,19 @@ class SimpleTestFirstPageLoggedIn(BaseTest):
 class SimpleTestSecondPage(BaseTest):
     def test_consent_questions_url_resolves_to_consent_questions_view(self):
         self.login_temp()
-        found = resolve('/consent_questions')
+        found = resolve('/prelim/consent_questions')
         self.assertEqual(found.func, consent_questions)
 
     def test_consent_questions_user_sees_consent_form(self):
         self.login_temp()
-        response = self.client.get('/consent_questions', follow=True)
+        response = self.client.get('/prelim/consent_questions', follow=True)
 
         html = response.content.decode('utf8')
         self.assertIn('CONSENT FORM', html)
 
     def test_consent_questions_returns_correct_template(self):
         self.login_temp()
-        response = self.client.get('/consent_questions', follow=True)
+        response = self.client.get('/prelim/consent_questions', follow=True)
         self.assertTemplateUsed(response, 'prelim/consent_questions.html')
 
 

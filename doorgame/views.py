@@ -314,14 +314,14 @@ def create_new_user(request):
 @login_required(login_url='accounts/login')
 def terms_and_conditions(request):
     username_logged_in = request.user.username
-
+    return render(request, 'prelim/terms_and_conditions.html')
 
 @login_required(login_url='accounts/login')
 def home_page_user(request):
     username_logged_in = request.user.username
     if username_logged_in:
-        return redirect('/user/' + username_logged_in)
-
+        #return redirect('/user/' + username_logged_in)
+        return redirect('/prelim/terms_and_conditions')
     else:
         new_user_username = generate_username()[0]
         new_user_password = generate_username()[0]
