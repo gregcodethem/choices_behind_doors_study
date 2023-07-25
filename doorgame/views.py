@@ -178,7 +178,7 @@ def final_pattern(request):
                 dots_selected_in_final_patttern += 1
 
         if dots_selected_in_final_patttern != number_of_dots_to_select:
-            remember_memory_game_page_string = 'remember_memory_game_four_by_four.html'
+            remember_memory_game_page_string = 'memory_game/remember_memory_game_four_by_four.html'
             
             if dots_selected_in_final_patttern < number_of_dots_to_select:
                 error_message_number_of_dots = f"There are not enough dots, there should be {str(number_of_dots_to_select)}"
@@ -1179,7 +1179,7 @@ def final_door_result_page(request, username):
         return redirect('/regret')
     else:
         print('trial_number is less than trial limit')
-        return redirect('/remember_memory_game')
+        return redirect('/memory_game/remember_memory_game')
 
 
 
@@ -1207,7 +1207,7 @@ def regret_completed(request):
     survey_answers.regret_value = regret_value
     survey_answers.save()
 
-    return redirect('/remember_memory_game')
+    return redirect('/memory_game/remember_memory_game')
 
 
 @login_required(login_url='accounts/login')

@@ -51,4 +51,4 @@ class PrelimFiveTest(BaseTest):
         )
         html = response.content.decode('utf8')
 
-        self.assertIn('href= /memory_game_initial_turn', html)
+        self.assertIn('href= /memory_game/memory_game_initial_turn', html)

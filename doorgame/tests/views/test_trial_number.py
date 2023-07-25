@@ -10,7 +10,7 @@ class TrialNumberTest(BaseTest):
 
     def test_home_page_gives_trial_number(self):
         self.login_temp()
-        response = self.client.get('/memory_game_initial_turn', follow=True)
+        response = self.client.get('/memory_game/memory_game_initial_turn', follow=True)
 
         html = response.content.decode('utf8')
         self.assertIn('Trial number 1', html)
@@ -39,7 +39,7 @@ class TrialNumberTest(BaseTest):
         first_trial.save()
 
         self.client.login(username='george', password='somethingpassword')
-        response = self.client.get('/memory_game_initial_turn', follow=True)
+        response = self.client.get('/memory_game/memory_game_initial_turn', follow=True)
 
         html = response.content.decode('utf8')
         self.assertIn('Trial number 2', html)
@@ -48,7 +48,7 @@ class TrialNumberTest(BaseTest):
         self.login_temp()
         user = User.objects.get(username='temporary')
         response = self.client.get(
-            '/memory_game_initial_turn',
+            '/memory_game/memory_game_initial_turn',
             )
         trials_list = Trial.objects.all() # <----refactor out!!!!!
         trial_created = Trial.objects.last()

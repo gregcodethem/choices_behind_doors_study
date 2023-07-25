@@ -32,7 +32,7 @@ class LayoutTest(BaseTest):
         # James has completed all the prelims and sees memory game
         # James sees countdown, then 3 by 3 grid
 
-        first_real_memory_game_url = self.live_server_url + '/memory_game_initial_turn'
+        first_real_memory_game_url = self.live_server_url + '/memory_game/memory_game_initial_turn'
 
         self.browser.get(first_real_memory_game_url)
         WebDriverWait(self.browser, 10).until(

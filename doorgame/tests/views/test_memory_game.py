@@ -20,7 +20,7 @@ class MemoryGameTest(BaseTest):
         user = User.objects.get(username='temporary')
 
         response = self.client.get(
-            '/memory_game_initial_turn',
+            '/memory_game/memory_game_initial_turn',
             )
 
         memory_game_list = MemoryGame.objects.all()
@@ -31,7 +31,7 @@ class MemoryGameTest(BaseTest):
         user = User.objects.get(username='temporary')
 
         response = self.client.get(
-            '/memory_game_initial_turn',
+            '/memory_game/memory_game_initial_turn',
         )
         memory_game_list = MemoryGame.objects.all()
         number_of_trials = TRIAL_LIMIT
@@ -43,7 +43,7 @@ class MemoryGameInitialTurnTest(BaseTest):
     def test_memory_game_initial_turn_returns_home_template(self):
         self.login_temp()
 
-        response = self.client.get('/memory_game_initial_turn', follow=True)
+        response = self.client.get('/memory_game/memory_game_initial_turn', follow=True)
 
         self.assertTemplateUsed(response, 'memory_game/home.html')
 
