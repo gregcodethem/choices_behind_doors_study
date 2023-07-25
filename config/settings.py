@@ -25,8 +25,14 @@ SECRET_KEY = 'q2a!02@(g(#*o9u3*lby5n8dt!$q+h)14c4l(tm$z3i=q-cul4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.study.medialucida.co.uk', 'study.medialucida.co.uk',
-'127.0.0.1', 'localhost']
+ALLOWED_HOSTS = [
+    '.study.medialucida.co.uk',
+    'study.medialucida.co.uk',
+    '127.0.0.1',
+    'localhost',
+    'doorgame.medialucida.co.uk',
+    '.doorgame.medialucida.co.uk'
+]
 
 
 # Application definition
