@@ -62,7 +62,7 @@ def site_maintenance(request):
     return HttpResponse('<html><title>Site under maintenance</title><h1>Site under maintenance, we will be back online soon</h1></html>')
 
 def final_completion(request):
-    return render(request, 'final_completion.html')
+    return render(request, 'post_game/final_completion.html')
 
 
 def home_page(request, user=None):
@@ -1214,7 +1214,7 @@ def regret_completed(request):
 def final_survey_one(request):
     username_logged_in = request.user.username
 
-    return render(request, 'final_survey_one.html',
+    return render(request, 'post_game/final_survey_one.html',
                   {'display_trial_limit': display_trial_limit
                    })
 
@@ -1235,7 +1235,7 @@ def final_survey_one_completed(request):
         # changed the redirect page to final_survey_three.html
         # missing out the no longer needed final_survey_two.html
         return render(request,
-                      'final_survey_three.html', {
+                      'post_game/final_survey_three.html', {
                           "username": username_logged_in,
                           "display_trial_limit": display_trial_limit,
                       })
@@ -1261,7 +1261,7 @@ def final_survey_two_completed(request):
         survey_answers.save()
 
         return render(request,
-                      'final_survey_three.html')
+                      'post_game/final_survey_three.html')
 
 
 
@@ -1289,6 +1289,6 @@ def final_survey_three_completed(request):
         survey_answers.education_level = education_level
         survey_answers.save()
 
-        return render(request, 'thankyou.html',{
+        return render(request, 'post_game/thankyou.html', {
             'username':username_logged_in
             })

@@ -10,7 +10,7 @@ class FinalSurveyOneTest(BaseTest):
 
         response = self.client.get('/final_survey_one')
 
-        self.assertTemplateUsed(response, 'final_survey_one.html')
+        self.assertTemplateUsed(response, 'post_game/final_survey_one.html')
 
     def test_final_survey_one_saves_models(self):
 
@@ -41,7 +41,7 @@ class FinalSurveyOneTest(BaseTest):
             {'best_strategy': 'stick'}
         )
 
-        self.assertTemplateUsed(response, 'final_survey_three.html')
+        self.assertTemplateUsed(response, 'post_game/final_survey_three.html')
 
     def test_final_survey_three_saves_models(self):
 
@@ -88,4 +88,4 @@ class FinalSurveyOneTest(BaseTest):
              'education_level': 'master'}
         )
 
-        self.assertTemplateUsed(response, 'thankyou.html')
+        self.assertTemplateUsed(response, 'post_game/thankyou.html')
