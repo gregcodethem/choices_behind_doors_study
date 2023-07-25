@@ -11,14 +11,14 @@ from doorgame.tests.views.base import BaseTest
 class PrelimFourTest(BaseTest):
     def test_prelim_four_url_resolves_to_prelim_four_view(self):
         self.login_temp()
-        found = resolve('/prelim_four')
+        found = resolve('/prelim/prelim_four')
         self.assertEqual(found.func, prelim_four)
 
 
     def test_prelim_four_user_sees_prelim_four_page(self):
         self.login_temp()
 
-        response = self.client.get('/prelim_four', follow=True)
+        response = self.client.get('/prelim/prelim_four', follow=True)
 
         html = response.content.decode('utf8')
         self.assertIn('Now play the memory task', html)
@@ -26,14 +26,14 @@ class PrelimFourTest(BaseTest):
     def test_prelim_four_returns_prelim_four_template(self):
         self.login_temp()
 
-        response = self.client.get('/prelim_four', follow=True)
+        response = self.client.get('/prelim/prelim_four', follow=True)
         self.assertTemplateUsed(response, 'prelim/prelim_four.html')
 
     def test_prelim_four_returns_continue_message(self):
         self.login_temp()
 
         response = self.client.get(
-            '/prelim_four',
+            '/prelim/prelim_four',
             follow=True,
         )
         html = response.content.decode('utf8')
@@ -46,9 +46,9 @@ class PrelimFourTest(BaseTest):
         self.login_temp()
 
         response = self.client.get(
-            '/prelim_four',
+            '/prelim/prelim_four',
             follow=True,
         )
         html = response.content.decode('utf8')
 
-        self.assertIn('href= /prelim_five', html)
+        self.assertIn('href= /prelim/prelim_five', html)

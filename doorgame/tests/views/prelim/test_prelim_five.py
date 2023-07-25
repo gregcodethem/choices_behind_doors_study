@@ -11,14 +11,14 @@ from doorgame.tests.views.base import BaseTest
 class PrelimFiveTest(BaseTest):
     def test_prelim_five_url_resolves_to_prelim_five_view(self):
         self.login_temp()
-        found = resolve('/prelim_five')
+        found = resolve('/prelim/prelim_five')
         self.assertEqual(found.func, prelim_five)
 
 
     def test_prelim_five_user_sees_prelim_five_page(self):
         self.login_temp()
 
-        response = self.client.get('/prelim_five', follow=True)
+        response = self.client.get('/prelim/prelim_five', follow=True)
 
         html = response.content.decode('utf8')
         self.assertIn('Example Monty Hall', html)
@@ -26,14 +26,14 @@ class PrelimFiveTest(BaseTest):
     def test_prelim_five_returns_prelim_five_template(self):
         self.login_temp()
 
-        response = self.client.get('/prelim_five', follow=True)
+        response = self.client.get('/prelim/prelim_five', follow=True)
         self.assertTemplateUsed(response, 'prelim/prelim_five.html')
 
     def test_prelim_five_returns_continue_message(self):
         self.login_temp()
 
         response = self.client.get(
-            '/prelim_five',
+            '/prelim/prelim_five',
             follow=True,
         )
         html = response.content.decode('utf8')
@@ -46,7 +46,7 @@ class PrelimFiveTest(BaseTest):
         self.login_temp()
 
         response = self.client.get(
-            '/prelim_five',
+            '/prelim/prelim_five',
             follow=True,
         )
         html = response.content.decode('utf8')
