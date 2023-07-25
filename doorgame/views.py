@@ -1188,7 +1188,7 @@ def regret(request):
     user_logged_in = request.user
     regret_forwards_setting = user_logged_in.profile.regret_forwards
 
-    return render(request, 'regret.html', {
+    return render(request, 'doorgame/regret.html', {
         'regret_forwards_setting': regret_forwards_setting
     })
 

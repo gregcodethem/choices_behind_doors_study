@@ -77,7 +77,7 @@ class FinalDoorResultPageTest(DoorResultPageTest):
         self.create_choice(door_number=1,first_or_second_choice=2)
 
         response_client = self.client.get('/user/temporary/final-door-result', follow=True)
-        self.assertTemplateUsed(response_client,'regret.html')
+        self.assertTemplateUsed(response_client,'doorgame/regret.html')
 
     @override_settings(TRIAL_LIMIT=5)
     def test_final_door_result_page_returns_box_grid_when_trial_limit_not_reached(self):
