@@ -27,7 +27,7 @@ If you think that you place any dot inside a wrong square, you can remove the do
 {% endblock %}
 
 {% block submit_button_general %}
-	<form id="form-go-to-prelim-two" action="/prelim_two" method="POST">
+	<form id="form-go-to-prelim-two" action="/prelim_memory_game/prelim_two" method="POST">
 	  <input type="hidden" value="1" name="go_to_prelim_two">
 	  <a id="go_to_prelim_two"><button>Continue to next page</button></a>
 	{% csrf_token %}

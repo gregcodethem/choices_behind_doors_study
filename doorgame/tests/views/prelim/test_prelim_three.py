@@ -12,13 +12,13 @@ from doorgame.tests.views.base import BaseTest
 class PrelimThreeTest(BaseTest):
     def test_prelim_three_url_resolves_to_prelim_three_view(self):
         self.login_temp()
-        found = resolve('/prelim_three')
+        found = resolve('/prelim_memory_game/prelim_three')
         self.assertEqual(found.func, prelim_three)
 
     def test_prelim_three_user_sees_prelim_three_page(self):
         self.login_temp()
 
-        response = self.client.get('/prelim_three', follow=True)
+        response = self.client.get('/prelim_memory_game/prelim_three', follow=True)
 
         html = response.content.decode('utf8')
         self.assertIn('Can you remember the pattern from before?', html)
@@ -26,14 +26,14 @@ class PrelimThreeTest(BaseTest):
     def test_prelim_three_returns_prelim_three_template(self):
         self.login_temp()
 
-        response = self.client.get('/prelim_three', follow=True)
+        response = self.client.get('/prelim_memory_game/prelim_three', follow=True)
         self.assertTemplateUsed(response, 'prelim_memory_game/prelim_three.html')
 
     def test_prelim_three_returns_continue_message(self):
         self.login_temp()
 
         response = self.client.get(
-            '/prelim_three',
+            '/prelim_memory_game/prelim_three',
             follow=True,
         )
         html = response.content.decode('utf8')
@@ -46,12 +46,12 @@ class PrelimThreeTest(BaseTest):
         self.login_temp()
 
         response = self.client.get(
-            '/prelim_three',
+            '/prelim_memory_game/prelim_three',
             follow=True,
         )
         html = response.content.decode('utf8')
 
-        self.assertIn('action="/prelim_three_part_b_feedback"', html)
+        self.assertIn('action="/prelim_memory_game/prelim_three_part_b_feedback"', html)
 
     def test_prelim_three_part_b_feedback_leads_to_correct_template(self):
         # !!!!! Look at again!!!
@@ -61,7 +61,7 @@ class PrelimThreeTest(BaseTest):
         self.login_temp()
 
         response = self.client.get(
-            '/prelim_three_part_b_feedback',
+            '/prelim_memory_game/prelim_three_part_b_feedback',
             follow=True,
         )
         self.assertTemplateUsed(response, 'prelim_memory_game/prelim_three_part_b_feedback.html')
@@ -82,7 +82,7 @@ class PrelimThreeTest(BaseTest):
             'box_9': 'False',
         }
         response = self.client.post(
-            '/prelim_three_part_b_feedback',
+            '/prelim_memory_game/prelim_three_part_b_feedback',
             data=post_data,
         )
         self.assertTemplateUsed(response, 'prelim_memory_game/prelim_three_part_b_feedback.html')
@@ -103,7 +103,7 @@ class PrelimThreeTest(BaseTest):
             'box_9': 'False',
         }
         response = self.client.post(
-            '/prelim_three_part_b_feedback',
+            '/prelim_memory_game/prelim_three_part_b_feedback',
             data=post_data,
         )
         self.assertTemplateUsed(response, 'prelim_memory_game/prelim_three_part_b_feedback_base.html')
@@ -127,7 +127,7 @@ class PrelimThreeTest(BaseTest):
         }
 
         response = self.client.post(
-            '/prelim_three_part_b_feedback',
+            '/prelim_memory_game/prelim_three_part_b_feedback',
             data=post_data
         )
 
@@ -154,7 +154,7 @@ class PrelimThreeTest(BaseTest):
 
         # Send a POST request to the URL
         response = self.client.post(
-            '/prelim_three_part_b_feedback',
+            '/prelim_memory_game/prelim_three_part_b_feedback',
             data=post_data
         )
 
@@ -171,7 +171,7 @@ class prelimThreeSecondGoTest(BaseTest):
         self.login_temp()
 
         response = self.client.get(
-            '/prelim_three_second_go',
+            '/prelim_memory_game/prelim_three_second_go',
             follow=True,
         )
         html = response.content.decode('utf8')
@@ -182,11 +182,11 @@ class prelimThreeSecondGoTest(BaseTest):
         self.login_temp()
 
         response = self.client.get(
-            '/prelim_three_second_go'
+            '/prelim_memory_game/prelim_three_second_go'
         )
         html = response.content.decode('utf8')
 
-        self.assertIn('action="/prelim_three_part_b_feedback_second_go"', html)
+        self.assertIn('action="/prelim_memory_game/prelim_three_part_b_feedback_second_go"', html)
 
     def test_prelim_three_part_b_feedback_second_go_POST_leads_to_correct_template(self):
         self.login_temp()
@@ -204,7 +204,7 @@ class prelimThreeSecondGoTest(BaseTest):
             'box_9': 'False',
         }
         response = self.client.post(
-            '/prelim_three_part_b_feedback_second_go',
+            '/prelim_memory_game/prelim_three_part_b_feedback_second_go',
             data=post_data,
         )
         self.assertTemplateUsed(response, 'prelim_memory_game/prelim_three_part_b_feedback.html')
@@ -217,7 +217,7 @@ class PrelimThreeFourByFourTest(BaseTest):
 
         self.set_to_four_by_four()
 
-        response = self.client.get('/prelim_three', follow=True)
+        response = self.client.get('/prelim_memory_game/prelim_three', follow=True)
 
         html = response.content.decode('utf8')
         self.assertIn('Can you remember the pattern from before?', html)
@@ -227,7 +227,7 @@ class PrelimThreeFourByFourTest(BaseTest):
 
         self.set_to_four_by_four()
 
-        response = self.client.get('/prelim_three', follow=True)
+        response = self.client.get('/prelim_memory_game/prelim_three', follow=True)
         self.assertTemplateUsed(response, 'prelim_memory_game/prelim_three_four_by_four.html')
 
     def test_prelim_three_part_b_four_by_four_GET_request_returns_correct_template(self):
@@ -235,7 +235,7 @@ class PrelimThreeFourByFourTest(BaseTest):
 
         self.set_to_four_by_four()
 
-        response = self.client.get('/prelim_three_part_b_feedback', follow=True)
+        response = self.client.get('/prelim_memory_game/prelim_three_part_b_feedback', follow=True)
         self.assertTemplateUsed(response, 'prelim_memory_game/prelim_three_part_b_feedback_four_by_four.html')
 
     def test_prelim_three_part_b_four_by_four_POST_request_returns_correct_template(self):
@@ -262,7 +262,7 @@ class PrelimThreeFourByFourTest(BaseTest):
             'box_16': 'False',
         }
 
-        response = self.client.post('/prelim_three_part_b_feedback', data=post_data)
+        response = self.client.post('/prelim_memory_game/prelim_three_part_b_feedback', data=post_data)
         self.assertTemplateUsed(response, 'prelim_memory_game/prelim_three_part_b_feedback_four_by_four.html')
 
     def test_prelim_three_part_b_four_by_four_POST_request_inherits_from_base_template(self):
@@ -289,5 +289,5 @@ class PrelimThreeFourByFourTest(BaseTest):
             'box_16': 'False',
         }
 
-        response = self.client.post('/prelim_three_part_b_feedback', data=post_data)
+        response = self.client.post('/prelim_memory_game/prelim_three_part_b_feedback', data=post_data)
         self.assertTemplateUsed(response, 'prelim_memory_game/prelim_three_part_b_feedback_base.html')
