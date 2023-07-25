@@ -84,7 +84,7 @@ def remember_memory_game(request):
             'all_number_row_list': all_number_row_list,
         })
     else:
-        remember_memory_game_page_string = 'remember_memory_game.html'
+        remember_memory_game_page_string = 'memory_game/remember_memory_game.html'
         return render(request, remember_memory_game_page_string)
 
 
