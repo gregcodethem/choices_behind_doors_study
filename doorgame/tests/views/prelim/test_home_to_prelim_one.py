@@ -74,36 +74,36 @@ class SimpleTestSecondPage(BaseTest):
 class PrelimOneTest(BaseTest):
     def test_prelim_one_url_resolves_to_prelim_one_view(self):
         self.login_temp()
-        found = resolve('/prelim_one')
+        found = resolve('/prelim/prelim_one')
         self.assertEqual(found.func, prelim_one)
 
     def test_prelim_one_user_sees_prelim_one_page(self):
         self.login_temp()
-        response = self.client.get('/prelim_one', follow=True)
+        response = self.client.get('/prelim/prelim_one', follow=True)
 
         html = response.content.decode('utf8')
         self.assertIn('Welcome to the Monty Hall Game under a memory task.', html)
 
     def test_prelim_one_returns_prelim_one_template(self):
         self.login_temp()
-        response = self.client.get('/prelim_one', follow=True)
+        response = self.client.get('/prelim/prelim_one', follow=True)
         self.assertTemplateUsed(response, 'prelim/prelim_one.html')
 
 
 class PrelimOnePartBTest(BaseTest):
     def test_prelim_one_part_b_url_resolves_to_prelim_one_part_b_view(self):
         self.login_temp()
-        found = resolve('/prelim_one_part_b')
+        found = resolve('/prelim/prelim_one_part_b')
         self.assertEqual(found.func, prelim_one_part_b)
 
     def test_prelim_one_part_b_user_sees_prelim_one_part_b_page(self):
         self.login_temp()
-        response = self.client.get('/prelim_one_part_b', follow=True)
+        response = self.client.get('/prelim/prelim_one_part_b', follow=True)
 
         html = response.content.decode('utf8')
         self.assertIn('You will see a matrix with randomly placed dots on it.', html)
 
     def test_prelim_one_part_b_returns_prelim_one_part_b_template(self):
         self.login_temp()
-        response = self.client.get('/prelim_one_part_b', follow=True)
+        response = self.client.get('/prelim/prelim_one_part_b', follow=True)
         self.assertTemplateUsed(response, 'prelim/prelim_one_part_b.html')

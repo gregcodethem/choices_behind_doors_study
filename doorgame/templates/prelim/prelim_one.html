@@ -27,7 +27,7 @@
 {% endblock %}
 
 {% block submit_button_general %}
-	<form id="form-go-to-prelim-one-part-b" action="/prelim_one_part_b" method="POST">
+	<form id="form-go-to-prelim-one-part-b" action="/prelim/prelim_one_part_b" method="POST">
 	  <input type="hidden" value="1" name="go_to_prelim_one_part_b">
 	  <a id="go_to_prelim_one_part_b"><button>Continue to next page</button></a>
 	{% csrf_token %}
