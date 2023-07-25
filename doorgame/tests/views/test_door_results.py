@@ -39,7 +39,7 @@ class FinalDoorResultPageTest(DoorResultPageTest):
         choice.save()
 
     def test_final_door_result_url_resolves_to_final_door_page_view(self):
-        found = resolve('/user/temporary/final-door-result')
+        found = resolve('/doorgame/final_door_result')
         self.assertEqual(found.func, final_door_result_page)
 
     def test_outcome_of_doorgame_returns_correct_html(self):
@@ -76,7 +76,7 @@ class FinalDoorResultPageTest(DoorResultPageTest):
         self.create_choice(door_number=1,first_or_second_choice=1)
         self.create_choice(door_number=1,first_or_second_choice=2)
 
-        response_client = self.client.get('/user/temporary/final-door-result', follow=True)
+        response_client = self.client.get('/doorgame/final_door_result', follow=True)
         self.assertTemplateUsed(response_client,'doorgame/regret.html')
 
     @override_settings(TRIAL_LIMIT=5)
@@ -87,7 +87,7 @@ class FinalDoorResultPageTest(DoorResultPageTest):
         self.create_choice(door_number=1,first_or_second_choice=1)
         self.create_choice(door_number=1,first_or_second_choice=2)
 
-        response_client = self.client.get('/user/temporary/final-door-result', follow=True)
+        response_client = self.client.get('/doorgame/final_door_result', follow=True)
 
         self.assertTemplateUsed(response_client,'memory_game/mem_game_blank_base.html')
 
@@ -102,7 +102,7 @@ class ChooseFinalDoorTest(DoorResultPageTest):
         )
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/user/temporary/final-door-result')
+        self.assertEqual(response['location'], '/doorgame/final_door_result')
 
     def test_choose_final_door_method_keeping_door_saves_choice(self):
         self.door_result_page_login_and_model_setup(
@@ -140,7 +140,7 @@ class ChooseFinalDoorTest(DoorResultPageTest):
         )
 
         self.assertEqual(response_change_to_two.status_code, 302)
-        self.assertEqual(response_change_to_two['location'], '/user/temporary/final-door-result')
+        self.assertEqual(response_change_to_two['location'], '/doorgame/final_door_result')
 
         response_change_to_three = self.client.post(
             '/choose_final_door',
@@ -148,7 +148,7 @@ class ChooseFinalDoorTest(DoorResultPageTest):
         )
 
         self.assertEqual(response_change_to_three.status_code, 302)
-        self.assertEqual(response_change_to_three['location'], '/user/temporary/final-door-result')
+        self.assertEqual(response_change_to_three['location'], '/doorgame/final_door_result')
 
     def test_choose_final_door_method_changing_door_saves_choice(self):
         self.door_result_page_login_and_model_setup(

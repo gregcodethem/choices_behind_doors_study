@@ -433,7 +433,7 @@ def choose_final_door(request):
         choice.first_or_second_choice = 2
         choice.save()
 
-        return redirect('/user/' + username_logged_in + '/final-door-result')
+        return redirect('/doorgame/final_door_result')
 
 
 @login_required(login_url='accounts/login')
@@ -1162,7 +1162,7 @@ def door_result_page(request):
                       )
 
 
-def final_door_result_page(request, username):
+def final_door_result_page(request):
     # find the trials by this user
     print('final_door_result_page called')
     trial_existing_objects = Trial.objects.filter(
@@ -1176,7 +1176,7 @@ def final_door_result_page(request, username):
 
     if trial_number >= settings.TRIAL_LIMIT - 1:
         print('trial number condition satisfied, redirecting to regret url')
-        return redirect('/regret')
+        return redirect('/doorgame/regret')
     else:
         print('trial_number is less than trial limit')
         return redirect('/memory_game/remember_memory_game')

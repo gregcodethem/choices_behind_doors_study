@@ -76,9 +76,12 @@ urlpatterns = [
 
     path('user/<username>/door-result', views.door_result_page, name='door_result_page_old'),
     path('doorgame/door_result', views.door_result_page, name='door_result_page'),
-    path('user/<username>/final-door-result', views.final_door_result_page, name='final_door_result_page'),
-    path('regret', views.regret, name='regret'),
-    path('regret_completed', views.regret_completed, name='regret_completed'),
+
+    path('user/<username>/final-door-result', views.final_door_result_page, name='final_door_result_page_old'),
+    path('doorgame/final_door_result', views.final_door_result_page, name='final_door_result_page'),
+
+    path('doorgame/regret', views.regret, name='regret'),
+    path('doorgame/regret_completed', views.regret_completed, name='regret_completed'),
 
 
     path('memory_game/remember_memory_game', views.remember_memory_game, name='remember_memory_game'),
