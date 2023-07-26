@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 from django.urls import resolve
 
-from doorgame.views import prelim_five
+from doorgame.views_prelim import prelim_five
 from doorgame.models import MemoryGame
 
 from doorgame.tests.views.base import BaseTest

@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
-from doorgame import views
+from doorgame import views, views_prelim
 
 
 urlpatterns = [
@@ -26,7 +26,7 @@ urlpatterns = [
     #path('new', views.site_maintenance, name='site_maintenance'),
     path('new', views.create_new_user, name='create_new_user'),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', views.home_page_user, name='home'),
+    path('', views_prelim.home_page_user, name='home'),
     #path('door-result', views.door_result_page, name='door_result_page'),
 
     # Final questionnaire - streamed down version of existing questionnaire pages.
@@ -38,24 +38,24 @@ urlpatterns = [
     # terms page - only first time they log in
     path('prelim/terms_and_conditions', views.terms_and_conditions, name='terms_and_conditions'),
     # consent questionnaire - only first time they log in
-    path('prelim/consent_questions',views.consent_questions, name="consent_questions"),
+    path('prelim/consent_questions',views_prelim.consent_questions, name="consent_questions"),
     # Welcome page 1 - General explanation
-    path('prelim/prelim_one', views.prelim_one, name="prelim_one"),
+    path('prelim/prelim_one', views_prelim.prelim_one, name="prelim_one"),
     # Welcome page 2 - Memory game explanation
-    path('prelim/prelim_one_part_b', views.prelim_one_part_b, name='prelim_one_part_b'),
+    path('prelim/prelim_one_part_b', views_prelim.prelim_one_part_b, name='prelim_one_part_b'),
     # Memory game practise
-    path('prelim_memory_game/prelim_two', views.prelim_two, name="prelim_two"),
-    path('prelim_memory_game/prelim_three', views.prelim_three, name="prelim_three"),
+    path('prelim_memory_game/prelim_two', views_prelim.prelim_two, name="prelim_two"),
+    path('prelim_memory_game/prelim_three', views_prelim.prelim_three, name="prelim_three"),
     # Memory game feedback
-    path('prelim_memory_game/prelim_three_part_b_feedback', views.prelim_three_part_b_feedback, name="prelim_three_part_b_feedback"),
+    path('prelim_memory_game/prelim_three_part_b_feedback', views_prelim.prelim_three_part_b_feedback, name="prelim_three_part_b_feedback"),
 
-    path('prelim_memory_game/prelim_two_second_go', views.prelim_two_second_go, name="prelim_two_second_go"),
-    path('prelim_memory_game/prelim_three_second_go', views.prelim_three_second_go, name="prelim_three_second_go"),
-    path('prelim_memory_game/prelim_three_part_b_feedback_second_go', views.prelim_three_part_b_feedback_second_go, name="prelim_three_part_b_feedback_second_go"),
+    path('prelim_memory_game/prelim_two_second_go', views_prelim.prelim_two_second_go, name="prelim_two_second_go"),
+    path('prelim_memory_game/prelim_three_second_go', views_prelim.prelim_three_second_go, name="prelim_three_second_go"),
+    path('prelim_memory_game/prelim_three_part_b_feedback_second_go', views_prelim.prelim_three_part_b_feedback_second_go, name="prelim_three_part_b_feedback_second_go"),
 
     # Monty Hall introduction
-    path('prelim/prelim_four', views.prelim_four, name="prelim_four"),
-    path('prelim/prelim_five', views.prelim_five, name="prelim_five"),
+    path('prelim/prelim_four', views_prelim.prelim_four, name="prelim_four"),
+    path('prelim/prelim_five', views_prelim.prelim_five, name="prelim_five"),
 
 
     path('memory_game/memory_game_initial_turn', views.memory_game_initial_turn, name="memory_game_initial_turn"),
@@ -68,7 +68,7 @@ urlpatterns = [
 
     path('memory_game/remember_memory_game', views.remember_memory_game, name='remember_memory_game'),
 
-    path('user', views.home_page_user, name='home-user'),
+    path('user', views_prelim.home_page_user, name='home-user'),
     path('user/<username>/', views.home_page_memory_game, name='home_user_memory_game'),
     path('user/<username>/door_page_one', views.home_page_user_unique, name='home_user_unique'),
 

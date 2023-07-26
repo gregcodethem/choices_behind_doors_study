@@ -1,6 +1,6 @@
 from django.urls import resolve
 
-from doorgame.views import (
+from doorgame.views_prelim import (
     home_page_user,
     consent_questions,
     prelim_one,

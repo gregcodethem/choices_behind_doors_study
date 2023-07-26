@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 from django.urls import resolve
 
-from doorgame.views import prelim_two
+from doorgame.views_prelim import prelim_two
 from doorgame.models import MemoryGame
 
 from doorgame.tests.views.base import BaseTest
@@ -37,7 +37,7 @@ class PrelimTwoTest(BaseTest):
 
         self.assertIn('<img src="/static/doorgame/box_with_dot.png"', html)
 
-    @patch('doorgame.views.MemoryGamePrelimClassNineByNine')
+    @patch('doorgame.views_prelim.MemoryGamePrelimClassNineByNine')
     def test_prelim_two_uses_memory_game_prelim_class(self, MockMemoryGamePrelimClassNineByNine):
         self.login_temp()
 
@@ -81,7 +81,7 @@ class PrelimTwoFourByFourTest(BaseTest):
 
         self.assertIn('<img src="/static/doorgame/box_with_dot.png"', html)
 
-    @patch('doorgame.views.MemoryGamePrelimClass')
+    @patch('doorgame.views_prelim.MemoryGamePrelimClass')
     def test_prelim_two_four_by_four_uses_memory_game_prelim_class(self, MockMemoryGamePrelimClass):
         self.login_temp()
 
