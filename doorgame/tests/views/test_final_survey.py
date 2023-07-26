@@ -8,7 +8,7 @@ class FinalSurveyOneTest(BaseTest):
     def test_final_survey_one_link_to_correct_template(self):
         self.login_temp()
 
-        response = self.client.get('/final_survey_one')
+        response = self.client.get('/post_game/final_survey_one')
 
         self.assertTemplateUsed(response, 'post_game/final_survey_one.html')
 
@@ -19,7 +19,7 @@ class FinalSurveyOneTest(BaseTest):
         SurveyAnswers.objects.create(user=user)
 
         response = self.client.post(
-            '/final_survey_one_completed',
+            '/post_game/final_survey_one_completed',
             {'best_strategy': 'stick'}
         )
 
@@ -37,7 +37,7 @@ class FinalSurveyOneTest(BaseTest):
         SurveyAnswers.objects.create(user=user)
 
         response = self.client.post(
-            '/final_survey_one_completed',
+            '/post_game/final_survey_one_completed',
             {'best_strategy': 'stick'}
         )
 
@@ -50,7 +50,7 @@ class FinalSurveyOneTest(BaseTest):
         SurveyAnswers.objects.create(user=user)
 
         response = self.client.post(
-            '/final_survey_three_completed',
+            '/post_game/final_survey_three_completed',
             {'familiar': 'yes',
              'english': 'no',
              'age': '33',
@@ -80,7 +80,7 @@ class FinalSurveyOneTest(BaseTest):
         SurveyAnswers.objects.create(user=user)
 
         response = self.client.post(
-            '/final_survey_three_completed',
+            '/post_game/final_survey_three_completed',
             {'familiar': 'yes',
              'english': 'no',
              'age': '33',

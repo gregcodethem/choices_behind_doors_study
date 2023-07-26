@@ -29,16 +29,6 @@ urlpatterns = [
     path('', views.home_page_user, name='home'),
     #path('door-result', views.door_result_page, name='door_result_page'),
 
-
-    # Other memory game
-
-    # Regret page - rank 1 - 7
-
-    # Then remember the dots page
-
-    # Give decision of the outcome to the particpant -
-    #### lost or won the Monty Hall game
-
     # Final questionnaire - streamed down version of existing questionnaire pages.
 
     path('choose_door', views.choose_door, name='choose-door'),
@@ -52,9 +42,7 @@ urlpatterns = [
     # Welcome page 1 - General explanation
     path('prelim/prelim_one', views.prelim_one, name="prelim_one"),
     # Welcome page 2 - Memory game explanation
-    path('prelim/prelim_one_part_b',
-        views.prelim_one_part_b,
-        name='prelim_one_part_b'),
+    path('prelim/prelim_one_part_b', views.prelim_one_part_b, name='prelim_one_part_b'),
     # Memory game practise
     path('prelim_memory_game/prelim_two', views.prelim_two, name="prelim_two"),
     path('prelim_memory_game/prelim_three', views.prelim_three, name="prelim_three"),
@@ -85,13 +73,15 @@ urlpatterns = [
     path('user/<username>/door_page_one', views.home_page_user_unique, name='home_user_unique'),
 
     path('memory_game/final_pattern', views.final_pattern, name='final_pattern'),
+    # Give decision of the outcome to the particpant -
+    #### lost or won the Monty Hall game
     path('doorgame/outcome_of_doorgame', views.outcome_of_doorgame, name='outcome_of_doorgame'),
 
     path('trial_completed', views.trial_completed, name='trial_completed'),
-    path('final_survey_one', views.final_survey_one, name='final_survey_one'),
-    path('final_survey_one_completed', views.final_survey_one_completed, name='final_survey_one_completed'),
-    path('final_survey_two_completed', views.final_survey_two_completed, name='final_survey_two_completed'),
-    path('final_survey_three_completed', views.final_survey_three_completed, name='final_survey_three_completed'),
+    path('post_game/final_survey_one', views.final_survey_one, name='final_survey_one'),
+    path('post_game/final_survey_one_completed', views.final_survey_one_completed, name='final_survey_one_completed'),
+    path('post_game/final_survey_two_completed', views.final_survey_two_completed, name='final_survey_two_completed'),
+    path('post_game/final_survey_three_completed', views.final_survey_three_completed, name='final_survey_three_completed'),
     path('final_completion', views.final_completion, name='final_completion'),
 
 
