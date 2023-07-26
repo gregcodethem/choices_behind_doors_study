@@ -63,7 +63,7 @@ class MemoryGameFinalPatternTest(DoorResultPageTest):
         trial.save()
 
         response = self.client.post(
-            '/final_pattern',
+            '/memory_game/final_pattern',
             {
                 'box_1': True,
                 'box_2': True,
@@ -72,7 +72,7 @@ class MemoryGameFinalPatternTest(DoorResultPageTest):
         )
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/outcome_of_doorgame')
+        self.assertEqual(response['location'], '/doorgame/outcome_of_doorgame')
 
     def test_final_pattern_url_saves_memory_game_box_choices(self):
         self.login_temp()
@@ -92,7 +92,7 @@ class MemoryGameFinalPatternTest(DoorResultPageTest):
         add_memory_games(memory_game_list, "easy")
 
         response = self.client.post(
-            '/final_pattern',
+            '/memory_game/final_pattern',
             {
                 'box_1': True,
                 'box_2': True,

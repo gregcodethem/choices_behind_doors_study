@@ -73,32 +73,20 @@ urlpatterns = [
     path('memory_game/memory_game_initial_turn', views.memory_game_initial_turn, name="memory_game_initial_turn"),
     path('memory_game/memory_game_start/<trial_completed>', views.memory_game_start, name="memory_game_start"),
 
-
-    path('user/<username>/door-result', views.door_result_page, name='door_result_page_old'),
     path('doorgame/door_result', views.door_result_page, name='door_result_page'),
-
-    path('user/<username>/final-door-result', views.final_door_result_page, name='final_door_result_page_old'),
-    path('doorgame/final_door_result', views.final_door_result_page, name='final_door_result_page'),
-
     path('doorgame/regret', views.regret, name='regret'),
     path('doorgame/regret_completed', views.regret_completed, name='regret_completed'),
-
+    path('doorgame/final_door_result', views.final_door_result_page, name='final_door_result_page'),
 
     path('memory_game/remember_memory_game', views.remember_memory_game, name='remember_memory_game'),
 
-
     path('user', views.home_page_user, name='home-user'),
-    path('user/<username>/',
-         views.home_page_memory_game,
-         name='home_user_memory_game'
-         ),
-    path('user/<username>/door_page_one',
-         views.home_page_user_unique,
-         name='home_user_unique'
-         ),
+    path('user/<username>/', views.home_page_memory_game, name='home_user_memory_game'),
+    path('user/<username>/door_page_one', views.home_page_user_unique, name='home_user_unique'),
 
-    path('final_pattern', views.final_pattern, name='final_pattern'),
-    path('outcome_of_doorgame', views.outcome_of_doorgame, name='outcome_of_doorgame'),
+    path('memory_game/final_pattern', views.final_pattern, name='final_pattern'),
+    path('doorgame/outcome_of_doorgame', views.outcome_of_doorgame, name='outcome_of_doorgame'),
+
     path('trial_completed', views.trial_completed, name='trial_completed'),
     path('final_survey_one', views.final_survey_one, name='final_survey_one'),
     path('final_survey_one_completed', views.final_survey_one_completed, name='final_survey_one_completed'),

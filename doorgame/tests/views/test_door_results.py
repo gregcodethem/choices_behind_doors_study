@@ -49,7 +49,7 @@ class FinalDoorResultPageTest(DoorResultPageTest):
         self.create_choice(door_number=1,first_or_second_choice=1)
         self.create_choice(door_number=1,first_or_second_choice=2)
 
-        response = self.client.get('/outcome_of_doorgame', follow=True)
+        response = self.client.get('/doorgame/outcome_of_doorgame', follow=True)
 
         html = response.content.decode('utf8')
         self.assertIn('The result of your final door choice', html)
@@ -57,13 +57,12 @@ class FinalDoorResultPageTest(DoorResultPageTest):
 
     def test_outcome_of_doorgame_returns_correct_template(self):
 
-
         # create a choice for this trial,
         # this shows the door choice they've made
         self.create_choice(door_number=1,first_or_second_choice=1)
         self.create_choice(door_number=1,first_or_second_choice=2)
 
-        response = self.client.get('/outcome_of_doorgame', follow=True)
+        response = self.client.get('/doorgame/outcome_of_doorgame', follow=True)
 
         self.assertTemplateUsed(response,'doorgame/final_door_result.html')
 

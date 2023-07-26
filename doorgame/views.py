@@ -197,7 +197,7 @@ def final_pattern(request):
 
         trial_number = trial_existing.number_of_trial
         if trial_number >= settings.TRIAL_LIMIT - 1:
-            return redirect('/outcome_of_doorgame')
+            return redirect('/doorgame/outcome_of_doorgame')
         return redirect('/trial_completed')
 
     else:
