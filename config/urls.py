@@ -36,7 +36,7 @@ urlpatterns = [
     path('door_page_one', views.door_page_one, name="door-page-one"),
 
     # terms page - only first time they log in
-    path('prelim/terms_and_conditions', views.terms_and_conditions, name='terms_and_conditions'),
+    path('prelim/terms_and_conditions', views_prelim.terms_and_conditions, name='terms_and_conditions'),
     # consent questionnaire - only first time they log in
     path('prelim/consent_questions',views_prelim.consent_questions, name="consent_questions"),
     # Welcome page 1 - General explanation
