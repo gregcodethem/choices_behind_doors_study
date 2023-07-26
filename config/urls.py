@@ -20,7 +20,8 @@ from django.views.generic.base import TemplateView
 from doorgame import (
     views,
     views_prelim,
-    views_post_game
+    views_post_game,
+    views_memory_game,
 )
 
 
@@ -31,9 +32,7 @@ urlpatterns = [
     path('new', views.create_new_user, name='create_new_user'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', views_prelim.home_page_user, name='home'),
-    #path('door-result', views.door_result_page, name='door_result_page'),
 
-    # Final questionnaire - streamed down version of existing questionnaire pages.
 
     path('choose_door', views.choose_door, name='choose-door'),
     path('choose_final_door', views.choose_final_door, name='choose_final_door'),
@@ -62,21 +61,21 @@ urlpatterns = [
     path('prelim/prelim_five', views_prelim.prelim_five, name="prelim_five"),
 
 
-    path('memory_game/memory_game_initial_turn', views.memory_game_initial_turn, name="memory_game_initial_turn"),
-    path('memory_game/memory_game_start/<trial_completed>', views.memory_game_start, name="memory_game_start"),
+    path('memory_game/memory_game_initial_turn', views_memory_game.memory_game_initial_turn, name="memory_game_initial_turn"),
+    path('memory_game/memory_game_start/<trial_completed>', views_memory_game.memory_game_start, name="memory_game_start"),
 
     path('doorgame/door_result', views.door_result_page, name='door_result_page'),
     path('doorgame/regret', views.regret, name='regret'),
     path('doorgame/regret_completed', views.regret_completed, name='regret_completed'),
     path('doorgame/final_door_result', views.final_door_result_page, name='final_door_result_page'),
 
-    path('memory_game/remember_memory_game', views.remember_memory_game, name='remember_memory_game'),
+    path('memory_game/remember_memory_game', views_memory_game.remember_memory_game, name='remember_memory_game'),
 
     path('user', views_prelim.home_page_user, name='home-user'),
-    path('user/<username>/', views.home_page_memory_game, name='home_user_memory_game'),
+    path('user/<username>/', views_memory_game.home_page_memory_game, name='home_user_memory_game'),
     path('user/<username>/door_page_one', views.home_page_user_unique, name='home_user_unique'),
 
-    path('memory_game/final_pattern', views.final_pattern, name='final_pattern'),
+    path('memory_game/final_pattern', views_memory_game.final_pattern, name='final_pattern'),
     # Give decision of the outcome to the particpant -
     #### lost or won the Monty Hall game
     path('doorgame/outcome_of_doorgame', views.outcome_of_doorgame, name='outcome_of_doorgame'),

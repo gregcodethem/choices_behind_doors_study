@@ -5,7 +5,6 @@ from random import choice as randomchoice
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import (
-    get_user_model,
     authenticate,
     login
 )
@@ -19,9 +18,6 @@ from doorgame.models import (
     Profile
 )
 from .utils import (
-    memory_game_bool_matrix,
-    add_memory_games,
-    add_four_by_four_memory_games,
     number_of_dots_selected_calculator_four_by_four,
     number_of_dots_correct_calculator_four_by_four,
     number_of_dots_selected_calculator,

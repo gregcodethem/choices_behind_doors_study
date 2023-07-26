@@ -5,14 +5,6 @@ from django.conf import settings
 from doorgame.models import SurveyAnswers
 
 display_trial_limit = settings.TRIAL_LIMIT - 1
-four_by_four_setting_list = ["very_hard", "medium", "very_easy"]
-four_by_four_setting_list_two_options = ["medium", "very_easy"]
-
-third_row_number_list = ['9', '10', '11', '12']
-fourth_row_number_list = ['13', '14', '15', '16']
-all_number_row_list = ['1', '2', '3', '4', '5', '6', '7',
-                       '8', '9', '10', '11', '12', '13', '14', '15', '16']
-
 
 def final_completion(request):
     return render(request, 'post_game/final_completion.html')
