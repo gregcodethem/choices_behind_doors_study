@@ -17,7 +17,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
-from doorgame import views, views_prelim
+from doorgame import (
+    views,
+    views_prelim,
+    views_post_game
+)
 
 
 urlpatterns = [
@@ -78,12 +82,11 @@ urlpatterns = [
     path('doorgame/outcome_of_doorgame', views.outcome_of_doorgame, name='outcome_of_doorgame'),
 
     path('trial_completed', views.trial_completed, name='trial_completed'),
-    path('post_game/final_survey_one', views.final_survey_one, name='final_survey_one'),
-    path('post_game/final_survey_one_completed', views.final_survey_one_completed, name='final_survey_one_completed'),
-    path('post_game/final_survey_two_completed', views.final_survey_two_completed, name='final_survey_two_completed'),
-    path('post_game/final_survey_three_completed', views.final_survey_three_completed, name='final_survey_three_completed'),
-    path('final_completion', views.final_completion, name='final_completion'),
-
+    path('post_game/final_survey_one', views_post_game.final_survey_one, name='final_survey_one'),
+    path('post_game/final_survey_one_completed', views_post_game.final_survey_one_completed, name='final_survey_one_completed'),
+    path('post_game/final_survey_two_completed', views_post_game.final_survey_two_completed, name='final_survey_two_completed'),
+    path('post_game/final_survey_three_completed', views_post_game.final_survey_three_completed, name='final_survey_three_completed'),
+    path('post_game/final_completion', views_post_game.final_completion, name='final_completion'),
 
     #path('', TemplateView.as_view(template_name='home.html'), name='home'),
 ]
