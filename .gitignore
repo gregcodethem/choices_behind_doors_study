@@ -13,5 +13,3 @@ doorgame/migrations
 public
 env_host.py
 README.md
-Pipfile
-Pipfile.lock
