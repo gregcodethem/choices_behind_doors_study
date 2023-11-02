@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "==4.2.3"
+django = "==4.2.7"
 selenium = "==4.10.0"
 fabric3 = "*"
 
